@@ -52,18 +52,55 @@ endif()
 
 set_target_properties(message-objects PROPERTIES POSITION_INDEPENDENT_CODE 1)
 
+set(COMPILER_FLAGS)
+set(COMPILER_FLAGS_DEBUG)
+set(COMPILER_FLAGS_RELEASE)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+  list(APPEND CXX_FLAGS "-std=c++23" "-fno-rtti" "-fno-exceptions")
+  list(APPEND CXX_FLAGS_DEBUG "-Wsuggest-final-types" "-Wsuggest-final-methods"
+       "-Wsuggest-override")
+  list(APPEND CXX_FLAGS_RELEASE "-O3" "-Wno-unused")
+endif()
+
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+  list(
+    APPEND
+    CXX_FLAGS
+    "-std=c++23"
+    "-fno-rtti"
+    "-fno-exceptions"
+    "-Qunused-arguments"
+    "-fcolor-diagnostics")
+  list(APPEND CXX_FLAGS_DEBUG "-Wdocumentation")
+  list(APPEND CXX_FLAGS_RELEASE "-O3" "-Wno-unused")
+endif()
+
 if(USE_LIBRARY)
   # add_library will create static lib
   add_library(message STATIC ${sources})
-  target_compile_options(message PRIVATE ${flags})
+  set_target_properties(message PROPERTIES CXX_STANDARD 23 CXX_EXTENSIONS OFF)
+  target_compile_options(
+    message
+    PRIVATE ${flags} ${CXX_FLAGS} "$<$<CONFIG:Debug>:${CXX_FLAGS_DEBUG}>"
+            "$<$<CONFIG:Release>:${CXX_FLAGS_RELEASE}>")
 
   add_executable(my_message main.cpp)
-  target_compile_options(my_message PRIVATE "-fPIC")
+  set_target_properties(my_message PROPERTIES CXX_STANDARD 23 CXX_EXTENSIONS
+                                                              OFF)
+  target_compile_options(
+    my_message
+    PRIVATE "-fPIC" ${CXX_FLAGS} "$<$<CONFIG:Debug>:${CXX_FLAGS_DEBUG}>"
+            "$<$<CONFIG:Release>:${CXX_FLAGS_RELEASE}>")
 
   target_link_libraries(my_message PUBLIC message)
 else()
   add_executable(my_message main.cpp ${sources})
-  target_compile_options(my_message PRIVATE "-fPIC")
+  set_target_properties(message PROPERTIES CXX_STANDARD 23 CXX_EXTENSIONS OFF)
+  target_compile_options(
+    my_message
+    PRIVATE "-fPIC" ${CXX_FLAGS} "$<$<CONFIG:Debug>:${CXX_FLAGS_DEBUG}>"
+            "$<$<CONFIG:Release>:${CXX_FLAGS_RELEASE}>")
 endif()
 
 # Shared objects are not linked; loaded dynamically during runtime; DSO there is
