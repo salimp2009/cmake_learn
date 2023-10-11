@@ -57,7 +57,7 @@ set(COMPILER_FLAGS_DEBUG)
 set(COMPILER_FLAGS_RELEASE)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
-  list(APPEND CXX_FLAGS "-std=c++23" "-fno-rtti" "-fno-exceptions")
+  list(APPEND CXX_FLAGS "-std=c++2b" "-fno-rtti" "-fno-exceptions")
   list(APPEND CXX_FLAGS_DEBUG "-Wsuggest-final-types" "-Wsuggest-final-methods"
        "-Wsuggest-override")
   list(APPEND CXX_FLAGS_RELEASE "-O3" "-Wno-unused")
