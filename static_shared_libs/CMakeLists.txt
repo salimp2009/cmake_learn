@@ -42,6 +42,7 @@ option(USE_LIBRARY "Set the value on for static linking" On)
 message(STATUS "Compile sources into a library? ${USE_LIBRARY}")
 
 set(BUILD_SHARED_LIBS OFF)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 list(APPEND sources message.hpp message.cpp)
 
@@ -86,8 +87,11 @@ if(USE_LIBRARY)
             "$<$<CONFIG:Release>:${CXX_FLAGS_RELEASE}>")
 
   add_executable(my_message main.cpp)
-  set_target_properties(my_message PROPERTIES CXX_STANDARD 23 CXX_EXTENSIONS
-                                                              OFF)
+  set_target_properties(
+    my_message
+    PROPERTIES CXX_STANDARD 23
+               CXX_EXTENSIONS OFF
+               CXX_STANDART_REQUIRED ON)
   target_compile_options(
     my_message
     PRIVATE "-fPIC" ${CXX_FLAGS} "$<$<CONFIG:Debug>:${CXX_FLAGS_DEBUG}>"
@@ -96,7 +100,12 @@ if(USE_LIBRARY)
   target_link_libraries(my_message PUBLIC message)
 else()
   add_executable(my_message main.cpp ${sources})
-  set_target_properties(message PROPERTIES CXX_STANDARD 23 CXX_EXTENSIONS OFF)
+  set_target_properties(
+    message
+    PROPERTIES CXX_STANDARD 23
+               CXX_EXTENSIONS OFF
+               CXX_STANDART_REQUIRED ON)
+
   target_compile_options(
     my_message
     PRIVATE "-fPIC" ${CXX_FLAGS} "$<$<CONFIG:Debug>:${CXX_FLAGS_DEBUG}>"
