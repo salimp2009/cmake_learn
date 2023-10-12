@@ -5,6 +5,21 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
+include(./cmake/CPM.cmake)
+cpmaddpackage(
+  NAME Eigen VERSION 3.4.1 URL
+  https://gitlab.com/libeigen/eigen/-/archive/3.4.1/eigen-3.4.1.tar.gz
+  # Eigen's CMakelists are not intended for library use
+)
+
+if(Eigen_ADDED)
+  add_library(Eigen INTERFACE IMPORTED)
+  target_include_directories(Eigen INTERFACE ${Eigen_SOURCE_DIR}
+                                             ${Eigen_INCLUDE_DIR})
+endif()
+
+find_package(Eigen3 3.3 REQUIRED CONFIG)
+
 # set(CMAKE_GENERATOR "Ninja Multi-Config") Compilers in system
 message(STATUS "Is the C++ compiler loaded? ${CMAKE_CXX_COMPILER_LOADED}")
 if(CMAKE_CXX_COMPILER_LOADED)
@@ -97,7 +112,10 @@ if(USE_LIBRARY)
     PRIVATE "-fPIC" ${CXX_FLAGS} "$<$<CONFIG:Debug>:${CXX_FLAGS_DEBUG}>"
             "$<$<CONFIG:Release>:${CXX_FLAGS_RELEASE}>")
 
-  target_link_libraries(my_message PUBLIC message)
+  target_link_libraries(
+    my_message
+    PUBLIC message
+    PRIVATE Eigen3::Eigen)
 else()
   add_executable(my_message main.cpp ${sources})
   set_target_properties(
@@ -127,3 +145,22 @@ add_library(message-shared SHARED $<TARGET_OBJECTS:message-objects>)
 # using object file linked to executable
 
 add_executable(my_message2 main.cpp $<TARGET_OBJECTS:message-objects>)
+target_link_libraries(my_message2 PRIVATE Eigen3::Eigen)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  target_compile_definitions(my_message PUBLIC "Is_Linux")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  target_compile_definitions(my_message PUBLIC "Is_MACOS")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  target_compile_definitions(my_message PUBLIC "Is_Windows")
+endif()
+
+# CMAKE_SIZEOF_VOID_P is used to determine 32 or 64 bit
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+  target_compile_definitions(my_message PUBLIC "IS_64_BIT_ARCH")
+else()
+  target_compile_definitions(my_message PUBLIC "IS_32_BIT_ARCH")
+endif()
+
+target_compile_definitions(
+  my_message PUBLIC "ARCHITECTURE= ${CMAKE_HOST_SYSTEM_PROCESSOR}")
