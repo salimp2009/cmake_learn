@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(recipe-03 LANGUAGES CXX)
-
+#
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
@@ -14,11 +14,8 @@ cpmaddpackage(
 
 if(Eigen_ADDED)
   add_library(Eigen INTERFACE IMPORTED)
-  target_include_directories(Eigen INTERFACE ${Eigen_SOURCE_DIR}
-                                             ${Eigen_INCLUDE_DIR})
+  target_include_directories(Eigen INTERFACE ${Eigen_SOURCE_DIR})
 endif()
-
-find_package(Eigen3 3.3 REQUIRED CONFIG)
 
 # set(CMAKE_GENERATOR "Ninja Multi-Config") Compilers in system
 message(STATUS "Is the C++ compiler loaded? ${CMAKE_CXX_COMPILER_LOADED}")
@@ -92,6 +89,9 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
   list(APPEND CXX_FLAGS_RELEASE "-O3" "-Wno-unused")
 endif()
 
+find_package(Python ${PYTHON_VERSION_MAJOR} ${PYTHON_VERSION_MINOR} REQUIRED)
+find_package(Python COMPONENTS Interpreter Development Development.Embed)
+
 if(USE_LIBRARY)
   # add_library will create static lib
   add_library(message STATIC ${sources})
@@ -102,6 +102,8 @@ if(USE_LIBRARY)
             "$<$<CONFIG:Release>:${CXX_FLAGS_RELEASE}>")
 
   add_executable(my_message main.cpp)
+  target_include_directories(my_message PRIVATE ${PYTHON_INCLUDE_DIRS}
+                                                ${Python_LIBRARY_DIRS})
   set_target_properties(
     my_message
     PROPERTIES CXX_STANDARD 23
@@ -115,7 +117,8 @@ if(USE_LIBRARY)
   target_link_libraries(
     my_message
     PUBLIC message
-    PRIVATE Eigen3::Eigen)
+    PRIVATE Eigen3::Eigen ${Python_LIBRARIES})
+
 else()
   add_executable(my_message main.cpp ${sources})
   set_target_properties(
@@ -134,7 +137,8 @@ endif()
 # alsp MODULE; which are also shared lib can be loaded dynamically; or runtime
 # plugin
 
-add_library(message-shared SHARED $<TARGET_OBJECTS:message-objects>)
+add_library(message-shared SHARED $<TARGET_OBJECTS:message-objects>
+                                  ${Python_LIBRARIES})
 
 # add_library(message-static STATIC $<TARGET_OBJECTS:message-objects>)
 
@@ -145,7 +149,9 @@ add_library(message-shared SHARED $<TARGET_OBJECTS:message-objects>)
 # using object file linked to executable
 
 add_executable(my_message2 main.cpp $<TARGET_OBJECTS:message-objects>)
-target_link_libraries(my_message2 PRIVATE Eigen3::Eigen)
+target_include_directories(my_message2 PRIVATE ${PYTHON_INCLUDE_DIRS}
+                                               ${Python_LIBRARY_DIRS})
+target_link_libraries(my_message2 PRIVATE Eigen3::Eigen ${Python_LIBRARIES})
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   target_compile_definitions(my_message PUBLIC "Is_Linux")
@@ -164,3 +170,11 @@ endif()
 
 target_compile_definitions(
   my_message PUBLIC "ARCHITECTURE= ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+
+# example for executing a Pthon script during build time execute_process(
+# COMMAND ${Python_EXECUTABLE} "-c" "print ('Hello Python!')" RESULT_VARIABLE
+# _status OUTPUT_VARIABLE _hello_world ERROR_QUIET
+# OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+# message(STATUS "RESULT_VARIABLE is: ${_status}") message(STATUS
+# "OUTPUT_VARIABLE is: ${_hello_world}")

@@ -3,7 +3,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <memory>
-
+#include <python3.11/Python.h>
+#include <python3.11/pylifecycle.h>
 std::string operating_system_info() {
 #ifdef Is_Windows
   return std::string("Hello from Windows!");
@@ -30,7 +31,7 @@ std::string arch_info() {
 #endif
 }
 
-int main() {
+int main(int argc, char *argv[]) {
   Message msg("Hello cmake");
   const auto sptr = std::make_shared<int>(5);
   auto sptr2 = sptr;
@@ -38,5 +39,12 @@ int main() {
   std::cout << operating_system_info() << '\n';
   std::cout << arch_info() << '\n';
   Eigen::MatrixXd A = Eigen::MatrixXd::Random(7, 10);
+
+  // Py_SetProgramName(argv[0]); /* optional but recommended */
+  Py_Initialize();
+  PyRun_SimpleString("from time import time, ctime\n"
+                     "print('Today is',ctime(time()))\n");
+  Py_Finalize();
+
   return 0;
 }
