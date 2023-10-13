@@ -1,11 +1,15 @@
+
 #include "message.hpp"
 #include <Eigen/Dense>
 #include <cstdlib>
 #include <iostream>
 #include <memory>
+
+#define PY_SSIZE_T_CLEAN
 #include <python3.11/Python.h>
 #include <python3.11/pylifecycle.h>
 std::string operating_system_info() {
+
 #ifdef Is_Windows
   return std::string("Hello from Windows!");
 #elif Is_Linux
