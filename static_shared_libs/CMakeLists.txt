@@ -17,17 +17,24 @@ if(Eigen_ADDED)
   target_include_directories(Eigen INTERFACE ${Eigen_SOURCE_DIR})
 endif()
 
-cpmaddpackage("gh:TheLartians/PackageProject.cmake@1.9.0")
+# cpmaddpackage("gh:TheLartians/PackageProject.cmake@1.9.0")
 
-if(EXISTS "$ENV{HOME}/.cache/CPM/boost_1_83")
-  set(FETCHCONTENT_SOURCE_DIR_BOOST
-      "$ENV{HOME}/.cache/CPM/boost_1_83_0"
-      CACHE PATH "Boost source DIR")
-endif()
+# if(EXISTS "$ENV{HOME}/.cache/CPM/boost_1_83")
+# set(FETCHCONTENT_SOURCE_DIR_BOOST "$ENV{HOME}/.cache/CPM/boost_1_83_0" CACHE
+# PATH "Boost source DIR") endif()
+
+# cpmaddpackage( NAME boost-cmake GITHUB_REPOSITORY ClausKlein/boost-cmake
+# GIT_TAG b7c741f42b089117221622c72783d2cb821843dc #
+# feature/upgrade-to-boost-v1.79-0 )
+
+set(BOOST_INCLUDE_LIBRARIES "filesystem")
+# set(BOOST_INCLUDE_LIBRARIES "filesystem;thread;asio")
 
 cpmaddpackage(
-  NAME boost-cmake GITHUB_REPOSITORY ClausKlein/boost-cmake GIT_TAG
-  b7c741f42b089117221622c72783d2cb821843dc # feature/upgrade-to-boost-v1.79-0
+  NAME
+  Boost
+  URL
+  "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
 )
 
 # set(CMAKE_GENERATOR "Ninja Multi-Config") Compilers in system
@@ -200,3 +207,22 @@ print(re.compile('/__init__.py.*').sub('',numpy.__file__))"
   RESULT_VARIABLE _numpy_status
   OUTPUT_VARIABLE _numpy_location
   ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+if(NOT _numpy_status)
+  set(NumPy
+      ${_numpy_location}
+      CACHE STRING "Location of NumPy")
+endif()
+
+execute_process(
+  COMMAND ${PYTHON_EXECUTABLE} "-c" "import numpy;
+print(numpy.__version__)"
+  OUTPUT_VARIABLE _numpy_version
+  ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(
+  NumPy
+  FOUND_VAR NumPy_FOUND
+  REQUIRED_VARS NumPy
+  VERSION_VAR _numpy_version)
