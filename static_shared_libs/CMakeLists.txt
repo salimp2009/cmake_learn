@@ -17,13 +17,26 @@ if(Eigen_ADDED)
   target_include_directories(Eigen INTERFACE ${Eigen_SOURCE_DIR})
 endif()
 
+cpmaddpackage("gh:TheLartians/PackageProject.cmake@1.9.0")
+
+if(EXISTS "$ENV{HOME}/.cache/CPM/boost_1_83")
+  set(FETCHCONTENT_SOURCE_DIR_BOOST
+      "$ENV{HOME}/.cache/CPM/boost_1_83_0"
+      CACHE PATH "Boost source DIR")
+endif()
+
+cpmaddpackage(
+  NAME boost-cmake GITHUB_REPOSITORY ClausKlein/boost-cmake GIT_TAG
+  b7c741f42b089117221622c72783d2cb821843dc # feature/upgrade-to-boost-v1.79-0
+)
+
 # set(CMAKE_GENERATOR "Ninja Multi-Config") Compilers in system
+
 message(STATUS "Is the C++ compiler loaded? ${CMAKE_CXX_COMPILER_LOADED}")
 if(CMAKE_CXX_COMPILER_LOADED)
   message(STATUS "The C++ compiler ID is: ${CMAKE_CXX_COMPILER_ID}")
   message(STATUS "Is the C++ from GNU? ${CMAKE_COMPILER_IS_GNUCXX}")
-  message(STATUS "The C++ compiler version is:
-${CMAKE_CXX_COMPILER_VERSION}")
+  message(STATUS "The C++ compiler version is: ${CMAKE_CXX_COMPILER_VERSION}")
 endif()
 
 # build type
@@ -117,7 +130,7 @@ if(USE_LIBRARY)
   target_link_libraries(
     my_message
     PUBLIC message
-    PRIVATE Eigen3::Eigen ${Python_LIBRARIES})
+    PRIVATE Eigen3::Eigen ${Python_LIBRARIES} Boost::filesystem)
 
 else()
   add_executable(my_message main.cpp ${sources})
@@ -151,7 +164,8 @@ add_library(message-shared SHARED $<TARGET_OBJECTS:message-objects>
 add_executable(my_message2 main.cpp $<TARGET_OBJECTS:message-objects>)
 target_include_directories(my_message2 PRIVATE ${PYTHON_INCLUDE_DIRS}
                                                ${Python_LIBRARY_DIRS})
-target_link_libraries(my_message2 PRIVATE Eigen3::Eigen ${Python_LIBRARIES})
+target_link_libraries(my_message2 PRIVATE Eigen3::Eigen ${Python_LIBRARIES}
+                                          Boost::filesystem)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   target_compile_definitions(my_message PUBLIC "Is_Linux")
@@ -171,10 +185,18 @@ endif()
 target_compile_definitions(
   my_message PUBLIC "ARCHITECTURE= ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
-# example for executing a Pthon script during build time execute_process(
-# COMMAND ${Python_EXECUTABLE} "-c" "print ('Hello Python!')" RESULT_VARIABLE
-# _status OUTPUT_VARIABLE _hello_world ERROR_QUIET
+# example for executing a Pthon script during build time
+
+# execute_process( COMMAND ${Python_EXECUTABLE} "-c" "print ('Hello Python!')"
+# RESULT_VARIABLE _status OUTPUT_VARIABLE _hello_world ERROR_QUIET
 # OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 # message(STATUS "RESULT_VARIABLE is: ${_status}") message(STATUS
 # "OUTPUT_VARIABLE is: ${_hello_world}")
+
+execute_process(
+  COMMAND ${PYTHON_EXECUTABLE} "-c" "import re, numpy;
+print(re.compile('/__init__.py.*').sub('',numpy.__file__))"
+  RESULT_VARIABLE _numpy_status
+  OUTPUT_VARIABLE _numpy_location
+  ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)

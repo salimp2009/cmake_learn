@@ -5,6 +5,8 @@
 #include <iostream>
 #include <memory>
 
+#include <boost/filesystem.hpp>
+
 #define PY_SSIZE_T_CLEAN
 #include <python3.11/Python.h>
 #include <python3.11/pylifecycle.h>
