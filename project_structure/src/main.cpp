@@ -9,7 +9,6 @@ int main(int argc, char **argv) {
   myPrint(example);
 
   mySort(example);
-
   std::cout << "\nAfter:\n";
   myPrint(example);
   return 0;
