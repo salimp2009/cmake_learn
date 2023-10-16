@@ -2,7 +2,7 @@ add_subdirectory(sort)
 add_subdirectory(print)
 
 add_executable(sortprint main.cpp)
-target_link_libraries(sortprint PRIVATE print sort)
+target_link_libraries(sortprint PRIVATE sorted::print sorted::sort)
 
 if(${ENABLE_WARNINGS})
   target_set_warnings(TARGET sortprint ENABLE ${ENABLE_WARNINGS} AS_ERRORS

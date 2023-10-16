@@ -1,4 +1,6 @@
 add_library(print STATIC print.cpp)
+add_library(sorted::print ALIAS print)
+
 target_include_directories(print PUBLIC "${CMAKE_SOURCE_DIR}/include/print")
 target_compile_features(print PUBLIC cxx_std_23)
 
