@@ -1,11 +1,17 @@
 
-#include "message.hpp"
 #include <Eigen/Dense>
+#include <boost/filesystem.hpp>
+#include <cstddef>
 #include <cstdlib>
 #include <iostream>
+#include <iterator>
 #include <memory>
+#include <numeric>
+#include <ranges>
 
-#include <boost/filesystem.hpp>
+#include "message.hpp"
+#include "sum_integers.hpp"
+#include <vector>
 
 #define PY_SSIZE_T_CLEAN
 #include <python3.11/Python.h>
@@ -22,6 +28,7 @@ std::string operating_system_info() {
   return std::string("Hello from an unknown system!");
 #endif
 }
+
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
 
@@ -36,8 +43,14 @@ std::string arch_info() {
   return arch_info + std::string("Neither 32 nor 64 bit, puzzling ...");
 #endif
 }
+int sum_integers2(const std::vector<int> &integers) {
+  auto sum = 0;
 
-int main(int argc, char *argv[]) {
+  auto result = std::accumulate(std::begin(integers), std::end(integers), sum);
+  return result;
+}
+
+int main(int argc, const char *argv[]) {
   Message msg("Hello cmake");
   const auto sptr = std::make_shared<int>(5);
   auto sptr2 = sptr;
@@ -52,5 +65,14 @@ int main(int argc, char *argv[]) {
                      "print('Today is',ctime(time()))\n");
   Py_Finalize();
 
+  std::vector<int> integers;
+  // auto count = std::size(&argv[0]);
+  for (const auto i : std::ranges::views::iota(0, argc))
+  /*     for (auto i = 1; i < argc; i++) */ {
+    integers.push_back(i);
+  }
+  auto sum = sum_integers2(integers);
+  // auto sum2 = sum_integers3(integers);
+  std::cout << sum << "" << '\n';
   return 0;
 }

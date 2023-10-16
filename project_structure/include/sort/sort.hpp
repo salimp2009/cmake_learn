@@ -4,4 +4,5 @@
 #include <vector>
 
 void mySort(std::vector<double> &list);
+
 #endif // SORT_SORT_HPP

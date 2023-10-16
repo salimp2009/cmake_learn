@@ -2,8 +2,9 @@
 
 #include "print.hpp"
 #include "sort.hpp"
+#include "sum_vector.hpp"
 
-int main(int argc, char **argv) {
+int main() {
   std::vector<double> example = {4, 5.4, 9.1, 1, -2.2};
   std::cout << "Before:\n";
   myPrint(example);
@@ -11,5 +12,8 @@ int main(int argc, char **argv) {
   mySort(example);
   std::cout << "\nAfter:\n";
   myPrint(example);
+  std::vector ins = {1, 2, 3, 4, 5};
+  auto result = sum_vector(ins);
+  std::cout << "sum vector:" << result << '\n';
   return 0;
 }

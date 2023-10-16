@@ -68,7 +68,7 @@ message(STATUS "C++ flags, minimal Release configuration:
 ${CMAKE_CXX_FLAGS_MINSIZEREL}")
 
 # objects can be used later to create static or shared objects
-add_library(message-objects OBJECT message.hpp message.cpp)
+add_library(message-objects OBJECT message.cpp sum_integers.cpp)
 
 option(USE_LIBRARY "Set the value on for static linking" On)
 message(STATUS "Compile sources into a library? ${USE_LIBRARY}")
@@ -76,7 +76,7 @@ message(STATUS "Compile sources into a library? ${USE_LIBRARY}")
 set(BUILD_SHARED_LIBS OFF)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-list(APPEND sources message.hpp message.cpp)
+list(APPEND sources message.cpp sum_integers.cpp)
 
 list(APPEND flags "-fPIC" "-Wall")
 if(NOT WIN32)
@@ -111,7 +111,7 @@ endif()
 
 find_package(Python ${PYTHON_VERSION_MAJOR} ${PYTHON_VERSION_MINOR} REQUIRED)
 find_package(Python COMPONENTS Interpreter Development Development.Embed)
-
+find_program(BASH_EXECUTABLE NAMES bash REQUIRED)
 if(USE_LIBRARY)
   # add_library will create static lib
   add_library(message STATIC ${sources})
@@ -157,8 +157,8 @@ endif()
 # alsp MODULE; which are also shared lib can be loaded dynamically; or runtime
 # plugin
 
-add_library(message-shared SHARED $<TARGET_OBJECTS:message-objects>
-                                  ${Python_LIBRARIES})
+# add_library(message-shared SHARED $<TARGET_OBJECTS:message-objects>
+# ${Python_LIBRARIES})
 
 # add_library(message-static STATIC $<TARGET_OBJECTS:message-objects>)
 
@@ -168,11 +168,10 @@ add_library(message-shared SHARED $<TARGET_OBJECTS:message-objects>
 
 # using object file linked to executable
 
-add_executable(my_message2 main.cpp $<TARGET_OBJECTS:message-objects>)
-target_include_directories(my_message2 PRIVATE ${PYTHON_INCLUDE_DIRS}
-                                               ${Python_LIBRARY_DIRS})
-target_link_libraries(my_message2 PRIVATE Eigen3::Eigen ${Python_LIBRARIES}
-                                          Boost::filesystem)
+# add_executable(my_message2 main.cpp $<TARGET_OBJECTS:message-objects>)
+# target_include_directories(my_message2 PRIVATE ${PYTHON_INCLUDE_DIRS}
+# ${Python_LIBRARY_DIRS}) target_link_libraries(my_message2 PRIVATE
+# Eigen3::Eigen ${Python_LIBRARIES} Boost::filesystem)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   target_compile_definitions(my_message PUBLIC "Is_Linux")
