@@ -1,5 +1,6 @@
 add_library(sort STATIC sort.cpp sum_vector.cpp)
 add_library(sorted::sort ALIAS sort)
+
 target_include_directories(sort PUBLIC "${CMAKE_SOURCE_DIR}/include/sort")
 target_compile_features(sort PUBLIC cxx_std_23)
 
