@@ -55,6 +55,9 @@ endif()
 
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
+message(STATUS "C++ flags:
+${CMAKE_CXX_FLAGS}")
+
 message(STATUS "C++ flags, Debug configuration:
 ${CMAKE_CXX_FLAGS_DEBUG}")
 

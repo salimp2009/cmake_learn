@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 
 # project name and language
-project(recipe-01 LANGUAGES CXX)
+project(simple_test LANGUAGES CXX)
 
 # require C++11
 set(CMAKE_CXX_STANDARD 23)
@@ -10,12 +10,19 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
+include(./function.cmake)
+f(1 2 optional1 optional2)
+
 find_package(Python REQUIRED)
 find_program(BASH_EXECUTABLE NAMES bash REQUIRED)
+# find_package(Catch2 REQUIRED)
+include(./cmake/CPM.cmake)
+cpmaddpackage(NAME Catch2 GITHUB_REPOSITORY catchorg/Catch2 VERSION 3.4.0)
 
 # example library
-add_library(sum_integers sum_integers.cpp)
-
+add_library(sum_integers SHARED sum_integers.cpp)
+target_include_directories(sum_integers PUBLIC ${CMAKE_SOURCE_DIR})
 # main code
 add_executable(sum_up main.cpp)
 target_link_libraries(sum_up sum_integers)
@@ -24,8 +31,11 @@ target_link_libraries(sum_up sum_integers)
 add_executable(cpp_test test.cpp)
 target_link_libraries(cpp_test sum_integers)
 
-# enable testing functionality
 enable_testing()
+
+add_subdirectory(tests)
+
+# enable testing functionality
 
 # define tests
 add_test(NAME bash_test

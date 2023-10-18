@@ -1,11 +1,9 @@
 #include "sum_integers.hpp"
+#include <numeric>
 
-#include <vector>
+int sum_integers(std::span<const int> integers) {
 
-int sum_integers(const std::vector<int> &integers) {
-  auto sum = 0;
-  for (auto i : integers) {
-    sum += i;
-  }
+  auto sum = std::accumulate(integers.begin(), integers.end(), 0);
+
   return sum;
 }

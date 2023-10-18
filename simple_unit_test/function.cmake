@@ -1,0 +1,15 @@
+function(f mandatory1 mandatory2)
+  message("mandatory1=${mandatory1}, mandatory2=${mandatory2}")
+  message("ARGC=${ARGC}")
+  message("ARGV=${ARGV}")
+  message("ARGN=${ARGN}")
+  list(APPEND argn "${ARGN}")
+
+  foreach(arg IN LISTS ARGN)
+    message("arg= ${arg}")
+  endforeach()
+
+  foreach(arg IN LISTS argn)
+    message("arg2= ${arg}")
+  endforeach()
+endfunction()
