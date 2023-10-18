@@ -12,6 +12,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 include(./function.cmake)
+read_semver(DEBUG_INFO)
 f(1 2 optional1 optional2)
 
 find_package(Python REQUIRED)
