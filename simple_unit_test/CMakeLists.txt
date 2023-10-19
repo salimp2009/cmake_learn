@@ -2,7 +2,10 @@
 cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 
 # project name and language
-project(simple_test LANGUAGES CXX)
+project(
+  simple_test
+  VERSION 1.2.4
+  LANGUAGES CXX)
 
 # require C++11
 set(CMAKE_CXX_STANDARD 23)
@@ -13,7 +16,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 include(./function.cmake)
-read_semver(DEBUG_INFO SPLIT FILE_NAME "filename" OUTPUT_VARIABLE_NAME
+read_semver(DEBUG_INFO SPLIT FILE_NAME "Version" OUTPUT_VARIABLE_NAME
             "my version")
 f(1 2 optional1 optional2)
 
