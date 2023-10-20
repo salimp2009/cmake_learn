@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 # project name and language
 project(
   simple_test
-  VERSION 1.2.4
+  VERSION "${VERSION}"
   LANGUAGES CXX)
 
 # require C++11
@@ -16,8 +16,25 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 include(./function.cmake)
-read_semver(DEBUG_INFO SPLIT FILE_NAME "Version" OUTPUT_VARIABLE_NAME
-            "my version")
+read_semver(
+  DEBUG_INFO
+  SPLIT
+  OUTPUT_VARIABLE_NAME
+  "VERSION"
+  FILE_NAME
+  "Version"
+  MV
+  a
+  b
+  c
+  d
+  e)
+
+message("VERSION_MAJOR= ${VERSION_MAJOR}")
+message("VERSION_MINOR= ${VERSION_MINOR}")
+message("VERSION_MAJOR= ${VERSION_PATCH}")
+message("VERSION= ${VERSION}")
+
 f(1 2 optional1 optional2)
 
 find_package(Python REQUIRED)

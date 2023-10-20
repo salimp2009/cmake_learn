@@ -15,23 +15,56 @@ function(f mandatory1 mandatory2)
 endfunction()
 
 function(read_semver)
-  set(prefix, ARG)
+  set(prefix ARG)
   set(options SPLIT DEBUG_INFO)
   set(oneValueArgs OUTPUT_VARIABLE_NAME FILE_NAME)
-  set(multiValueArgs "")
-  cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}"
-                        ${ARGN})
-  if(ARG_DEBUG_INFO)
-    message("arg_debug_info :${ARG_DEBUG_INFO}")
-    message("arg_split :${ARG_SPLIT}")
-    message("arg_output_variable :${ARG_OUTPUT_VARIABLE_NAME}")
-    message("arg_file_name :${ARG_FILE_NAME}")
+  set(multiValueArgs MV)
+  # Process the arguments passed in
+  include(CMakeParseArguments)
+
+  cmake_parse_arguments(${prefix} "${options}" "${oneValueArgs}"
+                        "${multiValueArgs}" ${ARGN})
+  if(${prefix}_DEBUG_INFO)
+    message("arg_debug_info :${${prefix}_DEBUG_INFO}")
+    message("arg_split :${${prefix}_SPLIT}")
+    message("arg_output_variable :${${prefix}_OUTPUT_VARIABLE_NAME}")
+    message("arg_file_name :${${prefix}_FILE_NAME}")
+    message("arg_mv :${${prefix}_MV}")
   endif()
 
-  file(READ "${arg_file_name}" FILE_CONTENT PARENT_SCOPE)
+  file(READ "${${prefix}_FILE_NAME}" FILE_CONTENT)
   string(STRIP "${FILE_CONTENT}" FILE_CONTENT)
-  if(${ARG_SPLIT})
+  #
+  if(NOT ${prefix}_OUTPUT_VARIABLE_NAME)
+    set(${prefix}_OUTPUT_VARIABLE_NAME "VERSION")
+    message("Please set OUTPUT_VARIABLE_NAME for read_semver() function")
+  endif()
+
+  if(${prefix}_SPLIT)
     message("FILE_CONTENT=${FILE_CONTENT}")
+
+    # replace . with ; from FILE_CONTENTs and save it in SEMVER
     string(REPLACE "." ";" SEMVER_COMPONENTS "${FILE_CONTENT}")
+    message("SEMVER_COMPONENTS=${SEMVER_COMPONENTS}")
+
+    list(GET SEMVER_COMPONENTS 0 MAJOR)
+    list(GET SEMVER_COMPONENTS 1 MINOR)
+    list(GET SEMVER_COMPONENTS 2 PATCH)
+
+    message("MAJOR, MINOR, PATCH = ${MAJOR} ${MINOR} ${PATCH}")
+
+    set(${${prefix}_OUTPUT_VARIABLE_NAME}_MAJOR
+        ${MAJOR}
+        PARENT_SCOPE)
+    set(${${prefix}_OUTPUT_VARIABLE_NAME}_MINOR
+        ${MINOR}
+        PARENT_SCOPE)
+    set(${${prefix}_OUTPUT_VARIABLE_NAME}_PATCH
+        ${PATCH}
+        PARENT_SCOPE)
+  else()
+    set(${${prefix}_OUTPUT_VARIABLE_NAME}
+        ${FILE_CONTENT}
+        PARENT_SCOPE)
   endif()
 endfunction()
