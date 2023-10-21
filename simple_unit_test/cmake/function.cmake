@@ -68,3 +68,8 @@ function(read_semver)
         PARENT_SCOPE)
   endif()
 endfunction()
+
+set(WHATEVER "this is my meesage from function.cmake")
+message(
+  "in function.cmake: CMAKE_CURRENT_LIST_DIR= ${CMAKE_CURRENT_LIST_FILE}:${CMAKE_CURRENT_LIST_LINE}"
+)
