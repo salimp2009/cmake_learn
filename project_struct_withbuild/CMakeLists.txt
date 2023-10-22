@@ -56,3 +56,7 @@ install(
   EXPORT export_sorted
   FILE ${CMAKE_PROJECT_NAME}-config.cmake
   DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/)
+
+add_custom_target(
+  uninstall COMMAND ${CMAKE_COMMAND} -P
+                    ${PROJECT_SOURCE_DIR}/cmake/UninstallHelper.cmake)
