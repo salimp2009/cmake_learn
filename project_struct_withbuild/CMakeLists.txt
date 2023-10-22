@@ -55,6 +55,7 @@ install(
 install(
   EXPORT export_sorted
   FILE ${CMAKE_PROJECT_NAME}-config.cmake
+  NAMESPACE sorted::
   DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/)
 
 add_custom_target(
