@@ -19,7 +19,7 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 set(_cmake_targets_defined "")
 set(_cmake_targets_not_defined "")
 set(_cmake_expected_targets "")
-foreach(_cmake_expected_target IN ITEMS sort print)
+foreach(_cmake_expected_target IN ITEMS sorted::sort sorted::print)
   list(APPEND _cmake_expected_targets "${_cmake_expected_target}")
   if(TARGET "${_cmake_expected_target}")
     list(APPEND _cmake_targets_defined "${_cmake_expected_target}")
@@ -47,20 +47,20 @@ unset(_cmake_expected_targets)
 
 
 # The installation prefix configured by this project.
-set(_IMPORT_PREFIX "~/repos/cpp_sandbox/cmake_learn")
+set(_IMPORT_PREFIX "/home/salim/repos/cpp_sandbox/cmake_learn")
 
-# Create imported target sort
-add_library(sort STATIC IMPORTED)
+# Create imported target sorted::sort
+add_library(sorted::sort STATIC IMPORTED)
 
-set_target_properties(sort PROPERTIES
+set_target_properties(sorted::sort PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_std_23"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include/sorted/sort"
 )
 
-# Create imported target print
-add_library(print STATIC IMPORTED)
+# Create imported target sorted::print
+add_library(sorted::print STATIC IMPORTED)
 
-set_target_properties(print PROPERTIES
+set_target_properties(sorted::print PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_std_23"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include/sorted/print"
 )

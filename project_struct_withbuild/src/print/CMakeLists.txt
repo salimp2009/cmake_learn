@@ -1,5 +1,5 @@
 add_library(print STATIC print.cpp)
-# add_library(sorted::print ALIAS print)
+add_library(sorted::print ALIAS print)
 
 target_include_directories(
   print PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/print>
