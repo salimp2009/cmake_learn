@@ -7,7 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # just set it to test purposes. Do not set it  leave it to user default is /usr/
-set(CMAKE_INSTALL_PREFIX "~/repos/cpp_sandbox/cmake_learn/")
+set(CMAKE_INSTALL_PREFIX "~/repos/cpp_sandbox/cmake_learn")
 message("CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
 
 option(ENABLE_WARNINGS "Enable to add warnings to a target." ON)
@@ -42,10 +42,14 @@ endif()
 add_subdirectory(src)
 
 # installing project header files
-install(FILES ./include/sort/sort.hpp
+install(FILES include/sort/sort.hpp
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}/sort)
-install(FILES ./include/print/print.hpp
+
+install(FILES include/print/print.hpp
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}/print)
+
+install(FILES include/sort/sum_vector.hpp
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}/sort)
 
 install(
   TARGETS sort print
@@ -55,7 +59,7 @@ install(
 install(
   EXPORT export_sorted
   FILE ${CMAKE_PROJECT_NAME}-config.cmake
-  NAMESPACE sorted::
+  # NAMESPACE sorted::
   DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/)
 
 add_custom_target(
