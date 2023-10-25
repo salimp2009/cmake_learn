@@ -54,7 +54,7 @@ add_library(sorted::sort STATIC IMPORTED)
 
 set_target_properties(sorted::sort PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_std_23"
-  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include/sorted/sort"
+  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include/sorted/include/sort"
 )
 
 # Create imported target sorted::print
@@ -62,7 +62,7 @@ add_library(sorted::print STATIC IMPORTED)
 
 set_target_properties(sorted::print PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_std_23"
-  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include/sorted/print"
+  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include/sorted/include/print"
 )
 
 # Load information for each installed configuration.

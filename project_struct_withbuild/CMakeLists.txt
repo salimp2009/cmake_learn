@@ -39,17 +39,39 @@ if(ENABLE_LTO)
   include(lto)
 endif()
 
+# if(ENABLE_TESTING) include(FetchContent) FetchContent_Declare( googletest
+# GIT_REPOSITORY https://github.com/google/googletest.git GIT_TAG v1.14.0)
+
+# FetchContent_GetProperties(googletest) # all the remaining CMake code will be
+
+# if(NOT googletest_POPULATED) FetchContent_Populate(googletest) # Prevent
+# GoogleTest from overriding our compiler/linker options when # building with
+# Visual Studio set(gtest_force_shared_crt ON CACHE BOOL "" FORCE) # Prevent
+# GoogleTest from using PThreads set(gtest_disable_pthreads ON CACHE BOOL ""
+# FORCE) # adds the targers: gtest, gtest_main, gmock, gmock_main
+# add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR}) # placed #
+# here # Silence std::tr1 warning on MSVC if(MSVC) foreach(_tgt gtest gtest_main
+# gmock gmock_main) target_compile_definitions( ${_tgt} PRIVATE
+# "_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING") endforeach() endif() endif()
+# endif()
+
 add_subdirectory(src)
+add_subdirectory(tests)
 
-# installing project header files
-install(FILES include/sort/sort.hpp
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME}/sort)
+# installing project header files install(FILES include/sort/sort.hpp
+# DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME}/sort)
 
-install(FILES include/print/print.hpp
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME}/print)
+# install(FILES include/print/print.hpp DESTINATION
+# ${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME}/print)
 
-install(FILES include/sort/sum_vector.hpp
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME}/sort)
+# install(FILES include/sort/sum_vector.hpp DESTINATION
+# ${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME}/sort)
+
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/include
+  # TYPE INCLUDE
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME}
+  PATTERN "*.in" EXCLUDE)
 
 install(
   TARGETS sort print
