@@ -3,7 +3,6 @@
 #include "print.hpp"
 #include "sort.hpp"
 #include "sum_vector.hpp"
-#include <glib-2.0/glib.h>
 
 int main() {
   std::vector<double> example = {4, 5.4, 9.1, 1, -2.2};
