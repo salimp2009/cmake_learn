@@ -13,3 +13,4 @@ find_package(sorted PATHS /home/salim/repos/cpp_sandbox/cmake_learn REQUIRED)
 
 add_executable(usesort main.cpp)
 target_link_libraries(usesort PRIVATE sorted::sort sorted::print)
+# target_include_directories(usesort PRIVATE sorted_INCLUDE_DIRS)

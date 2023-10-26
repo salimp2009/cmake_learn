@@ -55,6 +55,7 @@ if(ENABLE_TESTING)
     set(gtest_force_shared_crt
         ON
         CACHE BOOL "" FORCE)
+
     # Prevent GoogleTest from using PThreads
     set(gtest_disable_pthreads
         ON
@@ -73,6 +74,8 @@ if(ENABLE_TESTING)
 endif()
 
 add_subdirectory(src)
+
+enable_testing()
 add_subdirectory(tests)
 
 # installing project header files install(FILES include/sort/sort.hpp
@@ -83,6 +86,7 @@ add_subdirectory(tests)
 
 # install(FILES include/sort/sum_vector.hpp DESTINATION
 # ${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME}/sort)
+# include(GNUInstallDirs)
 
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/include

@@ -6,6 +6,7 @@ target_include_directories(
   PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/print>
          # $<INSTALL_INTERFACE:include/${CMAKE_PROJECT_NAME}/print>)
          $<INSTALL_INTERFACE:include/${CMAKE_PROJECT_NAME}/include/print>)
+# $<INSTALL_INTERFACE:include/${CMAKE_INSTALL_INCLUDEDIR}/print>)
 
 target_compile_features(print PUBLIC cxx_std_23)
 
