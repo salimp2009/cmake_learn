@@ -4,10 +4,10 @@ add_library(sorted::sort ALIAS sort)
 include(GNUInstallDirs)
 target_include_directories(
   sort
-  PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/sort>
+  PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/sort>
          # $<INSTALL_INTERFACE:include/${CMAKE_PROJECT_NAME}/sort>)
          $<INSTALL_INTERFACE:include/${CMAKE_PROJECT_NAME}/include/sort>)
-# $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/sort>)
+# $<INSTALL_INTERFACE:${sorted_INCLUDE_DIR}/include/sort>)
 
 target_compile_features(sort PUBLIC cxx_std_23)
 

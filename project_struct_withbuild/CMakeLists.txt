@@ -89,7 +89,7 @@ add_subdirectory(tests)
 # include(GNUInstallDirs)
 
 install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/include
+  DIRECTORY ${PROJECT_SOURCE_DIR}/include
   # TYPE INCLUDE
   DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME}
   PATTERN "*.in" EXCLUDE)

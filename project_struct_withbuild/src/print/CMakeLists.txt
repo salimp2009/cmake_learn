@@ -3,10 +3,11 @@ add_library(sorted::print ALIAS print)
 
 target_include_directories(
   print
-  PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/print>
+  PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/print>
          # $<INSTALL_INTERFACE:include/${CMAKE_PROJECT_NAME}/print>)
          $<INSTALL_INTERFACE:include/${CMAKE_PROJECT_NAME}/include/print>)
 # $<INSTALL_INTERFACE:include/${CMAKE_INSTALL_INCLUDEDIR}/print>)
+# $<INSTALL_INTERFACE:${sorted_INCLUDE_DIR}/include/print>)
 
 target_compile_features(print PUBLIC cxx_std_23)
 
