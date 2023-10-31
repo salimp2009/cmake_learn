@@ -3,7 +3,7 @@
 
 # Clion IDE related files
 .idea
-
+recipe-01
 # vs & vs code files (in case opened with)
 .vs
 .vscode

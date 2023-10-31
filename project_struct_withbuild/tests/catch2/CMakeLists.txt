@@ -11,6 +11,10 @@ target_link_libraries(cpp_test2 PRIVATE sorted::sort sorted::print
 enable_testing()
 
 add_test(NAME catch_test COMMAND $<TARGET_FILE:cpp_test2> --success)
+add_test(NAME integrationTest # CONFIGURATIONS Debug RelWithDebInfo
+         COMMAND sortprint 2 5 3 7 4)
+set_tests_properties(integrationTest PROPERTIES PASS_REGULAR_EXPRESSION 2 3 4 5
+                                                7)
 
 # this generate files for each test with the prefix and extension given
 catch_discover_tests(
