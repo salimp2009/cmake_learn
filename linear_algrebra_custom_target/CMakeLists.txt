@@ -16,12 +16,6 @@ add_custom_target(
   COMMENT "Unpacking Eigen3 in
 ${CMAKE_CURRENT_BINARY_DIR}/eigen-3.3.4")
 
-# add_custom_target( unpack-eigen ALL COMMAND ${CMAKE_COMMAND} -E tar -xzf
-# ../eigen-eigen-5a0156e40feb.tar.gz COMMAND ${CMAKE_COMMAND} -E rename
-# eigen-eigen-5a0156e40feb eigen-3.3.4 WORKING_DIRECTORY
-# ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Unpacking Eigen3 in
-# ${CMAKE_CURRENT_BINARY_DIR}/eigen-3.3.4")
-
 add_executable(linear-algebra linear-algebra.cpp)
 add_dependencies(linear-algebra unpackEigen)
 target_include_directories(linear-algebra

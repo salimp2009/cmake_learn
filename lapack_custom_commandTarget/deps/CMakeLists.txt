@@ -1,0 +1,32 @@
+find_package(LAPACK REQUIRED)
+
+set(MATH_SRCS
+    ${CMAKE_CURRENT_BINARY_DIR}/wrap_BLAS_LAPACK/CxxBLAS.hpp
+    ${CMAKE_CURRENT_BINARY_DIR}/wrap_BLAS_LAPACK/CxxBLAS.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/wrap_BLAS_LAPACK/CxxLAPACK.hpp
+    ${CMAKE_CURRENT_BINARY_DIR}/wrap_BLAS_LAPACK/CxxLAPACK.cpp)
+
+add_custom_target(
+  BLAS_LAPACK_wrappers
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  DEPENDENS ${MATH_SRCS}
+  COMMENT "Initermedite BLAS_LAPACK_wrappers"
+  VERBATIM)
+
+add_custom_command(
+  OUTPUT ${MATH_SRCS}
+  COMMAND ${CMAKE_COMMAND} -E tar xzf
+          ${CMAKE_CURRENT_SOURCE_DIR}/wrap_BLAS_LAPACK.tar.gz
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/wrap_BLAS_LAPACK.tar.gz
+  COMMENT "Unpacking C++wrappers for BLAS/LAPACK"
+  VERBATIM)
+
+add_library(math "")
+target_sources(math PRIVATE ${MATH_SRCS})
+
+target_include_directories(
+  math INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/wrap_BLAS_LAPACK
+                 ${BLAS_INCLUDE_DIR})
+
+target_link_libraries(math PUBLIC ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})

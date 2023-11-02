@@ -13,7 +13,7 @@ cpmaddpackage(
   https://github.com/Reference-LAPACK/lapack/archive/refs/tags/v3.11.0.tar.gz)
 
 find_package(LAPACK REQUIRED)
-#
+
 set(wrap_BLAS_LAPACK_sources
     ${CMAKE_CURRENT_BINARY_DIR}/wrap_BLAS_LAPACK/CxxBLAS.hpp
     ${CMAKE_CURRENT_BINARY_DIR}/wrap_BLAS_LAPACK/CxxBLAS.cpp
