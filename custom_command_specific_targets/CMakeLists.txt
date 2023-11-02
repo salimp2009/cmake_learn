@@ -28,5 +28,5 @@ add_custom_command(
   POST_BUILD
   COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/static_size.py
           $<TARGET_FILE:example_fortran>
-  COMMENT "static size of executable: "
+  COMMENT "static size of executable:"
   VERBATIM)
