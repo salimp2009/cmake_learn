@@ -59,9 +59,13 @@ foreach(
   message("current list element: ${currentElem}")
 endforeach()
 
+foreach(currentElem RANGE 0 9)
+  message("curren Range elem: ${currentElem}")
+endforeach()
+
 add_executable(use_uuid_asm use-uuid.cpp)
-target_compile_options(use_uuid_asm PUBLIC -g -S)
+target_compile_options(use_uuid_asm PRIVATE -save-temps=obj)
 
 target_link_libraries(use_uuid_asm
                       PUBLIC $<$<BOOL:${UUID_FOUND}>:PkgConfig::UUID>)
-target_link_options(use_uuid_asm PUBLIC -g -S)
+# target_link_options(use_uuid_asm PUBLIC -S)
