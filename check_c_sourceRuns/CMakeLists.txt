@@ -42,9 +42,26 @@ add_executable(use_uuid use-uuid.cpp)
 
 target_link_libraries(use_uuid PUBLIC $<$<BOOL:${UUID_FOUND}>:PkgConfig::UUID>)
 
-# add_executable(use_uuid_asm use-uuid.cpp) target_compile_options(use_uuid_asm
-# PUBLIC -S)
+foreach(currentElem a b c d e f)
+  message("current element: ${currentElem}")
+endforeach()
 
-# target_link_libraries(use_uuid_asm PUBLIC
-# $<$<BOOL:${UUID_FOUND}>:PkgConfig::UUID>) target_link_options(use_uuid_asm
-# PUBLIC -S)
+foreach(currentElem IN ITEMS a b c d e f)
+  message("current items element: ${currentElem}")
+endforeach()
+
+set(ListA 1 2 3 4)
+set(ListB 5 6 7 8)
+foreach(
+  currentElem IN
+  LISTS ListA ListB
+  ITEMS x y)
+  message("current list element: ${currentElem}")
+endforeach()
+
+add_executable(use_uuid_asm use-uuid.cpp)
+target_compile_options(use_uuid_asm PUBLIC -g -S)
+
+target_link_libraries(use_uuid_asm
+                      PUBLIC $<$<BOOL:${UUID_FOUND}>:PkgConfig::UUID>)
+target_link_options(use_uuid_asm PUBLIC -g -S)

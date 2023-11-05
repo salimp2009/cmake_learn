@@ -1,0 +1,20 @@
+
+# Any log files
+
+# Clion IDE related files
+.idea
+
+# vs & vs code files (in case opened with)
+.vs
+.vscode
+#CMake out/build folder ; check if this is need
+#Clion specific
+cmake-build-debug
+cmake-build-release
+cmake-build-*
+CMakeFiles
+#typical Cmake build
+build
+.cache
+#vs cmake builds
+out
