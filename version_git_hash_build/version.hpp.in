@@ -1,0 +1,6 @@
+#pragma once
+#include <string_view>
+
+constexpr std::string_view PROGRAM_VERSION = "@PROGRAM_VERSION@";
+constexpr std::string_view GIT_HASH = "@GIT_HASH@";
+constexpr std::string_view GIT_STATUS = "@GIT_STATUS@";
