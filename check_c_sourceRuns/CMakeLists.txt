@@ -63,8 +63,15 @@ foreach(currentElem RANGE 0 9)
   message("curren Range elem: ${currentElem}")
 endforeach()
 
+foreach(ce1 ce2 IN ZIP_LISTS ListA ListB)
+  message("curren zip_lists element: [${ce1} ${ce2}]")
+
+endforeach()
+
 add_executable(use_uuid_asm use-uuid.cpp)
-target_compile_options(use_uuid_asm PRIVATE -save-temps=obj)
+# -save-temps=obj create assembly file, object file and ii file -asm=intel
+# generates the assembly with intel instructions otherwise it is ATT
+target_compile_options(use_uuid_asm PRIVATE -save-temps=obj -masm=intel)
 
 target_link_libraries(use_uuid_asm
                       PUBLIC $<$<BOOL:${UUID_FOUND}>:PkgConfig::UUID>)

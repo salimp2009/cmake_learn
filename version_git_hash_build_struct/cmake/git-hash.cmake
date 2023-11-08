@@ -1,13 +1,13 @@
 # recording git_hash during config time
 set(GIT_HASH "unknown")
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
-  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" PROGRAM_VERSION)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/include/VERSION")
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/include/VERSION" PROGRAM_VERSION)
   # this is for trimming whitespace
   string(STRIP "${PROGRAM_VERSION}" PROGRAM_VERSION)
 else()
   message(FATAL_ERROR "File
-${CMAKE_CURRENT_SOURCE_DIR}/VERSION not found")
+${CMAKE_CURRENT_SOURCE_DIR}/include/VERSION not found")
 endif()
 
 find_package(Git QUIET)
