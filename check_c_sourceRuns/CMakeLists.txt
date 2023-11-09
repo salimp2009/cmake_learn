@@ -65,8 +65,14 @@ endforeach()
 
 foreach(ce1 ce2 IN ZIP_LISTS ListA ListB)
   message("curren zip_lists element: [${ce1} ${ce2}]")
-
 endforeach()
+
+set(USE_DEBUG_CODE ON)
+if(USE_DEBUG_CODE)
+  message("Using debug code : ${USE_DEBUG_CODE}")
+else()
+  message("Using release code : ${USE_DEBUG_CODE}")
+endif()
 
 add_executable(use_uuid_asm use-uuid.cpp)
 # -save-temps=obj create assembly file, object file and ii file -asm=intel

@@ -11,7 +11,10 @@ enable_testing()
 
 add_test(NAME catch_test COMMAND $<TARGET_FILE:cpp_test> --success)
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/)
+# set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/)
+
+# above variable is defined in top level CMakeLists
+
 include(add_catch_test)
 add_catch_test(short 1.5)
 add_catch_test(long 2.5 extra_args)
