@@ -33,9 +33,9 @@ cpmaddpackage(NAME Catch2 GITHUB_REPOSITORY catchorg/Catch2 VERSION 3.4.0)
 
 add_subdirectory(src)
 
-enable_testing()
-add_subdirectory(tests)
-
-include(./cmake/utility.cmake)
+include(utility)
 generate_dep_graph()
 add_dependencies(sum_up dep_graph)
+
+enable_testing()
+add_subdirectory(tests)
