@@ -29,7 +29,7 @@ macro(generate_dep_graph)
 
   add_custom_command(
     OUTPUT ${DOT_FILE}
-    COMMAND ${CMAKE_COMMAND} --graphviz=${DOT_FILE} "."
+    COMMAND ${CMAKE_COMMAND} --graphviz=${DOT_FILE} ".."
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     # DEPENDS sum_integers
     COMMENT "Creates a new dependency graph")
