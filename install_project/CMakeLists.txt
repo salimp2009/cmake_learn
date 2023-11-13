@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
-project(mymessage LANGUAGES CXX)
+project(
+  mymessage
+  LANGUAGES CXX
+  VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -7,7 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # just set it to test purposes. Do not set it  leave it to user default is /usr/
-set(CMAKE_INSTALL_PREFIX "/home/salim/repos/cpp_sandbox/cmake_learn")
+set(CMAKE_INSTALL_PREFIX "/home/salim/repos/cpp_sandbox/cmake_learn/temp/")
 message("CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -34,7 +37,7 @@ set(INSTALL_LIBDIR
 set(INSTALL_BINDIR
     ${CMAKE_INSTALL_BINDIR}
     CACHE PATH "Install directory for binaries")
-set(INSTALL_INCLUDE_DIR
+set(INSTALL_INCLUDEDIR
     ${CMAKE_INSTALL_INCLUDEDIR}
     CACHE PATH "Install directory for header files")
 

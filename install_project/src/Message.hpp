@@ -5,7 +5,7 @@
 
 class Message {
 public:
-  Message(const std::string &m) : message_(m) {}
+  explicit Message(const std::string &m) : message_(m) {}
 
   friend std::ostream &operator<<(std::ostream &os, Message &obj) {
     return obj.printObject(os);
