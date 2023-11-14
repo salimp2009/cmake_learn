@@ -40,6 +40,7 @@ endif()
 file(TO_NATIVE_PATH "${_rpath}/${INSTALL_LIBDIR}" message_RPATH)
 
 message("INSTALL_INCLUDEDIR=${INSTALL_INCLUDEDIR}")
+message("message_RPATH=${message_RPATH}")
 
 set_target_properties(
   hello-world_wDSO
