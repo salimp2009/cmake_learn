@@ -9,25 +9,21 @@ if(PKG_CONFIG_FOUND)
   endif()
 endif()
 
-add_library(message_shared SHARED "")
+add_subdirectory(message)
 
-target_sources(message_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
+# add_library(message_shared SHARED "")
 
-target_compile_definitions(message_shared
-                           PUBLIC $<$<BOOL:${UUID_FOUND}>:HAVE_UUID>)
+# target_sources(message_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
 
-target_link_libraries(message_shared
-                      PUBLIC $<$<BOOL:${UUID_FOUND}>:PkgConfig::UUID>)
+# target_compile_definitions(message_shared PUBLIC
+# $<$<BOOL:${UUID_FOUND}>:HAVE_UUID>)
 
-set_target_properties(
-  message_shared
-  PROPERTIES POSITION_INDEPENDENT_CODE 1
-             SOVERSION ${PROJECT_VERSION_MAJOR}
-             OUTPUT_NAME "message"
-             DEBUG_POSTFIX "_d"
-             PUBLIC_HEADER "Message.hpp"
-             MACOSX_RPATH ON
-             WINDOWS_EXPORT_ALL_SYMBOLS ON)
+# target_link_libraries(message_shared PUBLIC
+# $<$<BOOL:${UUID_FOUND}>:PkgConfig::UUID>)
+
+# set_target_properties( message_shared PROPERTIES POSITION_INDEPENDENT_CODE 1
+# SOVERSION ${PROJECT_VERSION_MAJOR} OUTPUT_NAME "message" DEBUG_POSTFIX "_d"
+# PUBLIC_HEADER "Message.hpp" MACOSX_RPATH ON WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_executable(hello-world_wDSO hello-world.cpp)
 target_link_libraries(hello-world_wDSO PUBLIC message_shared)
@@ -54,8 +50,10 @@ set_target_properties(
              INSTALL_RPATH_USE_LINK_PATH ON)
 
 install(
-  TARGETS message_shared hello-world_wDSO
+  TARGETS hello-world_wDSO
   ARCHIVE DESTINATION ${INSTALL_LIBDIR} COMPONENT lib
   RUNTIME DESTINATION ${INSTALL_BINDIR} COMPONENT bin
-  LIBRARY DESTINATION ${INSTALL_LIBDIR} COMPONENT lib
-  PUBLIC_HEADER DESTINATION ${INSTALL_INCLUDEDIR}/message COMPONENT dev)
+  LIBRARY
+    DESTINATION ${INSTALL_LIBDIR} COMPONENT lib
+    #[[ PUBLIC_HEADER DESTINATION ${INSTALL_INCLUDEDIR}/message COMPONENT dev ]]
+)
