@@ -15,7 +15,7 @@ cmake-build-*
 CMakeFiles
 #typical Cmake build
 build
-include
+# include
 lib
 temp
 .cache

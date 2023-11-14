@@ -1,9 +1,9 @@
 add_library(message_shared SHARED "")
 
 target_sources(
-  message_shared
-  PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp
-  PUBLIC ${PROJECT_SOURCE_DIR}/include/message/Message.hpp)
+  message_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp
+  #[[ PUBLIC ${PROJECT_SOURCE_DIR}/include/message/Message.hpp ]]
+)
 
 target_include_directories(
   message_shared
