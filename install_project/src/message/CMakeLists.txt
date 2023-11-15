@@ -28,6 +28,7 @@ set_target_properties(
              DEBUG_POSTFIX "_d"
              # PUBLIC_HEADER "${PROJECT_SOURCE_DIR}/include/message/Message.hpp"
              MACOSX_RPATH ON
+             # not a good practice; will change when Generating export headers
              WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 install(
