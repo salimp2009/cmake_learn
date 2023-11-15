@@ -1,17 +1,17 @@
 #include "Message.hpp"
 
 #include <iostream>
+#include <ostream>
 #include <string>
 
 #ifdef HAVE_UUID
 #include <uuid/uuid.h>
 #endif
 
-std::ostream &Message::printObject(std::ostream &os) {
-  os << "This is my very nice message: " << '\n';
-  os << message_ << std::endl;
-  os << "...and here is its UUID: " << getUUID();
-
+std::ostream &operator<<(std::ostream &os, const Message &obj) {
+  os << "This is my very nice message: " << '\n'
+     << obj.print() << '\n'
+     << "...and here is its UUID: " << getUUID() << '\n';
   return os;
 }
 
