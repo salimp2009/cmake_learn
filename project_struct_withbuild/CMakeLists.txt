@@ -7,7 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # just set it to test purposes. Do not set it  leave it to user default is /usr/
-set(CMAKE_INSTALL_PREFIX "/home/salim/repos/cpp_sandbox/cmake_learn")
+set(CMAKE_INSTALL_PREFIX "/home/salim/repos/cpp_sandbox/cmake_learn/temp")
 message("CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
 
 option(ENABLE_WARNINGS "Enable to add warnings to a target." ON)
