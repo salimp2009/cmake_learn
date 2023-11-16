@@ -1,15 +1,12 @@
 add_library(message_shared SHARED "")
 
-target_sources(
-  message_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp
-
+target_sources(message_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
 
 target_include_directories(
   message_shared
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/message>
          $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
-         $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>
-)
+         $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
 
 target_compile_definitions(message_shared
                            PUBLIC $<$<BOOL:${UUID_FOUND}>:HAVE_UUID>)
@@ -27,9 +24,7 @@ set_target_properties(
              DEBUG_POSTFIX "_d"
              # PUBLIC_HEADER
              # "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h"
-             MACOSX_RPATH ON
-             # not a good practice; will change when Generating export headers
-)
+             MACOSX_RPATH ON)
 
 include(GenerateExportHeader)
 generate_export_header(
