@@ -3,7 +3,10 @@
 #include <iosfwd>
 #include <iostream>
 #include <string>
-class Message {
+
+#include <messageExport.h>
+
+class message_EXPORT Message {
 public:
   explicit Message(std::string m) : message_(std::move(m)) {}
 
@@ -16,4 +19,4 @@ private:
 
 std::string getUUID();
 
-std::ostream &operator<<(std::ostream &os, const Message &obj);
+std::ostream message_EXPORT &operator<<(std::ostream &os, const Message &obj);

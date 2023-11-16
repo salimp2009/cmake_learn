@@ -2,15 +2,14 @@ add_library(message_shared SHARED "")
 
 target_sources(
   message_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp
-  #[[ PUBLIC ${PROJECT_SOURCE_DIR}/include/message/Message.hpp ]]
-)
+
 
 target_include_directories(
   message_shared
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/message>
-         # $<INSTALL_INTERFACE:include/${CMAKE_PROJECT_NAME}/sort>)
-         $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}/message>)
-# $<INSTALL_INTERFACE:${sorted_INCLUDE_DIR}/include/sort>)
+         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
+         $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>
+)
 
 target_compile_definitions(message_shared
                            PUBLIC $<$<BOOL:${UUID_FOUND}>:HAVE_UUID>)
@@ -20,27 +19,81 @@ target_link_libraries(message_shared
 
 set_target_properties(
   message_shared
-  PROPERTIES #[[ CXX_VISIBILITY_PRESET hidden ]]
-             # VISIBILITY_INLINES_HIDDEN YES
-             POSITION_INDEPENDENT_CODE 1
+  PROPERTIES POSITION_INDEPENDENT_CODE 1
+             CXX_VISIBILITY_PRESET hidden
+             VISIBILITY_INLINES_HIDDEN YES
              SOVERSION ${PROJECT_VERSION_MAJOR}
              OUTPUT_NAME "message"
              DEBUG_POSTFIX "_d"
-             # PUBLIC_HEADER "${PROJECT_SOURCE_DIR}/include/message/Message.hpp"
+             # PUBLIC_HEADER
+             # "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h"
              MACOSX_RPATH ON
              # not a good practice; will change when Generating export headers
-             WINDOWS_EXPORT_ALL_SYMBOLS ON)
+)
+
+include(GenerateExportHeader)
+generate_export_header(
+  message_shared
+  BASE_NAME
+  "message"
+  EXPORT_MACRO_NAME
+  "message_EXPORT"
+  EXPORT_FILE_NAME
+  "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h"
+  DEPRECATED_MACRO_NAME
+  "message_DEPRECATED"
+  NO_EXPORT_MACRO_NAME
+  "message_NO_DEPRECATED"
+  STATIC_DEFINE
+  "message_STATIC_DEFINE"
+  NO_DEPRECATED_MACRO_NAME
+  "message_NO_DEPRECATED"
+  DEFINE_NO_DEPRECATED)
+
+add_library(message_static STATIC "")
+
+target_sources(
+  message_static PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp
+  #[[ PUBLIC ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h ]]
+)
+
+target_compile_definitions(
+  message_static PUBLIC message_STATIC_DEFINE
+                        $<$<BOOL:${UUID_FOUND}>:HAVE_UUID>)
+
+target_include_directories(
+  message_static
+  PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/message>
+         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
+         # $<INSTALL_INTERFACE:include/${CMAKE_PROJECT_NAME}/sort>)
+         $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}/message>
+         #[[ $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME} ]]
+)
+
+target_link_libraries(message_static
+                      PUBLIC $<$<BOOL:${UUID_FOUND}>:PkgConfig::UUID>)
+
+set_target_properties(
+  message_static
+  PROPERTIES POSITION_INDEPENDENT_CODE 1
+             ARCHIVE_OUTPUT_NAME "message"
+             DEBUG_POSTFIX "_sd"
+             RELEASE_POSTFIX "_s"
+             # PUBLIC_HEADER
+             # "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h"
+)
 
 install(
-  TARGETS message_shared
-  ARCHIVE DESTINATION ${INSTALL_LIBDIR} COMPONENT lib
+  TARGETS message_shared message_static
+  ARCHIVE DESTINATION ${INSTALL_LIBDIR}/${PROJECT_NAME} COMPONENT lib
   RUNTIME DESTINATION ${INSTALL_BINDIR} COMPONENT bin
-  LIBRARY DESTINATION ${INSTALL_LIBDIR} COMPONENT lib
+  LIBRARY DESTINATION ${INSTALL_LIBDIR}/${PROJECT_NAME} COMPONENT lib
   PUBLIC_HEADER DESTINATION ${INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
                 COMPONENT dev)
 
 install(
   DIRECTORY ${PROJECT_SOURCE_DIR}/include/
+            ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/
             # TYPE INCLUDE
   DESTINATION ${INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
   COMPONENT dev

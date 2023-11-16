@@ -36,8 +36,11 @@ set_target_properties(
              INSTALL_RPATH "${message_RPATH}"
              INSTALL_RPATH_USE_LINK_PATH ON)
 
+add_executable(hello-world_wAR hello-world.cpp)
+target_link_libraries(hello-world_wAR PUBLIC message_static)
+
 install(
-  TARGETS hello-world_wDSO
+  TARGETS hello-world_wDSO hello-world_wAR
   ARCHIVE DESTINATION ${INSTALL_LIBDIR} COMPONENT lib
   RUNTIME DESTINATION ${INSTALL_BINDIR} COMPONENT bin
   LIBRARY
