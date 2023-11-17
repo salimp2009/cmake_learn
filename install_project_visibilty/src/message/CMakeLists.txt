@@ -1,6 +1,18 @@
-add_library(message_shared SHARED "")
+add_library(message_objs OBJECT "")
 
-target_sources(message_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
+target_sources(message_objs PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
+
+target_include_directories(
+  message_objs
+  PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/message>
+         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
+         $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
+
+# add_library(message_shared SHARED "")
+
+add_library(message_shared SHARED $<TARGET_OBJECTS:message_objs>)
+
+# target_sources(message_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
 
 target_include_directories(
   message_shared
@@ -45,12 +57,11 @@ generate_export_header(
   "message_NO_DEPRECATED"
   DEFINE_NO_DEPRECATED)
 
-add_library(message_static STATIC "")
+add_library(message_static STATIC $<TARGET_OBJECTS:message_objs>)
 
-target_sources(
-  message_static PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp
-  #[[ PUBLIC ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h ]]
-)
+# add_library(message_static STATIC "")
+
+# target_sources(message_static PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
 
 target_compile_definitions(
   message_static PUBLIC message_STATIC_DEFINE
@@ -60,10 +71,7 @@ target_include_directories(
   message_static
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/message>
          $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
-         # $<INSTALL_INTERFACE:include/${CMAKE_PROJECT_NAME}/sort>)
-         $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}/message>
-         #[[ $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME} ]]
-)
+         $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME})
 
 target_link_libraries(message_static
                       PUBLIC $<$<BOOL:${UUID_FOUND}>:PkgConfig::UUID>)
