@@ -5,7 +5,7 @@ target_include_directories(
   print
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/print>
          # $<INSTALL_INTERFACE:include/${CMAKE_PROJECT_NAME}/print>)
-         $<INSTALL_INTERFACE:include/${CMAKE_PROJECT_NAME}/include/print>)
+         $<INSTALL_INTERFACE:include/${CMAKE_PROJECT_NAME}/print>)
 # $<INSTALL_INTERFACE:include/${CMAKE_INSTALL_INCLUDEDIR}/print>)
 # $<INSTALL_INTERFACE:${sorted_INCLUDE_DIR}/include/print>)
 
