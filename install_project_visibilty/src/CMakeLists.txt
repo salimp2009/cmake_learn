@@ -40,7 +40,14 @@ add_executable(hello-world_wAR hello-world.cpp)
 target_link_libraries(hello-world_wAR PUBLIC message_static)
 
 install(
-  TARGETS hello-world_wDSO hello-world_wAR
+  DIRECTORY ${PROJECT_SOURCE_DIR}/include/
+            ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/
+  DESTINATION ${INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+  COMPONENT dev
+  PATTERN "*.in" EXCLUDE)
+
+install(
+  TARGETS hello-world_wDSO hello-world_wAR message_shared message_static
   ARCHIVE DESTINATION ${INSTALL_LIBDIR} COMPONENT lib
   RUNTIME DESTINATION ${INSTALL_BINDIR} COMPONENT bin
   LIBRARY

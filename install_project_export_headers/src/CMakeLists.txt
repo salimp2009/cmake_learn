@@ -12,7 +12,7 @@ endif()
 add_subdirectory(message)
 
 add_executable(hello_world_wDSO2 hello-world.cpp)
-target_link_libraries(hello_world_wDSO2 PUBLIC message_shared)
+target_link_libraries(hello_world_wDSO2 PUBLIC message::message_shared)
 
 # prepare RPATH
 
@@ -37,7 +37,14 @@ set_target_properties(
              INSTALL_RPATH_USE_LINK_PATH ON)
 
 add_executable(hello_world_wAR2 hello-world.cpp)
-target_link_libraries(hello_world_wAR2 PUBLIC message_static)
+target_link_libraries(hello_world_wAR2 PUBLIC message::message_static)
+
+install(
+  DIRECTORY ${PROJECT_SOURCE_DIR}/include/
+            ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/
+  DESTINATION ${INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+  COMPONENT dev
+  PATTERN "*.in" EXCLUDE)
 
 install(
   TARGETS hello_world_wDSO2 hello_world_wAR2 message_shared message_static
@@ -47,13 +54,6 @@ install(
   LIBRARY DESTINATION ${INSTALL_LIBDIR}/${PROJECT_NAME} COMPONENT lib
   PUBLIC_HEADER DESTINATION ${INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
                 COMPONENT dev)
-
-install(
-  DIRECTORY ${PROJECT_SOURCE_DIR}/include/
-            ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/
-  DESTINATION ${INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
-  COMPONENT dev
-  PATTERN "*.in" EXCLUDE)
 
 install(
   EXPORT messageTargets
@@ -66,3 +66,12 @@ write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/messageConfigVersion.cmake
   VERSION ${PROJECT_VERSION}
   COMPATIBILITY SameMajorVersion)
+
+configure_package_config_file(
+  ${PROJECT_SOURCE_DIR}/cmake/messageConfig.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/messageConfig.cmake
+  INSTALL_DESTINATION ${INSTALL_CMAKEDIR})
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/messageConfig.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/messageConfigVersion.cmake
+        DESTINATION ${INSTALL_CMAKEDIR})
