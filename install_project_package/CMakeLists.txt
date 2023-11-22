@@ -59,6 +59,9 @@ foreach(p LIB BIN INCLUDE CMAKE)
   unset(_path)
 endforeach()
 
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+include(UseDoxygenDoc)
+
 # defines targets and sources
 add_subdirectory(src)
 
@@ -67,3 +70,13 @@ enable_testing()
 add_subdirectory(tests)
 
 include(CMakeCPack.cmake)
+
+add_doxygen_doc(
+  BUILD_DIR
+  ${CMAKE_CURRENT_BINARY_DIR}/_build
+  DOXY_FILE
+  ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in
+  TARGET_NAME
+  docs
+  COMMENT
+  "HTML Documentation")

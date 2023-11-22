@@ -19,12 +19,13 @@ public:
    */
   explicit Message(std::string m) : message_(std::move(m)) {}
 
+  explicit Message(const char *m) : message_(m) {}
+
   const std::string &print() const & { return this->message_; }
 
 private:
   /*! The message to be forwarded to screen */
   std::string message_;
-  // std::ostream &printObject(std::ostream &os);
 };
 
 /*! UUID created for each user */
