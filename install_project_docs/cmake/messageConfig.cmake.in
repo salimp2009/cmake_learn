@@ -1,0 +1,14 @@
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/messageTargets.cmake")
+
+check_required_components("message_shared" "message_static"
+                          "message-hello_world_wDSO2" "hello_world_wAR2")
+
+# remove UUID requirement on Windows
+if(NOT WIN32)
+  if(NOT TARGET PkgConfig::UUID)
+    find_package(PkgConfig REQUIRED QUIET)
+    pkg_search_module(UUID REQUIED uuid IMPORTED_TARGET)
+  endif()
+endif()

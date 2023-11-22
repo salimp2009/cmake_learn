@@ -59,6 +59,10 @@ foreach(p LIB BIN INCLUDE CMAKE)
   unset(_path)
 endforeach()
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
+include(UseDoxygenDoc)
+
 # defines targets and sources
 add_subdirectory(src)
 
