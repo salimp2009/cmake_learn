@@ -52,6 +52,8 @@ set(INSTALL_CMAKEDIR
     ${DEF_INSTALL_CMAKEDIR}
     CACHE PATH "Installation directory for CMake files")
 
+set(ENABLE_DOXYGEN CACHE STRING "Generate Doxygen Docs for project" ON)
+
 # Report to user install directories
 foreach(p LIB BIN INCLUDE CMAKE)
   file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${INSTALL_${p}DIR} _path)
@@ -71,12 +73,16 @@ add_subdirectory(tests)
 
 include(CMakeCPack.cmake)
 
-add_doxygen_doc(
-  BUILD_DIR
-  ${CMAKE_CURRENT_BINARY_DIR}/_build
-  DOXY_FILE
-  ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in
-  TARGET_NAME
-  docs
-  COMMENT
-  "HTML Documentation")
+# add_doxygen_doc( BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/_build DOXY_FILE
+# ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in TARGET_NAME docs COMMENT "HTML
+# Documentation")
+
+if(ENABLE_DOXYGEN)
+  include(doxygenSetup)
+  # input directory and output directory for doxygen
+
+  generate_doxygen("${CMAKE_CURRENT_LIST_DIR}/include;
+${CMAKE_CURRENT_LIST_DIR}/src" "${CMAKE_CURRENT_LIST_DIR}/docs/doxygen")
+
+endif()
+# add_dependencies(hello_world_wAR2 doxygen)

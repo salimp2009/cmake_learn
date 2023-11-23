@@ -3,6 +3,8 @@ add_library(message::message_shared ALIAS message_shared)
 
 target_sources(message_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
 
+target_link_libraries(message_shared PRIVATE commonPCH)
+
 target_compile_definitions(
   message_shared
   PUBLIC $<$<BOOL:${UUID_FOUND}>:HAVE_UUID>
@@ -11,6 +13,7 @@ target_compile_definitions(
 target_include_directories(
   message_shared
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/message>
+         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
          $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
          $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
 
@@ -54,6 +57,8 @@ add_library(message::message_static ALIAS message_static)
 
 target_sources(message_static PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
 
+target_link_libraries(message_static PRIVATE commonPCH)
+
 target_compile_definitions(
   message_static
   PUBLIC message_STATIC_DEFINE $<$<BOOL:${UUID_FOUND}>:HAVE_UUID>
@@ -62,6 +67,7 @@ target_compile_definitions(
 target_include_directories(
   message_static
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/message>
+         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
          $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
          $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
 
