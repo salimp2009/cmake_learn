@@ -1,10 +1,9 @@
 #pragma once
 
-#include "commonPCH.hpp"
-// #include <iosfwd>
-// #include <iostream>
+#include <iosfwd>
+#include <iostream>
 #include <messageExport.h>
-// #include <string>
+#include <string>
 
 /*! \file Message.hpp */
 /*! \class Message

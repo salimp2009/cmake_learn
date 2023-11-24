@@ -3,7 +3,10 @@ add_library(message::message_shared ALIAS message_shared)
 
 target_sources(message_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
 
-target_link_libraries(message_shared PRIVATE commonPCH)
+# target_link_libraries(message_shared PRIVATE commonPCH)
+
+target_precompile_headers(message_shared PRIVATE
+                          ${PROJECT_SOURCE_DIR}/include/commonPCH.hpp)
 
 target_compile_definitions(
   message_shared
@@ -57,7 +60,9 @@ add_library(message::message_static ALIAS message_static)
 
 target_sources(message_static PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
 
-target_link_libraries(message_static PRIVATE commonPCH)
+target_precompile_headers(message_static REUSE_FROM message_shared)
+
+# target_link_libraries(message_static PRIVATE commonPCH)
 
 target_compile_definitions(
   message_static
