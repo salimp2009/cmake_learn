@@ -9,12 +9,13 @@ if(PKG_CONFIG_FOUND)
   endif()
 endif()
 
-# add_library(commonPCH INTERFACE) target_precompile_headers(commonPCH INTERFACE
-# [["commonPCH.hpp"]])
+add_library(commonPCH INTERFACE)
+target_precompile_headers(commonPCH INTERFACE [["commonPCH.hpp"]])
 
-# target_include_directories( commonPCH INTERFACE
-# $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-# $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
+target_include_directories(
+  commonPCH
+  INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
 
 add_subdirectory(message)
 
@@ -55,6 +56,7 @@ install(
 
 install(
   TARGETS hello_world_wDSO2 hello_world_wAR2 message_shared message_static
+          commonPCH
   EXPORT messageTargets
   ARCHIVE DESTINATION ${INSTALL_LIBDIR}/${PROJECT_NAME} COMPONENT lib
   RUNTIME DESTINATION ${INSTALL_BINDIR} COMPONENT bin

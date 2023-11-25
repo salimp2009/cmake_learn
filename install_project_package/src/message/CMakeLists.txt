@@ -3,10 +3,10 @@ add_library(message::message_shared ALIAS message_shared)
 
 target_sources(message_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
 
-# target_link_libraries(message_shared PRIVATE commonPCH)
+target_link_libraries(message_shared PRIVATE commonPCH)
 
-target_precompile_headers(message_shared PRIVATE
-                          ${PROJECT_SOURCE_DIR}/include/commonPCH.hpp)
+# target_precompile_headers(message_shared PRIVATE
+# ${PROJECT_SOURCE_DIR}/include/commonPCH.hpp)
 
 target_compile_definitions(
   message_shared
@@ -48,7 +48,7 @@ generate_export_header(
   DEPRECATED_MACRO_NAME
   "message_DEPRECATED"
   NO_EXPORT_MACRO_NAME
-  "message_NO_DEPRECATED"
+  "message_NO_EXPORT"
   STATIC_DEFINE
   "message_STATIC_DEFINE"
   NO_DEPRECATED_MACRO_NAME
@@ -60,9 +60,9 @@ add_library(message::message_static ALIAS message_static)
 
 target_sources(message_static PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Message.cpp)
 
-target_precompile_headers(message_static REUSE_FROM message_shared)
+# target_precompile_headers(message_static REUSE_FROM message_shared)
 
-# target_link_libraries(message_static PRIVATE commonPCH)
+target_link_libraries(message_static PRIVATE commonPCH)
 
 target_compile_definitions(
   message_static
@@ -82,6 +82,8 @@ target_link_libraries(message_static
 set_target_properties(
   message_static
   PROPERTIES POSITION_INDEPENDENT_CODE 1
+             CXX_VISIBILITY_PRESET hidden
+             VISIBILITY_INLINES_HIDDEN YES
              ARCHIVE_OUTPUT_NAME "message"
              DEBUG_POSTFIX "_sd"
              RELEASE_POSTFIX "_s"
