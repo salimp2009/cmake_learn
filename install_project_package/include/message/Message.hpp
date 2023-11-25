@@ -33,4 +33,4 @@ private:
 /*! UUID created for each user */
 std::string getUUID();
 
-std::ostream message_EXPORT &operator<<(std::ostream &os, const Message &obj);
+message_EXPORT std::ostream &operator<<(std::ostream &os, const Message &obj);
