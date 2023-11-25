@@ -82,8 +82,8 @@ target_link_libraries(message_static
 set_target_properties(
   message_static
   PROPERTIES POSITION_INDEPENDENT_CODE 1
-             CXX_VISIBILITY_PRESET hidden
-             VISIBILITY_INLINES_HIDDEN YES
+             # CXX_VISIBILITY_PRESET hidden
+             # VISIBILITY_INLINES_HIDDEN YES
              ARCHIVE_OUTPUT_NAME "message"
              DEBUG_POSTFIX "_sd"
              RELEASE_POSTFIX "_s"
