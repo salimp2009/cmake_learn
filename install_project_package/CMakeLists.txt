@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 project(
   message-package_project
-  LANGUAGES CXX
-  VERSION 1.0.0)
+  VERSION 1.2.0
+  LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -64,6 +64,28 @@ endforeach()
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include(UseDoxygenDoc)
 
+# generating git_hash and status & will be updated every build
+add_custom_command(
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${INSTALL_INCLUDEDIR}/version.hpp ALL
+  COMMAND
+    ${CMAKE_COMMAND} -D
+    TARGET_DIR=${CMAKE_CURRENT_BINARY_DIR}/${INSTALL_INCLUDEDIR} -P
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/git-hash.cmake
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_custom_target(
+  get_git_hash ALL
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${INSTALL_INCLUDEDIR}/version.hpp)
+message("project version= ${PROJECT_VERSION},major=${PROJECT_VERSION_MAJOR}")
+
+set(GIT_SHA
+    "Unknown"
+    CACHE STRING "SHA this build was generated from")
+string(SUBSTRING "${GIT_SHA}" 0 8 GIT_SHORT_SHA)
+
+# project version generated in config.hpp
+add_subdirectory(configured)
+
 # defines targets and sources
 add_subdirectory(src)
 
@@ -72,6 +94,9 @@ enable_testing()
 add_subdirectory(tests)
 
 include(CMakeCPack.cmake)
+
+# this is the older way of generating doxygen Doxyfile.in prefer the
+# doxygenSetup
 
 # add_doxygen_doc( BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/_build DOXY_FILE
 # ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in TARGET_NAME docs COMMENT "HTML

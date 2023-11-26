@@ -16,7 +16,6 @@ target_compile_definitions(
 target_include_directories(
   message_shared
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/message>
-         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
          $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
          $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
 
@@ -72,7 +71,6 @@ target_compile_definitions(
 target_include_directories(
   message_static
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/message>
-         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
          $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
          $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
 
