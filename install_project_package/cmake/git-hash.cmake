@@ -6,7 +6,6 @@ set(GIT_HASH "unknown")
 # trimming whitespace string(STRIP "${PROGRAM_VERSION}" PROGRAM_VERSION) else()
 # message(FATAL_ERROR "File ${CMAKE_CURRENT_SOURCE_DIR}/include/VERSION not
 # found") endif()
-
 find_package(Git QUIET)
 if(GIT_FOUND)
   execute_process(

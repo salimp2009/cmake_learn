@@ -25,7 +25,7 @@ macro(generate_dep_graph)
     COMMAND ${DOT_EXECUTABLE} -T png ${DOT_FILE} -o ${SVG_FILE}
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     DEPENDS ${DOT_FILE}
-    COMMENT "Creates a new dependency graph as png")
+    COMMENT "Creates a new dependency graph as svg")
 
   add_custom_command(
     OUTPUT ${DOT_FILE}

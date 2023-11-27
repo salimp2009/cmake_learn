@@ -3,11 +3,12 @@
 #include <string_view>
 // clang-format off
 
-// inline constexpr std::string_view project_name = "@PROJECT_NAME@";
-// inline constexpr std::string_view PROJECT_VERSION = "@PROJECT_VERSION@";
+inline constexpr std::string_view PROJECT_NAME = "@PROGRAM_NAME@";
+inline constexpr std::string_view PROJECT_VERSION = "@PROGRAM_VERSION@";
 inline constexpr std::string_view GIT_HASH = "@GIT_HASH@";
 inline constexpr std::string_view GIT_STATUS = "@GIT_STATUS@";
 
+// inline constexpr int PROJECT_VERSION_MAJOR { @PROJECT_VERSION_MAJOR@ };
 // inline constexpr int PROJECT_VERSION_MAJOR { @PROJECT_VERSION_MAJOR@ };
 // inline constexpr int project_version_minor { @PROJECT_VERSION_MINOR@ };
 
