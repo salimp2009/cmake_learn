@@ -1,10 +1,13 @@
-# set(GIT_HASH2 "unknown")
+set(GIT_HASH2 "unknown")
 
 # if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/include/VERSION") file(READ
 # "${CMAKE_CURRENT_SOURCE_DIR}/include/VERSION" PROGRAM_VERSION) # this is for
 # trimming whitespace string(STRIP "${PROGRAM_VERSION}" PROGRAM_VERSION) else()
 # message(FATAL_ERROR "File ${CMAKE_CURRENT_SOURCE_DIR}/include/VERSION not
 # found") endif()
+
+# this only work at config time or if any change to cmake is done if only source
+# code changes the git status is not refreshed
 find_package(Git QUIET)
 if(GIT_FOUND)
   execute_process(

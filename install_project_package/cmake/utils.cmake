@@ -17,7 +17,6 @@ macro(generate_git_hash)
     OUTPUT GIT_STATUS2
     COMMAND ${GIT_EXECUTABLE} describe --abbrev=7 --long --always --dirty --tags
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    DEPENDS ${GIT_EXECUTABLE}
     COMMENT "Creating GIT_STATUS2")
 
 endmacro()
