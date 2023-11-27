@@ -86,8 +86,9 @@ string(SUBSTRING "${GIT_SHA}" 0 8 GIT_SHORT_SHA)
 # project version generated in config.hpp
 add_subdirectory(configured)
 
-# defines targets and sources
 add_subdirectory(src)
+
+# add_dependencies(hello_world_wDSO2 git_status)
 
 enable_testing()
 

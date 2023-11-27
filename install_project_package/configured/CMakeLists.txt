@@ -20,15 +20,9 @@ endif()
 
 message(STATUS "Git hash2 is ${GIT_HASH2}")
 
-add_custom_target(
-  git_status
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  DEPENDS ${GIT_STATUS2}
-  COMMENT "git status check"
-  VERBATIM)
+# include(../cmake/utils.cmake) generate_git_hash() message("generated
+# GIT_HASH2=${GIT_HASH2}")
 
 configure_file(
   "config.hpp.in" "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/config.hpp"
   ESCAPE_QUOTES)
-
-# add_dependencies(git_status hello_world_wDSO2)
