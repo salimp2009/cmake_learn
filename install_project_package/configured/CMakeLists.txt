@@ -25,7 +25,7 @@
 # generating git_hash and status & will be updated every build
 
 add_custom_command(
-  OUTPUT ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/version.hpp ALL
+  OUTPUT ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/version.hpp
   COMMAND
     ${CMAKE_COMMAND} -D TARGET_DIR=${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR} -D
     PROGRAM_VERSION=${PROJECT_VERSION} -D
