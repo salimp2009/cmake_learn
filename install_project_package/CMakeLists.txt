@@ -74,7 +74,7 @@ add_subdirectory(configured)
 
 add_subdirectory(src)
 
-# add_dependencies(hello_world_wDSO2 git_status)
+add_dependencies(hello_world_wDSO2 get_git_hash)
 
 enable_testing()
 
