@@ -14,9 +14,8 @@ std::ostream &operator<<(std::ostream &os, const Message &obj) {
      << "git_hash: " << GIT_HASH << " version: " << PROJECT_VERSION << '\n'
      << "git status " << GIT_STATUS << '\n'
      << "version major: " << PROJECT_VERSION_MAJOR
-     << " minor: " << PROJECT_VERSION_MINOR
-     << '\n'
-     // << " patch: " << PROJECT_VERSION_PATCH << '\n'
+     << " minor: " << PROJECT_VERSION_MINOR << '\n'
+     << " patch: " << PROJECT_VERSION_PATCH << '\n'
      << "...and here is its UUID: " << getUUID() << '\n';
   return os;
 }
