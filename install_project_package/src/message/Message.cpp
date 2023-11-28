@@ -1,5 +1,4 @@
 #include "Message.hpp"
-#include "config.hpp"
 #include "version.hpp"
 // #include <iostream>
 // #include <ostream>
@@ -12,7 +11,7 @@
 std::ostream &operator<<(std::ostream &os, const Message &obj) {
   os << "This is my very nice message: " << '\n'
      << obj.print() << '\n'
-     << "git_hash: " << GIT_HASH << " version: " << project_version << '\n'
+     << "git_hash: " << GIT_HASH << " version: " << PROJECT_VERSION << '\n'
      << "git status " << GIT_STATUS << '\n'
      << "...and here is its UUID: " << getUUID() << '\n';
   return os;
