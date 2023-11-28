@@ -22,4 +22,5 @@ endif()
 message(STATUS "Git hash is ${GIT_HASH}")
 
 # generate version.hpp based on version.hpp.in
-configure_file(version.hpp.in ${TARGET_DIR}/version.hpp @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/configured/version.hpp.in
+               ${TARGET_DIR}/version.hpp @ONLY)
