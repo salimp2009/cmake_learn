@@ -24,9 +24,9 @@ message(STATUS "Git hash is ${GIT_HASH}")
 # generate version.hpp based on version.hpp.in use this when it is called from
 # top level CMakeLists.txt
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/configured/version.hpp.in
-               ${TARGET_DIR}/version.hpp @ONLY)
+# configure_file(${CMAKE_CURRENT_SOURCE_DIR}/configured/version.hpp.in
+# ${TARGET_DIR}/version.hpp @ONLY)
 
 # use  this when it is called from configured/CMakeLists.txt
 
-# configure_file(version.hpp.in ${TARGET_DIR}/version.hpp @ONLY)
+configure_file(version.hpp.in ${TARGET_DIR}/version.hpp @ONLY)
