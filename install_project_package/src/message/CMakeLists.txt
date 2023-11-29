@@ -54,6 +54,15 @@ generate_export_header(
   "message_NO_DEPRECATED"
   DEFINE_NO_DEPRECATED)
 
+if(${ENABLE_WARNINGS})
+  target_set_warnings(TARGET message_shared ENABLE ${ENABLE_WARNINGS} AS_ERRORS
+                      ${ENABLE_WARNINGS_AS_ERRORS})
+endif()
+
+if(${ENABLE_LTO})
+  target_enable_lto(TARGET message_shared ENABLE ${ENABLE_LTO})
+endif()
+
 add_library(message_static STATIC "")
 add_library(message::message_static ALIAS message_static)
 
@@ -88,3 +97,12 @@ set_target_properties(
              # PUBLIC_HEADER
              # "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h"
 )
+
+if(${ENABLE_WARNINGS})
+  target_set_warnings(TARGET message_static ENABLE ${ENABLE_WARNINGS} AS_ERRORS
+                      ${ENABLE_WARNINGS_AS_ERRORS})
+endif()
+
+if(${ENABLE_LTO})
+  target_enable_lto(TARGET message_static ENABLE ${ENABLE_LTO})
+endif()

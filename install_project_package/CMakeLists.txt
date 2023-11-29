@@ -59,31 +59,45 @@ foreach(p LIB BIN INCLUDE CMAKE)
   unset(_path)
 endforeach()
 
-option(ENABLE_DOXYGEN "Generate Doxygen Docs for project" OFF)
-
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
-
-# if(ENABLE_DOXYGEN) include(UseDoxygenDoc) endif()
 
 set(GIT_SHA
     "Unknown"
     CACHE STRING "SHA this build was generated from")
 string(SUBSTRING "${GIT_SHA}" 0 8 GIT_SHORT_SHA)
 
-# add_custom_command( OUTPUT
-# ${CMAKE_CURRENT_BINARY_DIR}/${INSTALL_INCLUDEDIR}/version.hpp COMMAND
-# ${CMAKE_COMMAND} -D
-# TARGET_DIR=${CMAKE_CURRENT_BINARY_DIR}/${INSTALL_INCLUDEDIR} -D
-# PROGRAM_VERSION=${PROJECT_VERSION} -D
-# PROGRAM_VERSION_MAJOR=${PROJECT_VERSION_MAJOR} -D
-# PROGRAM_VERSION_MINOR=${PROJECT_VERSION_MINOR} -D
-# PROGRAM_VERSION_PATCH=${PROJECT_VERSION_PATCH} -D
-# PROGRAM_VERSION_TWEAK=${PROJECT_VERSION_TWEAK} -D PROGRAM_NAME=${PROJECT_NAME}
-# -P ${PROJECT_SOURCE_DIR}/cmake/git-hash.cmake WORKING_DIRECTORY
-# ${CMAKE_CURRENT_SOURCE_DIR})
+option(ENABLE_DOXYGEN "Generate Doxygen Docs for project" OFF)
 
-# add_custom_target(get_git_hash ALL DEPENDS
-# ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/version.hpp)
+option(ENABLE_WARNINGS "Enable to add warnings to a target." ON)
+option(ENABLE_WARNINGS_AS_ERRORS "Enable to treat warnings as errors." OFF)
+
+option(ENABLE_TESTING "Enable a Unit Testing build." ON)
+option(ENABLE_COVERAGE "Enable a Code Coverage build." OFF)
+
+option(ENABLE_CLANG_TIDY "Enable to add clang tidy." OFF)
+
+option(ENABLE_SANITIZE_ADDR "Enable address sanitize." OFF)
+option(ENABLE_SANITIZE_UNDEF "Enable undefined sanitize." ON)
+option(ENABLE_SANITIZE_LEAK "Enable leak sanitize (Gcc/Clang only)." OFF)
+option(ENABLE_SANITIZE_THREAD "Enable thread sanitize (Gcc/Clang only)." OFF)
+
+option(ENABLE_CLANG_FORMAT "Enable to add clang-format." ON)
+option(ENABLE_CMAKE_FORMAT "Enable to add cmake-format." ON)
+
+option(ENABLE_LTO "Enable to add Link Time Optimization." ON)
+
+if(ENABLE_WARNINGS)
+  include(warnings)
+endif()
+
+if(ENABLE_LTO)
+  include(lto)
+endif()
+
+if(ENABLE_SANITIZE_ADDR OR ENABLE_SANITIZE_UNDEF)
+  include(sanitizer)
+  add_sanitizer_flags()
+endif()
 
 # project version generated in config.hpp
 add_subdirectory(configured)
@@ -100,6 +114,8 @@ include(CMakeCPack.cmake)
 
 # this is the older way of generating doxygen Doxyfile.in prefer the
 # doxygenSetup
+
+# if(ENABLE_DOXYGEN) include(UseDoxygenDoc) endif()
 
 # add_doxygen_doc( BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/_build DOXY_FILE
 # ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in TARGET_NAME docs COMMENT "HTML
