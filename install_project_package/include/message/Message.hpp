@@ -5,6 +5,7 @@
 #include <messageExport.h>
 #include <string>
 
+#include "named_collection.hpp"
 /*! \file Message.hpp */
 /*! \class Message
  * \print messages with a UUID to screen

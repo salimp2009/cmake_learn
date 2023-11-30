@@ -60,6 +60,8 @@ foreach(p LIB BIN INCLUDE CMAKE)
 endforeach()
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+include(StandartProjectSettings)
+standartprojectsettings()
 
 set(GIT_SHA
     "Unknown"
