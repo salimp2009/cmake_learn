@@ -22,7 +22,7 @@ add_subdirectory(concepts)
 
 add_executable(hello_world_wDSO2 hello-world.cpp)
 target_link_libraries(hello_world_wDSO2 PUBLIC message::message_shared
-                                               message::concepts)
+                                               message::concepts_shared)
 
 # prepare RPATH
 
@@ -58,8 +58,13 @@ install(
   PATTERN "*.in" EXCLUDE)
 
 install(
-  TARGETS hello_world_wDSO2 hello_world_wAR2 message_shared message_static
-          concepts commonPCH
+  TARGETS hello_world_wDSO2
+          hello_world_wAR2
+          message_shared
+          message_static
+          concepts
+          concepts_shared
+          commonPCH
   EXPORT messageTargets
   ARCHIVE DESTINATION ${INSTALL_LIBDIR}/${PROJECT_NAME} COMPONENT lib
   RUNTIME DESTINATION ${INSTALL_BINDIR} COMPONENT bin

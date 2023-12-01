@@ -1,9 +1,41 @@
+add_library(concepts_shared SHARED "")
+add_library(message::concepts_shared ALIAS concepts_shared)
+
+target_sources(concepts_shared
+               PRIVATE ${CMAKE_CURRENT_LIST_DIR}/conceptbasics.cpp)
+
+target_link_libraries(concepts_shared PRIVATE commonPCH)
+
+# target_precompile_headers(concepts_shared  PRIVATE
+# ${PROJECT_SOURCE_DIR}/include/commonPCH.hpp)
+
+target_compile_definitions(concepts_shared
+                           INTERFACE $<INSTALL_INTERFACE:USING_message>)
+
+target_include_directories(
+  concepts_shared
+  PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/concepts>
+         $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
+         $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
+
+set_target_properties(
+  concepts_shared
+  PROPERTIES POSITION_INDEPENDENT_CODE 1
+             CXX_VISIBILITY_PRESET hidden
+             VISIBILITY_INLINES_HIDDEN YES
+             SOVERSION ${PROJECT_VERSION_MAJOR}
+             OUTPUT_NAME "concepts"
+             DEBUG_POSTFIX "_d"
+             # PUBLIC_HEADER
+             # "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h"
+             MACOSX_RPATH ON)
+
 add_library(concepts STATIC "")
 add_library(message::concepts ALIAS concepts)
 
 target_sources(concepts PRIVATE ${CMAKE_CURRENT_LIST_DIR}/conceptbasics.cpp)
 
-# target_precompile_headers(concepts REUSE_FROM message_shared)
+# target_precompile_headers(concepts REUSE_FROM concepts_shared)
 
 target_link_libraries(concepts PRIVATE commonPCH)
 
@@ -24,15 +56,25 @@ set_target_properties(
              CXX_VISIBILITY_PRESET hidden
              VISIBILITY_INLINES_HIDDEN YES
              ARCHIVE_OUTPUT_NAME "concepts"
-             DEBUG_POSTFIX "_sd"
-             RELEASE_POSTFIX "_s"
+             SOVERSION ${PROJECT_VERSION_MAJOR}
+             DEBUG_POSTFIX "_d"
+             # RELEASE_POSTFIX "_s"
              # PUBLIC_HEADER
              # "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h"
 )
 
 if(${ENABLE_WARNINGS})
-  target_set_warnings(TARGET concepts ENABLE ${ENABLE_WARNINGS} AS_ERRORS
-                      ${ENABLE_WARNINGS_AS_ERRORS})
+  target_set_warnings(TARGET concepts_shared ENABLE ${ENABLE_WARNINGS}
+                      AS_ERRORS ${ENABLE_WARNINGS_AS_ERRORS})
+endif()
+
+if(${ENABLE_LTO})
+  target_enable_lto(TARGET concepts_shared ENABLE ${ENABLE_LTO})
+endif()
+
+if(${ENABLE_WARNINGS})
+  target_set_warnings(TARGET concepts_shared ENABLE ${ENABLE_WARNINGS}
+                      AS_ERRORS ${ENABLE_WARNINGS_AS_ERRORS})
 endif()
 
 if(${ENABLE_LTO})
