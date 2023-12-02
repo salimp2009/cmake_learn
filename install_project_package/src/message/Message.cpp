@@ -33,3 +33,5 @@ std::string getUUID() {
 #else
 std::string getUUID() { return "Ooooops, no UUID for you!"; }
 #endif
+
+int Test2::get_value2() const { return 5; }

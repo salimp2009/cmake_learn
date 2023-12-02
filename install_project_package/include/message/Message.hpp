@@ -35,3 +35,12 @@ private:
 std::string getUUID();
 
 message_EXPORT std::ostream &operator<<(std::ostream &os, const Message &obj);
+
+template <typename T, typename... Ts>
+constexpr inline bool message_NO_EXPORT are_same2 =
+    std::conjunction_v<std::is_same<T, Ts>...>;
+
+struct Test2 {
+  int value2{};
+  int get_value2() const;
+};

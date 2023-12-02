@@ -6,6 +6,8 @@ target_sources(concepts_shared
 
 target_link_libraries(concepts_shared PRIVATE commonPCH)
 
+# this is needed when REUSE_FROM used PCH
+
 # target_precompile_headers(concepts_shared  PRIVATE
 # ${PROJECT_SOURCE_DIR}/include/commonPCH.hpp)
 
@@ -25,10 +27,17 @@ set_target_properties(
              VISIBILITY_INLINES_HIDDEN YES
              SOVERSION ${PROJECT_VERSION_MAJOR}
              OUTPUT_NAME "concepts"
-             DEBUG_POSTFIX "_d"
-             # PUBLIC_HEADER
+             DEBUG_POSTFIX "_d" #
+             # PUBLIC_HEADER #
              # "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h"
              MACOSX_RPATH ON)
+
+# include(GenerateExportHeader) generate_export_header( concepts_shared
+# BASE_NAME "concepts" EXPORT_MACRO_NAME "concepts_EXPORT" EXPORT_FILE_NAME
+# "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/conceptsExport.h"
+# DEPRECATED_MACRO_NAME "concepts_DEPRECATED" NO_EXPORT_MACRO_NAME
+# "concepts_NO_EXPORT" STATIC_DEFINE "concepts_STATIC_DEFINE"
+# NO_DEPRECATED_MACRO_NAME "concepts_NO_DEPRECATED" DEFINE_NO_DEPRECATED)
 
 add_library(concepts STATIC "")
 add_library(message::concepts ALIAS concepts)
@@ -59,8 +68,8 @@ set_target_properties(
              SOVERSION ${PROJECT_VERSION_MAJOR}
              DEBUG_POSTFIX "_d"
              # RELEASE_POSTFIX "_s"
-             # PUBLIC_HEADER
-             # "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h"
+             # PUBLIC_HEADER #
+             #[[ "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h" ]]
 )
 
 if(${ENABLE_WARNINGS})
@@ -73,8 +82,8 @@ if(${ENABLE_LTO})
 endif()
 
 if(${ENABLE_WARNINGS})
-  target_set_warnings(TARGET concepts_shared ENABLE ${ENABLE_WARNINGS}
-                      AS_ERRORS ${ENABLE_WARNINGS_AS_ERRORS})
+  target_set_warnings(TARGET concepts ENABLE ${ENABLE_WARNINGS} AS_ERRORS
+                      ${ENABLE_WARNINGS_AS_ERRORS})
 endif()
 
 if(${ENABLE_LTO})
