@@ -24,22 +24,15 @@ int main() {
   // visibility check for concepts library; NOT Working
   sp::Test tst{};
   tst.value = 5;
-
   // this respects visibility since the definition of member function is in
-  // conceptbasics.cpp tst.get_value();
+  // conceptbasics.cpp
+  // tst.get_value();
+
   // sp::getnumber();
 
-  auto result = sp::myadd(5.4, 5, 6.4, 100);
-  std::cout << "result: " << result << '\n';
-
-  // example using std::enable_if_t to use it pre C++17 & 20
-  auto result2 = sp::add_sametypes(5.4, 4.5, 20.);
-  auto result3 = sp::add_sametypes(5, 4, 20);
-
-  static_assert(std::is_same_v<decltype(result3), int>);
-  static_assert(std::is_same_v<decltype(result2), double>);
-
-  static_assert(std::is_same_v<decltype(result), double>);
   // getUUID();
+
+  sp::concepts_test1();
+
   return EXIT_SUCCESS;
 }
