@@ -21,9 +21,9 @@ message_NO_EXPORT U myadd(T first, T1... myval) {
   return ((first + myval) + ...);
 }
 
-// pre C++20 concepts
+// helper type traits
 template <typename T, typename... Ts>
-constexpr inline bool message_NO_EXPORT are_same_v = std::conjunction_v<
+constexpr inline bool are_same_v = std::conjunction_v<
     std::is_same<std::remove_cvref_t<T>, std::remove_cvref_t<Ts>>...>;
 
 template <typename T, typename...> struct first_arg {
@@ -32,6 +32,7 @@ template <typename T, typename...> struct first_arg {
 
 template <typename... Args> using first_arg_t = first_arg<Args...>::type;
 
+// pre C++20 concepts
 template <typename... Args, typename R = std::enable_if_t<are_same_v<Args...>,
                                                           first_arg_t<Args...>>>
 constexpr R add_sametypes(Args &&...args) noexcept {
@@ -54,6 +55,12 @@ constexpr auto add_sametypes3(T val, Args &&...args) noexcept {
   return (val + ... + args);
 }
 
+template <typename T, typename... Args>
+// requires are_same<T, Args...>
+constexpr auto add_sametypes31(are_same<T> auto &&...args) noexcept {
+  return (... + args);
+}
+
 template <typename... Args>
 concept addable = requires(Args... args) {
   (... + args);
@@ -65,6 +72,11 @@ concept addable = requires(Args... args) {
 template <typename... Args>
   requires addable<Args...>
 constexpr inline auto add_sametypes4(Args... args) noexcept {
+  return (... + args);
+}
+
+// this does not work
+constexpr inline auto add_sametypes5(addable auto &&...args) noexcept {
   return (... + args);
 }
 

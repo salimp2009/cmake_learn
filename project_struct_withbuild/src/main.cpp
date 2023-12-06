@@ -14,7 +14,6 @@ int main(int argc, const char **argv) {
   std::ranges::transform(&argv[1], &argv[argc - 1],
                          std::back_inserter(commandline_args),
                          [](auto &&num) { return std::stod(num); });
-
   myPrint(commandline_args);
   mySort(commandline_args);
   myPrint(commandline_args);

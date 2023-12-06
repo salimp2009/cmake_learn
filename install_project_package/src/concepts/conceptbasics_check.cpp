@@ -1,7 +1,10 @@
 #include "conceptbasics_check.hpp"
+#include "conceptbasics.hpp"
+#include "conceptteststub.hpp"
+
 namespace sp {
 
-void concepts_test1() noexcept {
+void concepts_basics1() noexcept {
   std::puts("-------------> concepts test1-------------<");
   auto result = sp::myadd(5.4, 5, 6.4, 100);
   std::cout << "result: " << result << '\n';
@@ -29,6 +32,28 @@ void concepts_test1() noexcept {
   constexpr auto result7 = sp::add_sametypes4(1.2, 2.4, 3.);
   static_assert(std::is_same_v<std::remove_cvref_t<decltype(result7)>, double>);
 
+  constexpr auto result8 = sp::add_sametypes31<double>(1.2, 2.4, 3.);
+  static_assert(std::is_same_v<std::remove_cvref_t<decltype(result8)>, double>);
+
+  // this does not work ??
+  // constexpr auto result9 = sp::add_sametypes5(1.2, 2.4, 3.);
+
   std::puts("-------------> concepts test1 passed-------------<");
 }
+void concepts_test_stub() noexcept {
+  std::puts("-------------> concepts test1-------------<");
+
+  static_assert(not addable<int, double>);
+  static_assert(not addable<double, float>);
+  static_assert(addable<int, int>);
+  static_assert(addable<float, float>);
+  static_assert(not addable<NoAdd, ValidClass>);
+  static_assert(not addable<NoAdd, NoAdd>);
+  static_assert(addable<ValidClass, ValidClass>);
+  static_assert(not addable<NotExcept, NotExcept>);
+  static_assert(not addable<DifferentReturnType, DifferentReturnType>);
+
+  std::puts("-------------> concepts test1 passed-------------<");
+}
+
 } // namespace sp
