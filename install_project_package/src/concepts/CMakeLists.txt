@@ -2,8 +2,10 @@ add_library(concepts_shared SHARED "")
 add_library(message::concepts_shared ALIAS concepts_shared)
 
 target_sources(
-  concepts_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/conceptbasics.cpp
-                          ${CMAKE_CURRENT_LIST_DIR}/conceptbasics_check.cpp)
+  concepts_shared
+  PRIVATE ${CMAKE_CURRENT_LIST_DIR}/conceptbasics.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/conceptbasics_check.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/conceptconstexpr.cpp)
 
 target_link_libraries(concepts_shared PRIVATE commonPCH)
 
@@ -44,8 +46,10 @@ add_library(concepts STATIC "")
 add_library(message::concepts ALIAS concepts)
 
 target_sources(
-  concepts PRIVATE ${CMAKE_CURRENT_LIST_DIR}/conceptbasics.cpp
-                   ${CMAKE_CURRENT_LIST_DIR}/conceptbasics_check.cpp)
+  concepts
+  PRIVATE ${CMAKE_CURRENT_LIST_DIR}/conceptbasics.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/conceptbasics_check.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/conceptconstexpr.cpp)
 
 # target_precompile_headers(concepts REUSE_FROM concepts_shared)
 

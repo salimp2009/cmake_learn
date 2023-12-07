@@ -1,11 +1,15 @@
 #include "conceptbasics_check.hpp"
 #include "conceptbasics.hpp"
+#include "conceptconstexpr.hpp"
 #include "conceptteststub.hpp"
 
+#include <array>
+#include <vector>
 namespace sp {
+using std::array;
 
 void concepts_basics1() noexcept {
-  std::puts("-------------> concepts test1-------------<");
+  std::puts("-------------> concepts test1 -------------<");
   auto result = sp::myadd(5.4, 5, 6.4, 100);
   std::cout << "result: " << result << '\n';
 
@@ -38,10 +42,10 @@ void concepts_basics1() noexcept {
   // this does not work ??
   // constexpr auto result9 = sp::add_sametypes5(1.2, 2.4, 3.);
 
-  std::puts("-------------> concepts test1 passed-------------<");
+  std::puts("-------------> concepts test1 passed -------------<");
 }
 void concepts_test_stub() noexcept {
-  std::puts("-------------> concepts test1-------------<");
+  std::puts("-------------> test stub -------------<");
 
   static_assert(not addable<int, double>);
   static_assert(not addable<double, float>);
@@ -53,7 +57,19 @@ void concepts_test_stub() noexcept {
   static_assert(not addable<NotExcept, NotExcept>);
   static_assert(not addable<DifferentReturnType, DifferentReturnType>);
 
-  std::puts("-------------> concepts test1 passed-------------<");
+  std::puts("-------------> test stub -------------<");
+}
+void concepts_constexpr_functions() noexcept {
+  std::puts("-------------> constexpr_functions -------------<");
+
+  std::array<int, 1> a{};
+  send_oneping(a);
+
+  // size can not be determined in compile time
+  std::vector myvec{1, 2, 3};
+  // does not work since size of vec cannot be determined compiled time
+  // send_oneping(myvec);
+  std::puts("-------------> constexpr_functions -------------<");
 }
 
 } // namespace sp

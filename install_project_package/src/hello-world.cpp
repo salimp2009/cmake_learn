@@ -34,6 +34,8 @@ int main() {
   // getUUID();
 
   sp::concepts_basics1();
+  sp::concepts_test_stub();
+  sp::concepts_constexpr_functions();
 
   return EXIT_SUCCESS;
 }
