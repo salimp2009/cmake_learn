@@ -3,13 +3,6 @@
 #include "conceptconstexpr.hpp"
 #include "conceptteststub.hpp"
 
-#include <array>
-#include <concepts>
-#include <iterator>
-#include <ranges>
-#include <type_traits>
-#include <vector>
-
 namespace sp {
 using std::array;
 
