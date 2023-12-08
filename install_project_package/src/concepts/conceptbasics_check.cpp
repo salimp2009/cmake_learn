@@ -3,8 +3,9 @@
 #include "conceptconstexpr.hpp"
 #include "conceptteststub.hpp"
 
+#include <array>
+
 namespace sp {
-using std::array;
 
 void concepts_basics1() noexcept {
   std::puts("-------------> concepts test1 -------------<");

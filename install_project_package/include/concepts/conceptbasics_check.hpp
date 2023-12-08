@@ -2,8 +2,6 @@
 #include "conceptbasics.hpp"
 #include "messageExport.h"
 
-#include <type_traits>
-
 namespace sp {
 
 message_EXPORT void concepts_basics1() noexcept;
