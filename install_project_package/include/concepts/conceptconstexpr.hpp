@@ -1,8 +1,9 @@
 #pragma once
-
+//
 #include <cstddef>
 #include <cstdio>
 #include <messageExport.h>
+#include <ranges>
 
 namespace sp {
 constexpr auto getsize(const std::ranges::range auto &t = {}) {

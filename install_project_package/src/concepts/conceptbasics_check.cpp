@@ -4,7 +4,12 @@
 #include "conceptteststub.hpp"
 
 #include <array>
+#include <concepts>
+#include <iterator>
+#include <ranges>
+#include <type_traits>
 #include <vector>
+
 namespace sp {
 using std::array;
 
@@ -57,7 +62,7 @@ void concepts_test_stub() noexcept {
   static_assert(not addable<NotExcept, NotExcept>);
   static_assert(not addable<DifferentReturnType, DifferentReturnType>);
 
-  std::puts("-------------> test stub -------------<");
+  std::puts("-------------> test stub passed -------------<");
 }
 void concepts_constexpr_functions() noexcept {
   std::puts("-------------> constexpr_functions -------------<");
@@ -69,7 +74,18 @@ void concepts_constexpr_functions() noexcept {
   std::vector myvec{1, 2, 3};
   // does not work since size of vec cannot be determined compiled time
   // send_oneping(myvec);
-  std::puts("-------------> constexpr_functions -------------<");
+  std::puts("-------------> constexpr_functions passed -------------<");
 }
 
+void concepts_auto_variables() noexcept {
+  std::puts("-------------> auto_variables -------------<");
+
+  auto v1 = std::vector<int>{3, 4, 5};
+
+  [[maybe_unused]] const auto v1_size = std::size(v1);
+
+  [[maybe_unused]] const std::integral auto v1_size2 = v1.size();
+
+  std::puts("-------------> auto_variables passed -------------<");
+}
 } // namespace sp

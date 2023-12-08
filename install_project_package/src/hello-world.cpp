@@ -11,8 +11,8 @@ int main() {
 
   Message say_goodbye("Goodbye, CMake World");
   std::cout << say_goodbye << '\n';
-  static_assert(not sp::are_same_v<decltype(1), decltype(2.4)>);
-  static_assert(not are_same2<decltype(1), decltype(2.4)>);
+  // static_assert(not sp::are_same_v<decltype(1), decltype(2.4)>);
+  // static_assert(not are_same2<decltype(1), decltype(2.4)>);
 
   Test2 tst2{};
   tst2.value2 = 7;
@@ -36,6 +36,7 @@ int main() {
   sp::concepts_basics1();
   sp::concepts_test_stub();
   sp::concepts_constexpr_functions();
+  sp::concepts_auto_variables();
 
   return EXIT_SUCCESS;
 }

@@ -2,6 +2,7 @@
 // #include "conceptbasics_check.hpp"
 #include "messageExport.h"
 #include <concepts>
+#include <spanstream>
 #include <type_traits>
 
 namespace sp message_NO_EXPORT {
