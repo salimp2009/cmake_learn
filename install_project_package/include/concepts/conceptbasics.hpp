@@ -2,7 +2,6 @@
 // #include "conceptbasics_check.hpp"
 #include "messageExport.h"
 #include <concepts>
-#include <spanstream>
 #include <type_traits>
 
 namespace sp message_NO_EXPORT {
@@ -24,7 +23,7 @@ message_NO_EXPORT U myadd(T first, T1... myval) {
 
 // helper type traits
 template <typename T, typename... Ts>
-constexpr inline bool are_same_v = std::conjunction_v<
+constexpr inline bool message_NO_EXPORT are_same_v = std::conjunction_v<
     std::is_same<std::remove_cvref_t<T>, std::remove_cvref_t<Ts>>...>;
 
 template <typename T, typename...> struct first_arg {
