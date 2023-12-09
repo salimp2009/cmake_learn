@@ -1,3 +1,4 @@
+#include "conceptvalidation.hpp"
 #include <Message.hpp>
 // #include <conceptbasics.hpp>
 #include <conceptbasics_check.hpp>
@@ -37,6 +38,6 @@ int main() {
   sp::concepts_test_stub();
   sp::concepts_constexpr_functions();
   sp::concepts_auto_variables();
-
+  sp::concept_validate_data();
   return EXIT_SUCCESS;
 }

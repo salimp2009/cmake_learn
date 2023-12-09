@@ -1,7 +1,8 @@
 #include "conceptbasics_check.hpp"
 #include "conceptconstexpr.hpp"
+#include "conceptmoptional.hpp"
 #include "conceptteststub.hpp"
-
+#include "conceptvalidation.hpp"
 #include <array>
 
 namespace sp {
@@ -81,4 +82,17 @@ void concepts_auto_variables() noexcept {
 
   std::puts("-------------> auto_variables passed -------------<");
 }
+
+void concept_validate_data() noexcept {
+  std::puts("-------------> validate_data -------------<");
+
+  ComplexType cpt;
+  send_data(cpt);
+  static_assert(has_validation<ComplexType>);
+  static_assert(not has_validation<SimpleType>);
+  send_data(SimpleType{});
+
+  std::puts("-------------> validate_data passed -------------<");
+}
+
 } // namespace sp

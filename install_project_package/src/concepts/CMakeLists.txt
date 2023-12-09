@@ -5,7 +5,8 @@ target_sources(
   concepts_shared
   PRIVATE ${CMAKE_CURRENT_LIST_DIR}/conceptbasics.cpp
           ${CMAKE_CURRENT_LIST_DIR}/conceptbasics_check.cpp
-          ${CMAKE_CURRENT_LIST_DIR}/conceptconstexpr.cpp)
+          ${CMAKE_CURRENT_LIST_DIR}/conceptconstexpr.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/conceptvalidation.cpp)
 
 target_link_libraries(concepts_shared PRIVATE commonPCH)
 
@@ -49,7 +50,8 @@ target_sources(
   concepts
   PRIVATE ${CMAKE_CURRENT_LIST_DIR}/conceptbasics.cpp
           ${CMAKE_CURRENT_LIST_DIR}/conceptbasics_check.cpp
-          ${CMAKE_CURRENT_LIST_DIR}/conceptconstexpr.cpp)
+          ${CMAKE_CURRENT_LIST_DIR}/conceptconstexpr.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/conceptvalidation.cpp)
 
 # target_precompile_headers(concepts REUSE_FROM concepts_shared)
 

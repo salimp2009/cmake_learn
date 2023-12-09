@@ -38,25 +38,38 @@ set(GIT_SHA
     CACHE STRING "SHA this build was generated from")
 string(SUBSTRING "${GIT_SHA}" 0 8 GIT_SHORT_SHA)
 
-option(ENABLE_DOXYGEN "Generate Doxygen Docs for project" OFF)
+include(CMakeDependentOption)
+option(ENABLE_HARDENING "Enable hardening" ON)
+cmake_dependent_option(
+  ENABLE_GLOBAL_HARDENING
+  "Attempt to push hardening options to built dependencies" ON ENABLE_HARDENING
+  OFF)
 
-option(ENABLE_WARNINGS "Enable to add warnings to a target." ON)
-option(ENABLE_WARNINGS_AS_ERRORS "Enable to treat warnings as errors." OFF)
+if(PROJECT_IS_TOP_LEVEL)
+  option(ENABLE_DOXYGEN "Generate Doxygen Docs for project" OFF)
 
-option(ENABLE_TESTING "Enable a Unit Testing build." ON)
-option(ENABLE_COVERAGE "Enable a Code Coverage build." OFF)
+  option(ENABLE_WARNINGS "Enable to add warnings to a target." ON)
+  option(ENABLE_WARNINGS_AS_ERRORS "Enable to treat warnings as errors." OFF)
 
-option(ENABLE_CLANG_TIDY "Enable to add clang tidy." OFF)
+  option(ENABLE_TESTING "Enable a Unit Testing build." ON)
+  option(ENABLE_COVERAGE "Enable a Code Coverage build." OFF)
 
-option(ENABLE_SANITIZE_ADDR "Enable address sanitize." OFF)
-option(ENABLE_SANITIZE_UNDEF "Enable undefined sanitize." ON)
-option(ENABLE_SANITIZE_LEAK "Enable leak sanitize (Gcc/Clang only)." OFF)
-option(ENABLE_SANITIZE_THREAD "Enable thread sanitize (Gcc/Clang only)." OFF)
+  option(ENABLE_CLANG_TIDY "Enable to add clang tidy." OFF)
 
-option(ENABLE_CLANG_FORMAT "Enable to add clang-format." ON)
-option(ENABLE_CMAKE_FORMAT "Enable to add cmake-format." ON)
+  option(ENABLE_SANITIZE_ADDR "Enable address sanitize." OFF)
+  option(ENABLE_SANITIZE_UNDEF "Enable undefined sanitize." ON)
+  option(ENABLE_SANITIZE_LEAK "Enable leak sanitize (Gcc/Clang only)." OFF)
+  option(ENABLE_SANITIZE_THREAD "Enable thread sanitize (Gcc/Clang only)." OFF)
 
-option(ENABLE_LTO "Enable to add Link Time Optimization." ON)
+  option(ENABLE_CLANG_FORMAT "Enable to add clang-format." ON)
+  option(ENABLE_CMAKE_FORMAT "Enable to add cmake-format." ON)
+
+  option(ENABLE_LTO "Enable to add Link Time Optimization." ON)
+endif()
+
+if(ENABLE_HARDENING OR ENABLE_GLOBAL_HARDENING)
+  include(Hardening)
+endif()
 
 if(ENABLE_WARNINGS)
   include(warnings)
