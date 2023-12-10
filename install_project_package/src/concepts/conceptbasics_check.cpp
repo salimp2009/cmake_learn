@@ -4,6 +4,7 @@
 #include "conceptteststub.hpp"
 #include "conceptvalidation.hpp"
 #include <array>
+#include <optional>
 
 namespace sp {
 
@@ -93,6 +94,33 @@ void concept_validate_data() noexcept {
   send_data(SimpleType{});
 
   std::puts("-------------> validate_data passed -------------<");
+}
+
+void concept_optional_noncopiable() noexcept {
+  std::puts("-------------> optional_noncopiable -------------<");
+
+  static_assert(not std::is_copy_constructible_v<NotCopyable>);
+  static_assert(not std::is_copy_assignable_v<NotCopyable>);
+
+  moptional<NotCopyable> a{};
+  [[maybe_unused]] moptional<NotCopyable> b = a;
+
+  [[maybe_unused]] std::optional<NotCopyable> a1{};
+  // std::optional<NotCopyable> b1 = a1;
+
+  [[maybe_unused]] moptional1<NotCopyable> a2{};
+  // below does not compile as expected since copy constructor is deleted
+  // moptional1<NotCopyable> b2 = a2;
+
+  // using optional version via C++20 concepts;
+  // conditonal copy constructor
+  [[maybe_unused]] moptional2<NotCopyable> a3{};
+  // copy constructor works only if the type is copy_constructible
+  // moptional2<NotCopyable> b3 = a3;
+  moptional2<copyable> a4{};
+  [[maybe_unused]] moptional2<copyable> b4 = a4;
+
+  std::puts("-------------> optional_noncopiable passed -------------<");
 }
 
 } // namespace sp

@@ -39,5 +39,6 @@ int main() {
   sp::concepts_constexpr_functions();
   sp::concepts_auto_variables();
   sp::concept_validate_data();
+  sp::concept_optional_noncopiable();
   return EXIT_SUCCESS;
 }

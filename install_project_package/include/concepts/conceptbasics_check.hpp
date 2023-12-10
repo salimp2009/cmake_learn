@@ -8,5 +8,6 @@ message_EXPORT void concepts_test_stub() noexcept;
 message_EXPORT void concepts_constexpr_functions() noexcept;
 message_EXPORT void concepts_auto_variables() noexcept;
 message_EXPORT void concept_validate_data() noexcept;
+message_EXPORT void concept_optional_noncopiable() noexcept;
 
 } // namespace sp
