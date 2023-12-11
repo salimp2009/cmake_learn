@@ -15,8 +15,10 @@ target_link_libraries(concepts_shared PRIVATE commonPCH)
 # target_precompile_headers(concepts_shared  PRIVATE
 # ${PROJECT_SOURCE_DIR}/include/commonPCH.hpp)
 
-target_compile_definitions(concepts_shared
-                           INTERFACE $<INSTALL_INTERFACE:USING_message>)
+target_compile_definitions(
+  concepts_shared
+  PRIVATE $<$<CONFIG:Debug>:DEBUG>
+  INTERFACE $<INSTALL_INTERFACE:USING_message>)
 
 target_include_directories(
   concepts_shared
@@ -60,6 +62,7 @@ target_link_libraries(concepts PRIVATE commonPCH)
 target_compile_definitions(
   concepts
   PUBLIC message_STATIC_DEFINE
+  PRIVATE $<$<CONFIG:Debug>:DEBUG>
   INTERFACE $<INSTALL_INTERFACE:USING_message>)
 
 target_include_directories(

@@ -24,8 +24,6 @@ add_executable(hello_world_wDSO2 hello-world.cpp)
 target_link_libraries(hello_world_wDSO2 PUBLIC message::message_shared
                                                message::concepts_shared)
 
-# prepare RPATH
-
 file(RELATIVE_PATH _rel ${CMAKE_INSTALL_PREFIX}/${INSTALL_BINDIR}
      ${CMAKE_INSTALL_PREFIX})
 if(APPLE)

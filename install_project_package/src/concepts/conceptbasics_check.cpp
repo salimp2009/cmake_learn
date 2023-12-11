@@ -120,6 +120,8 @@ void concept_optional_noncopiable() noexcept {
   moptional2<copyable> a4{};
   [[maybe_unused]] moptional2<copyable> b4 = a4;
 
+  moptional2<ComLike> a5{};
+
   std::puts("-------------> optional_noncopiable passed -------------<");
 }
 
