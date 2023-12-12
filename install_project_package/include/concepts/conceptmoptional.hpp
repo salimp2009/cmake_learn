@@ -140,4 +140,9 @@ struct ComLike {
   // std::string url{};
 };
 
+struct ComLikeNoRelease {
+  ~ComLikeNoRelease() {} // makes it not is_trivially_destructible_v
+  // std::string url{};
+};
+
 } // namespace sp

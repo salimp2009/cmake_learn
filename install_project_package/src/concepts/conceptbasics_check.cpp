@@ -1,6 +1,7 @@
 #include "conceptbasics_check.hpp"
 #include "conceptconstexpr.hpp"
 #include "conceptmoptional.hpp"
+#include "conceptsrules.hpp"
 #include "conceptteststub.hpp"
 #include "conceptvalidation.hpp"
 #include <array>
@@ -121,8 +122,19 @@ void concept_optional_noncopiable() noexcept {
   [[maybe_unused]] moptional2<copyable> b4 = a4;
 
   moptional2<ComLike> a5{};
+  moptional2<ComLikeNoRelease> a6{};
 
   std::puts("-------------> optional_noncopiable passed -------------<");
+}
+
+void concept_subsumption_rules() noexcept {
+  std::puts("-------------> concept_subsumption_rules -------------<");
+  constexpr int a = 1;
+  constexpr int b = 2;
+
+  sp::add(2, 3);
+  sp::add(a, b);
+  std::puts("-------------> concept_subsumption_rules passed -------------<");
 }
 
 } // namespace sp

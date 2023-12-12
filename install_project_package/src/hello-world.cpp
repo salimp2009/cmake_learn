@@ -40,5 +40,6 @@ int main() {
   sp::concepts_auto_variables();
   sp::concept_validate_data();
   sp::concept_optional_noncopiable();
+  sp::concept_subsumption_rules();
   return EXIT_SUCCESS;
 }
