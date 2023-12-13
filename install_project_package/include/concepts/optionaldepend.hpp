@@ -1,14 +1,19 @@
 #pragma once
+#include "messageExport.h"
 
 #include <concepts>
+#include <future>
+#include <initializer_list>
+#include <memory_resource>
+#include <optional>
 #include <type_traits>
 #include <utility>
+#include <vector>
 namespace sp {
 
 namespace detail {
 
-template <typename T, bool = std::is_trivially_destructible_v<T>>
-struct opt_storage_base {
+template <typename T> struct opt_storage_base {
   constexpr opt_storage_base() noexcept : m_empty{}, m_has_value{false} {}
 
   template <typename... U>
@@ -23,6 +28,7 @@ struct opt_storage_base {
       m_has_value = false;
     }
   }
+  ~opt_storage_base() = default;
 
   struct empty {};
   union {
@@ -73,10 +79,23 @@ template <typename T> struct opt_operations_base : opt_storage_base<T> {
     this->assign(std::move(rhs));
     return *this;
   }
-  opt_operations_base(const opt_operations_base &rhs) = default;
-  opt_operations_base(opt_operations_base &&rhs) noexcept = default;
-  opt_operations_base &operator=(const opt_operations_base &) = default;
-  opt_operations_base &operator=(const opt_operations_base &&) = default;
+  opt_operations_base(const opt_operations_base &rhs)
+    requires(std::is_copy_constructible_v<T>)
+  = default;
+
+  opt_operations_base(opt_operations_base &&rhs) noexcept
+    requires(std::is_move_constructible_v<T>)
+  = default;
+
+  opt_operations_base &operator=(const opt_operations_base &)
+    requires(std::is_copy_assignable_v<T>)
+  = default;
+
+  opt_operations_base &operator=(opt_operations_base &&) noexcept(
+      std::is_move_constructible_v<T> && std::is_nothrow_move_assignable_v<T>)
+    requires(std::is_move_assignable_v<T>)
+  = default;
+
   ~opt_operations_base() = default;
 
   void hard_reset() noexcept {
@@ -117,6 +136,46 @@ template <typename T> struct opt_operations_base : opt_storage_base<T> {
   constexpr T &&get() && noexcept { return std::move(this->m_value); }
 };
 
+template <class T>
+  requires(not std::is_same_v<T, std::in_place_t>) &&
+          (not std::is_same_v<T, std::nullopt_t>)
+class opt : public opt_operations_base<T> {
+
+  using base = opt_operations_base<T>;
+
+public:
+  // TODO: implement reset() function
+  opt take() {
+    opt ret = std::move(*this);
+    // reset();
+    return ret;
+  }
+
+  constexpr opt() = default;
+  constexpr opt(std::nullopt_t) noexcept {}
+  constexpr opt(const opt &rhs) = default;
+  constexpr opt(opt &&rhs) = default;
+
+  template <class... Args>
+    requires(std::is_constructible_v<T, Args...>)
+  constexpr explicit opt(std::in_place_t, Args... args)
+      : base(std::in_place, std::forward<Args>(args)...) {}
+
+  template <typename U, class... Args>
+    requires(
+        std::is_constructible_v<T, std::initializer_list<U> &, Args && ...>)
+  constexpr opt(std::in_place_t, std::initializer_list<U> il, Args &&...args) {
+    this->construct(il, std::forward<Args>(args)...);
+  }
+
+  template <class U = T>
+    requires(std::is_convertible_v<U &&, T>)
+  constexpr opt(U &&u) : base(std::in_place, std::forward<U>(u)) {}
+};
+
+// std::optional<std::vector<int>> myopt2{std::in_place, {1, 2, 3, 4}};
+// std::optional<int> myopt{1};
+// opt<int> myopt2{1};
 } // end of namespace detail
 
 } // namespace sp

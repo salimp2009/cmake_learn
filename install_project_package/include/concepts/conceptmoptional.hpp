@@ -8,8 +8,6 @@
 #include <type_traits>
 #include <utility>
 
-#include "optionaldepend.hpp"
-
 namespace sp {
 
 struct Empty {};

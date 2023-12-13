@@ -4,8 +4,12 @@
 #include "conceptsrules.hpp"
 #include "conceptteststub.hpp"
 #include "conceptvalidation.hpp"
+#include "optionaldepend.hpp"
+
 #include <array>
 #include <optional>
+#include <utility>
+#include <vector>
 
 namespace sp {
 
@@ -134,6 +138,10 @@ void concept_subsumption_rules() noexcept {
 
   sp::add(2, 3);
   sp::add(a, b);
+  sp::detail::opt<int> myopt2{4};
+  auto result = myopt2.get();
+  std::cout << "result from my opt= " << result << '\n';
+  // sp::detail::opt<std::vector<int>> myopt{std::in_place, 1, 2, 3, 4};
   std::puts("-------------> concept_subsumption_rules passed -------------<");
 }
 
