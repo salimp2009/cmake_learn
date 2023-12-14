@@ -2,16 +2,35 @@
 #include "messageExport.h"
 
 #include <concepts>
-#include <future>
 #include <initializer_list>
-#include <memory_resource>
 #include <optional>
 #include <type_traits>
 #include <utility>
-#include <vector>
 namespace sp {
 
-namespace detail {
+namespace message_NO_EXPORT detail {
+
+// forward declaration to use in concept below
+template <typename T>
+  requires(not std::is_same_v<T, std::in_place_t>) &&
+          (not std::is_same_v<T, std::nullopt_t>)
+class opt;
+
+// concepts for opt
+template <class T, class U, class Other>
+concept enable_from_other = std::is_constructible_v<T, Other> &&
+                            !std::is_constructible_v<T, opt<U> &> &&
+                            !std::is_constructible_v<T, opt<U> &&> &&
+                            !std::is_constructible_v<T, const opt<U> &> &&
+                            !std::is_constructible_v<T, const opt<U> &&> &&
+                            !std::is_convertible_v<opt<U> &, T> &&
+                            !std::is_convertible_v<opt<U> &&, T> &&
+                            !std::is_convertible_v<const opt<U> &, T> &&
+                            !std::is_convertible_v<const opt<U> &&, T>;
+template <class T, class U>
+concept enable_assign_forward =
+    !std::is_same_v<opt<T>, std::decay_t<U>> && !std::is_scalar_v<T> &&
+    !std::is_constructible_v<T, U> && !std::is_assignable_v<T &, U>;
 
 template <typename T> struct opt_storage_base {
   constexpr opt_storage_base() noexcept : m_empty{}, m_has_value{false} {}
@@ -152,9 +171,12 @@ public:
   }
 
   constexpr opt() = default;
-  constexpr opt(std::nullopt_t) noexcept {}
+  constexpr explicit opt(std::nullopt_t) noexcept {}
   constexpr opt(const opt &rhs) = default;
-  constexpr opt(opt &&rhs) = default;
+  constexpr opt(opt &&rhs) noexcept = default;
+
+  constexpr opt &operator=(const opt &rhs) = default;
+  constexpr opt &operator=(opt &&rhs) noexcept = default;
 
   template <class... Args>
     requires(std::is_constructible_v<T, Args...>)
@@ -164,18 +186,76 @@ public:
   template <typename U, class... Args>
     requires(
         std::is_constructible_v<T, std::initializer_list<U> &, Args && ...>)
-  constexpr opt(std::in_place_t, std::initializer_list<U> il, Args &&...args) {
+  constexpr explicit opt(std::in_place_t, std::initializer_list<U> il,
+                         Args &&...args) {
     this->construct(il, std::forward<Args>(args)...);
   }
 
   template <class U = T>
     requires(std::is_convertible_v<U &&, T>)
-  constexpr opt(U &&u) : base(std::in_place, std::forward<U>(u)) {}
+  constexpr explicit opt(U &&u) : base(std::in_place, std::forward<U>(u)) {}
+
+  template <class U = T>
+    requires(not std::is_convertible_v<U &&, T>)
+  constexpr explicit opt(U &&u) : base(std::in_place, std::forward<U>(u)) {}
+
+  // converting copy-constructor
+  template <class U>
+    requires(enable_from_other<T, U, const U &> &&
+             std::is_convertible_v<const U &, T>)
+
+  constexpr opt(const opt<U> &rhs) {
+    if (rhs.has_value()) {
+      this->construct(*rhs);
+    }
+  }
+
+  template <class U>
+    requires(enable_from_other<T, U, const U &> &&
+             not std::is_convertible_v<const U &, T>)
+
+  constexpr opt(const opt<U> &rhs) {
+    if (rhs.has_value()) {
+      this->construct(*rhs);
+    }
+  }
+
+  // converting move constructor
+  template <class U>
+    requires(enable_from_other<T, U, U &&> &&
+             std::is_convertible_v<const U &, T>)
+  constexpr opt(const opt<U> &rhs) {
+    if (rhs.has_value()) {
+      this->construct(std::move(*rhs));
+    }
+  }
+
+  template <class U>
+    requires(enable_from_other<T, U, U &&> &&
+             not std::is_convertible_v<const U &, T>)
+  constexpr opt(const opt<U> &rhs) {
+    if (rhs.has_value()) {
+      this->construct(std::move(*rhs));
+    }
+  }
+
+  ~opt() = default;
+
+  // Destroy current value if there is any
+  opt &operator=(std::nullopt_t) noexcept {
+    if (this->has_value()) {
+      this->m_value.~T();
+      this->m_has_value = false;
+    }
+    return *this;
+  }
+  // template<class U>
+  // requires std::is_assignable_v<T&, U>
 };
 
 // std::optional<std::vector<int>> myopt2{std::in_place, {1, 2, 3, 4}};
 // std::optional<int> myopt{1};
 // opt<int> myopt2{1};
-} // end of namespace detail
+} // namespace message_NO_EXPORT detail
 
 } // namespace sp
