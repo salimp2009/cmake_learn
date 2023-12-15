@@ -32,6 +32,15 @@ concept enable_assign_forward =
     !std::is_same_v<opt<T>, std::decay_t<U>> && !std::is_scalar_v<T> &&
     !std::is_constructible_v<T, U> && !std::is_assignable_v<T &, U>;
 
+template <class T, class U, class Other>
+concept enable_assign_from_other =
+    enable_from_other<T, U, Other> && std::is_assignable<T &, Other>::value &&
+    !std::is_assignable_v<T &, opt<U> &> &&
+    !std::is_assignable_v<T &, opt<U> &&> &&
+    !std::is_assignable_v<T &, const opt<U> &> &&
+    !std::is_assignable_v<T &, const opt<U> &&>;
+// end of concepts
+
 template <typename T> struct opt_storage_base {
   constexpr opt_storage_base() noexcept : m_empty{}, m_has_value{false} {}
 
@@ -172,11 +181,6 @@ public:
 
   constexpr opt() = default;
   constexpr explicit opt(std::nullopt_t) noexcept {}
-  constexpr opt(const opt &rhs) = default;
-  constexpr opt(opt &&rhs) noexcept = default;
-
-  constexpr opt &operator=(const opt &rhs) = default;
-  constexpr opt &operator=(opt &&rhs) noexcept = default;
 
   template <class... Args>
     requires(std::is_constructible_v<T, Args...>)
@@ -239,8 +243,6 @@ public:
     }
   }
 
-  ~opt() = default;
-
   // Destroy current value if there is any
   opt &operator=(std::nullopt_t) noexcept {
     if (this->has_value()) {
@@ -249,9 +251,84 @@ public:
     }
     return *this;
   }
-  // template<class U>
-  // requires std::is_assignable_v<T&, U>
+
+  template <class U = T>
+    requires enable_assign_forward<T, U>
+  opt &operator=(U &&u) {
+    if (this->has_value()) {
+      this->m_value = u;
+    } else {
+      this->construct(std::forward<U>(u));
+    }
+    return *this;
+  }
+
+  // Converting copy assignment operator
+  template <class U>
+    requires enable_assign_from_other<T, U, const U &>
+  opt &operator=(const opt<U> &rhs) {
+    if (this->has_value()) {
+      if (rhs.has_value()) {
+
+        this->m_value = *rhs;
+      } else {
+        this->hard_reset();
+      }
+    } else if (rhs.has_value()) {
+      this->construct(*rhs);
+    }
+    return *this;
+  }
+
+  // Converting move assignment operator
+  template <class U>
+    requires enable_assign_from_other<T, U, U>
+  opt &operator=(opt<U> &&rhs) {
+    if (this->has_value()) {
+      if (rhs.has_value()) {
+
+        this->m_value = std::move(*rhs);
+      } else {
+        this->hard_reset();
+      }
+    } else if (rhs.has_value()) {
+      this->construct(std::move(*rhs));
+    }
+    return *this;
+  }
+
+  template <class... Args>
+    requires(std::is_constructible_v<T, Args...>)
+  T &emplace(Args &&...args) {
+    *this = std::nullopt;
+    this->construct(std::forward<Args>(args)...);
+    return this->m_value;
+    // TODO: implement value() and remove the existing return
+    // return value();
+  }
+
+  constexpr opt(const opt &rhs) = default;
+  constexpr opt(opt &&rhs) noexcept = default;
+
+  constexpr opt &operator=(const opt &rhs) = default;
+  constexpr opt &operator=(opt &&rhs) noexcept = default;
+
+  ~opt() = default;
 };
+
+struct FooInt {
+  int value{};
+  int value1{};
+  char value2{};
+};
+
+static_assert(std::is_constructible_v<FooInt, int, int, char>);
+static_assert(std::is_constructible_v<FooInt, int, int, int>);
+static_assert(std::is_constructible_v<FooInt, int, int>);
+static_assert(std::is_constructible_v<FooInt, int>);
+static_assert(std::is_constructible_v<FooInt, double, double, double>);
+static_assert(std::is_constructible_v<FooInt, double, double, bool>);
+static_assert(not std::is_constructible_v<FooInt, double, double, std::string>);
 
 // std::optional<std::vector<int>> myopt2{std::in_place, {1, 2, 3, 4}};
 // std::optional<int> myopt{1};

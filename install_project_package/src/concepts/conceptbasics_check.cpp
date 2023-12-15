@@ -8,7 +8,6 @@
 
 #include <array>
 #include <optional>
-#include <utility>
 #include <vector>
 
 namespace sp {
@@ -138,10 +137,15 @@ void concept_subsumption_rules() noexcept {
 
   sp::add(2, 3);
   sp::add(a, b);
+
   sp::detail::opt<int> myopt2{4};
   auto result = myopt2.get();
   std::cout << "result from my opt= " << result << '\n';
+  std::optional<int> myopt3{3};
+  std::cout << "sizeof opt<int> : " << sizeof myopt2
+            << ", size of optional<int>" << sizeof myopt3 << '\n';
   // sp::detail::opt<std::vector<int>> myopt{std::in_place, 1, 2, 3, 4};
+  [[maybe_unused]] sp::detail::opt<int> s = myopt2;
   std::puts("-------------> concept_subsumption_rules passed -------------<");
 }
 
