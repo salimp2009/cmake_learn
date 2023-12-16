@@ -56,7 +56,10 @@ template <typename T> struct opt_storage_base {
       m_has_value = false;
     }
   }
-  ~opt_storage_base() = default;
+
+  ~opt_storage_base()
+    requires(std::is_trivially_constructible_v<T>)
+  = default;
 
   struct empty {};
   union {
@@ -316,19 +319,9 @@ public:
   ~opt() = default;
 };
 
-struct FooInt {
-  int value{};
-  int value1{};
-  char value2{};
-};
-
-static_assert(std::is_constructible_v<FooInt, int, int, char>);
-static_assert(std::is_constructible_v<FooInt, int, int, int>);
-static_assert(std::is_constructible_v<FooInt, int, int>);
-static_assert(std::is_constructible_v<FooInt, int>);
-static_assert(std::is_constructible_v<FooInt, double, double, double>);
-static_assert(std::is_constructible_v<FooInt, double, double, bool>);
-static_assert(not std::is_constructible_v<FooInt, double, double, std::string>);
+#if __cplusplus >= 201703L
+template <class T> opt(T) -> opt<T>;
+#endif
 
 // std::optional<std::vector<int>> myopt2{std::in_place, {1, 2, 3, 4}};
 // std::optional<int> myopt{1};
