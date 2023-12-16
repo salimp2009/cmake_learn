@@ -145,6 +145,7 @@ void concept_subsumption_rules() noexcept {
   std::cout << "sizeof opt<int> : " << sizeof myopt2
             << ", size of optional<int>" << sizeof myopt3 << '\n';
   sp::detail::opt(4);
+
   // sp::detail::opt<std::vector<int>> myopt{std::in_place, 1, 2, 3, 4};
   [[maybe_unused]] sp::detail::opt<int> s = myopt2;
   std::puts("-------------> concept_subsumption_rules passed -------------<");
