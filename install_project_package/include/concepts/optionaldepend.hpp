@@ -57,9 +57,7 @@ template <typename T> struct opt_storage_base {
     }
   }
 
-  ~opt_storage_base()
-    requires(std::is_trivially_constructible_v<T>)
-  = default;
+  ~opt_storage_base() = default;
 
   struct empty {};
   union {
