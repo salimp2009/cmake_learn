@@ -2,9 +2,9 @@
 
 #include "messageExport.h"
 #include <coroutine>
-#include <iterator>
+#include <exception>
+#include <expected>
 #include <utility>
-
 namespace sp {
 
 namespace detail {
@@ -15,7 +15,25 @@ template <typename PromiseType> struct iterator {
 
 } // namespace detail
 
-template <typename T, typename G> struct promise_type_base {};
+template <typename T, typename G> struct promise_type_base {
+  T mvalue;
+
+  // invoked by co_yield or co_return
+  auto yield_value(T value) {
+    mvalue = std::move(value);
+    return std::suspend_always{};
+  }
+
+  G get_return_object() { return G{*this}; }
+
+  auto initial_suspend() noexcept { return std::suspend_always{}; }
+  auto final_suspend() noexcept { return std::suspend_always{}; }
+
+  void return_void() {}
+  void unhandled_exception() { std::terminate(); }
+
+  static auto get_return_object_on_allocation_failure() { return G{nullptr}; }
+};
 
 template <typename T> struct generator {
   using promise_type = promise_type_base<T, generator>;
