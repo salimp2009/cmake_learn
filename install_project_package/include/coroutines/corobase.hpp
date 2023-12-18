@@ -5,12 +5,29 @@
 #include <exception>
 #include <expected>
 #include <utility>
+
 namespace sp {
 
 namespace detail {
 
 template <typename PromiseType> struct iterator {
   std::coroutine_handle<PromiseType> m_corohdl{nullptr};
+
+  void resume() const {
+    if (not m_corohdl.done()) {
+      m_corohdl.resume();
+    }
+  }
+  iterator() = default;
+  explicit iterator(std::coroutine_handle<PromiseType> hndlco)
+      : m_corohdl{hndlco} {
+    resume();
+  }
+
+  void operator++() { resume(); }
+  bool operator==(const iterator &) const { return m_corohdl.done(); }
+
+  const auto &operator*() const { return m_corohdl.promise().mvalue; }
 };
 
 } // namespace detail
