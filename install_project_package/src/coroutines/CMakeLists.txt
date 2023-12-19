@@ -1,10 +1,11 @@
 add_library(corobase_shared SHARED "")
 add_library(message::corobase_shared ALIAS corobase_shared)
 
-target_sources(corobase_shared
-               PRIVATE ${CMAKE_CURRENT_LIST_DIR}/corobasics_check.cpp)
+target_sources(
+  corobase_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/corobasics_check.cpp
+                          ${CMAKE_CURRENT_LIST_DIR}/corobase.cpp)
 
-target_link_libraries(corobase_shared PRIVATE commonPCH)
+target_link_libraries(corobase_shared PRIVATE commonPCH #[[ PUBLIC fmt::fmt ]])
 
 # this is needed when REUSE_FROM used PCH
 
@@ -34,21 +35,22 @@ set_target_properties(
              # "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/messageExport.h"
              MACOSX_RPATH ON)
 
-# include(GenerateExportHeader) generate_export_header( concepts_shared
-# BASE_NAME "concepts" EXPORT_MACRO_NAME "concepts_EXPORT" EXPORT_FILE_NAME
-# "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/conceptsExport.h"
-# DEPRECATED_MACRO_NAME "concepts_DEPRECATED" NO_EXPORT_MACRO_NAME
-# "concepts_NO_EXPORT" STATIC_DEFINE "concepts_STATIC_DEFINE"
-# NO_DEPRECATED_MACRO_NAME "concepts_NO_DEPRECATED" DEFINE_NO_DEPRECATED)
+# include(GenerateExportHeader) generate_export_header( corobase_shared
+# BASE_NAME "coro" EXPORT_MACRO_NAME "coro_EXPORT" EXPORT_FILE_NAME
+# "${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/corobaseExport.h"
+# DEPRECATED_MACRO_NAME "coro_DEPRECATED" NO_EXPORT_MACRO_NAME "coro_NO_EXPORT"
+# STATIC_DEFINE "coro_STATIC_DEFINE" NO_DEPRECATED_MACRO_NAME
+# "coro_NO_DEPRECATED" DEFINE_NO_DEPRECATED)
 
 add_library(corobase STATIC "")
 add_library(message::corobase ALIAS corobase)
 
-target_sources(corobase PRIVATE ${CMAKE_CURRENT_LIST_DIR}/corobasics_check.cpp)
+target_sources(corobase PRIVATE ${CMAKE_CURRENT_LIST_DIR}/corobasics_check.cpp
+                                ${CMAKE_CURRENT_LIST_DIR}/corobase.cpp)
 
 # target_precompile_headers(corobase  REUSE_FROM corobase_shared)
 
-target_link_libraries(corobase PRIVATE commonPCH)
+target_link_libraries(corobase PRIVATE commonPCH #[[ PUBLIC fmt::fmt ]])
 
 target_compile_definitions(
   corobase

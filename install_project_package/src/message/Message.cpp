@@ -35,3 +35,6 @@ std::string getUUID() { return "Ooooops, no UUID for you!"; }
 #endif
 
 int Test2::get_value2() const { return 5; }
+
+// void use_fmt() { /* fmt::print("using fmt cool {}", 34); */
+// }

@@ -13,14 +13,13 @@ namespace detail {
 template <typename PromiseType> struct iterator {
   std::coroutine_handle<PromiseType> m_corohdl{nullptr};
 
-  void resume() const {
+  void resume() {
     if (not m_corohdl.done()) {
       m_corohdl.resume();
     }
   }
   iterator() = default;
-  explicit iterator(std::coroutine_handle<PromiseType> hndlco)
-      : m_corohdl{hndlco} {
+  iterator(std::coroutine_handle<PromiseType> hndlco) : m_corohdl{hndlco} {
     resume();
   }
 
@@ -41,7 +40,7 @@ template <typename T, typename G> struct promise_type_base {
     return std::suspend_always{};
   }
 
-  G get_return_object() { return G{*this}; }
+  G get_return_object() { return G{this}; }
 
   auto initial_suspend() noexcept { return std::suspend_always{}; }
   auto final_suspend() noexcept { return std::suspend_always{}; }
@@ -52,7 +51,7 @@ template <typename T, typename G> struct promise_type_base {
   static auto get_return_object_on_allocation_failure() { return G{nullptr}; }
 };
 
-template <typename T> struct generator {
+template <typename T> struct message_EXPORT generator {
   using promise_type = promise_type_base<T, generator>;
   using promise_type_handle = std::coroutine_handle<promise_type>;
 
@@ -84,5 +83,11 @@ private:
   // coroutine handle
   promise_type_handle m_corohdl;
 };
+
+using IntGenerator = generator<int>;
+
+IntGenerator coro_counter(int start, int end);
+void use_counter_value(int i);
+message_EXPORT void use_coro_counter();
 
 } // namespace sp

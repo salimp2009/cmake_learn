@@ -57,7 +57,7 @@ target_sources(
 
 # target_precompile_headers(concepts REUSE_FROM concepts_shared)
 
-target_link_libraries(concepts PRIVATE commonPCH)
+target_link_libraries(concepts PRIVATE commonPCH #[[ fmt::fmt ]])
 
 target_compile_definitions(
   concepts

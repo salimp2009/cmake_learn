@@ -24,7 +24,7 @@ add_subdirectory(coroutines)
 add_executable(hello_world_wDSO2 hello-world.cpp)
 target_link_libraries(
   hello_world_wDSO2 PUBLIC message::message_shared message::concepts_shared
-                           message::corobase_shared)
+                           message::corobase_shared fmt::fmt)
 
 file(RELATIVE_PATH _rel ${CMAKE_INSTALL_PREFIX}/${INSTALL_BINDIR}
      ${CMAKE_INSTALL_PREFIX})
@@ -49,7 +49,7 @@ set_target_properties(
 add_executable(hello_world_wAR2 hello-world.cpp)
 target_link_libraries(
   hello_world_wAR2 PUBLIC message::message_static message::concepts
-                          message::corobase)
+                          message::corobase fmt::fmt)
 
 install(
   DIRECTORY ${PROJECT_SOURCE_DIR}/include/

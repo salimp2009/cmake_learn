@@ -8,6 +8,8 @@ check_required_components(
   "concepts"
   "concepts_shared"
   "commonPCH"
+  "corobase"
+  "corobase_shared"
   "message-hello_world_wDSO2"
   "hello_world_wAR2")
 
