@@ -5,7 +5,7 @@ target_sources(
   corobase_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/corobasics_check.cpp
                           ${CMAKE_CURRENT_LIST_DIR}/corobase.cpp)
 
-target_link_libraries(corobase_shared PRIVATE commonPCH #[[ PUBLIC fmt::fmt ]])
+target_link_libraries(corobase_shared PRIVATE commonPCH #[[ fmt::fmt ]])
 
 # this is needed when REUSE_FROM used PCH
 
@@ -50,7 +50,7 @@ target_sources(corobase PRIVATE ${CMAKE_CURRENT_LIST_DIR}/corobasics_check.cpp
 
 # target_precompile_headers(corobase  REUSE_FROM corobase_shared)
 
-target_link_libraries(corobase PRIVATE commonPCH #[[ PUBLIC fmt::fmt ]])
+target_link_libraries(corobase PRIVATE commonPCH #[[ fmt::fmt ]])
 
 target_compile_definitions(
   corobase

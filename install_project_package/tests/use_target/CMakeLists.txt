@@ -7,8 +7,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+find_package(fmt REQUIRED)
+message(STATUS "fmt found?: ${fmt_FOUND}")
+
 find_package(message PATHS /home/salim/repos/cpp_sandbox/cmake_learn/temp/ 1
              REQUIRED CONFIG)
+
 if(message_FOUND)
   message(STATUS "message lib is found= ${message_FOUND}")
   get_property(

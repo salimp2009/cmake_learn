@@ -28,7 +28,15 @@ set_build_install_dirs()
 
 include(cmake/CPM.cmake)
 cpmaddpackage(NAME Catch2 GITHUB_REPOSITORY catchorg/Catch2 VERSION 3.4.0)
-cpmaddpackage("gh:fmtlib/fmt#10.1.1")
+cpmaddpackage(
+  NAME
+  fmt
+  GIT_TAG
+  10.1.1
+  GITHUB_REPOSITORY
+  fmtlib/fmt
+  OPTIONS
+  "CMAKE_POSITION_INDEPENDENT_CODE ON")
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include(StandartProjectSettings)
