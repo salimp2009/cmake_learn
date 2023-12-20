@@ -17,6 +17,8 @@ check_required_components(
 if(NOT WIN32)
   if(NOT TARGET PkgConfig::UUID)
     find_package(PkgConfig REQUIRED QUIET)
-    pkg_search_module(UUID REQUIED uuid IMPORTED_TARGET)
+    pkg_search_module(UUID REQUIRED uuid IMPORTED_TARGET)
   endif()
 endif()
+
+find_package(fmt REQUIRED)
