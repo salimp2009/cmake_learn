@@ -1,7 +1,4 @@
 #pragma once
-#include <iosfwd>
-#include <iostream>
-#include <type_traits>
 
 #include <array>
 #include <concepts>
@@ -11,5 +8,10 @@
 #include <ranges>
 #include <string>
 #include <vector>
+
+#include <cassert>
+#include <iosfwd>
+#include <iostream>
+#include <type_traits>
 
 #include <fmt/core.h>

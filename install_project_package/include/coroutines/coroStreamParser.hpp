@@ -1,10 +1,11 @@
-#include <coroutine>
-#include <messageExport.h>
+#include "coropromise_multibase.hpp"
+#include "messageExport.h"
 
+#include <cassert>
+#include <coroutine>
 #include <cstddef>
 #include <optional>
 #include <utility>
-
 namespace sp {
 
 [[maybe_unused]] constinit static std::byte ESC{'H'};
@@ -31,16 +32,12 @@ template <typename T> struct awaitable_promise_type_base {
   [[nodiscard]] awaiter await_transform(T) { return awaiter{m_recentSignal}; }
 };
 
-// forward declaration
-// T for store value
-// G is for generator
-template <typename T, typename G, typename... Bases>
-struct promise_type_multibase : Bases... {
+template <typename T>
+concept has_clear = requires(T t) { t.clear(); };
 
-  std::optional<T> m_value{};
-};
-
-template <typename T, typename U> struct [[nodiscard]] async_generator {
+// this is specialized for string;
+// TODO: make a template base for a generic base
+template <has_clear T, typename U> struct [[nodiscard]] async_generator {
   using promise_type = promise_type_multibase<T, async_generator,
                                               awaitable_promise_type_base<U>>;
 
@@ -49,6 +46,7 @@ template <typename T, typename U> struct [[nodiscard]] async_generator {
   T operator()() {
     auto tmp{std::move(m_corohandle.from_promise().m_value)};
     // set it to a defined state after move above
+    // clear is member function of string; this generator is custom
     m_corohandle.promise().m_value.clear();
     return tmp;
   }
@@ -81,38 +79,9 @@ private:
   promisetypehandle m_corohandle;
 };
 
-// remove this to cpp file once it is properly implemented
-struct FSM;
+using FSM = async_generator<std::string, std::byte>;
 
+message_EXPORT FSM parse();
 // this needs to in cpp file
-// FSM parse() {
-//   while (true) {
-//     std::byte b = co_wait std::byte{};
-//     if (ESC != b) {
-//       continue;
-//     }
-
-//     b = co_wait std::byte{};
-//     if (SOF != b) {
-//       continue;
-//     }
-//     std::string frame{};
-//     while (true) {
-//       b = co_wait std::byte{};
-
-//       if (ESC != b) {
-//         b = co_await std::byte;
-//         if (SOF == b) {
-//           co_yield frame;
-//           break;
-//         } else if (ESC != b) {
-//           break;
-//         }
-//       }
-
-//       frame += static_cast<char>(b);
-//     }
-//   }
-// }
 
 } // namespace sp

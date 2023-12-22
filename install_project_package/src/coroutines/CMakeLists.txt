@@ -2,8 +2,10 @@ add_library(corobase_shared SHARED "")
 add_library(message::corobase_shared ALIAS corobase_shared)
 
 target_sources(
-  corobase_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/corobasics_check.cpp
-                          ${CMAKE_CURRENT_LIST_DIR}/corobase.cpp)
+  corobase_shared
+  PRIVATE ${CMAKE_CURRENT_LIST_DIR}/corobasics_check.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/corobase.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/coroStreamParser.cpp)
 
 target_link_libraries(corobase_shared PRIVATE commonPCH #[[ fmt::fmt ]])
 
@@ -45,8 +47,11 @@ set_target_properties(
 add_library(corobase STATIC "")
 add_library(message::corobase ALIAS corobase)
 
-target_sources(corobase PRIVATE ${CMAKE_CURRENT_LIST_DIR}/corobasics_check.cpp
-                                ${CMAKE_CURRENT_LIST_DIR}/corobase.cpp)
+target_sources(
+  corobase
+  PRIVATE ${CMAKE_CURRENT_LIST_DIR}/corobasics_check.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/corobase.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/coroStreamParser.cpp)
 
 # target_precompile_headers(corobase  REUSE_FROM corobase_shared)
 
