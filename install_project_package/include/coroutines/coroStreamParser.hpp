@@ -1,3 +1,4 @@
+#include "corobase.hpp"
 #include "coropromise_multibase.hpp"
 #include "messageExport.h"
 
@@ -6,10 +7,11 @@
 #include <cstddef>
 #include <optional>
 #include <utility>
+#include <vector>
 namespace sp {
 
-[[maybe_unused]] constinit static std::byte ESC{'H'};
-[[maybe_unused]] constinit static std::byte SOF{0x10};
+[[maybe_unused]] constinit static const std::byte ESC{'H'};
+[[maybe_unused]] constinit static const std::byte SOF{0x10};
 
 template <typename T> struct awaitable_promise_type_base {
   std::optional<T> m_recentSignal;
@@ -18,7 +20,16 @@ template <typename T> struct awaitable_promise_type_base {
     // a reference to outer optional
     std::optional<T> &m_recentsignal;
 
+    // if result is false it is suspended & await_suspend is called
     bool await_ready() { return m_recentsignal.has_value(); }
+    // if await_suspend returns void, control is immediately returned to the
+    // caller/resumer of the current coroutine (this coroutine remains
+    // suspended), otherwise
+    /* if await_suspend returns bool,
+        - the value true returns control
+        to the caller/resumer of the current coroutine
+        - the value false resumes the current coroutine.
+    */
     void await_suspend(std::coroutine_handle<>) {}
 
     T await_resume() {
@@ -44,10 +55,10 @@ template <has_clear T, typename U> struct [[nodiscard]] async_generator {
   using promisetypehandle = std::coroutine_handle<promise_type>;
 
   T operator()() {
-    auto tmp{std::move(m_corohandle.from_promise().m_value)};
+    auto tmp{std::move(m_corohandle.promise().mvalue)};
     // set it to a defined state after move above
     // clear is member function of string; this generator is custom
-    m_corohandle.promise().m_value.clear();
+    m_corohandle.promise().mvalue.clear();
     return tmp;
   }
 
@@ -81,7 +92,13 @@ private:
 
 using FSM = async_generator<std::string, std::byte>;
 
-message_EXPORT FSM parse();
+message_EXPORT generator<std::byte> sender(std::vector<std::byte> fakeBytes);
+
+message_EXPORT void process_stream(generator<std::byte> &stream, FSM &parse);
+
+void handle_frame(std::string_view sv);
+
+message_EXPORT FSM parser();
 // this needs to in cpp file
 
 } // namespace sp
