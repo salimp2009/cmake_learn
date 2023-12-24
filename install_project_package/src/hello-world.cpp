@@ -45,5 +45,6 @@ int main() {
   sp::concept_optional_noncopiable();
   sp::concept_subsumption_rules();
   sp::coroutines_basics1();
+  sp::coroutines_stream();
   return EXIT_SUCCESS;
 }

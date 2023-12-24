@@ -31,7 +31,8 @@ template <typename PromiseType> struct iterator {
 
 } // namespace detail
 
-template <typename T, typename G> struct promise_type_base {
+template <typename T, typename G, bool InitialSuspnd = true>
+struct promise_type_base {
   T mvalue;
 
   // invoked by co_yield or co_return
@@ -42,7 +43,14 @@ template <typename T, typename G> struct promise_type_base {
 
   G get_return_object() { return G{this}; }
 
-  auto initial_suspend() noexcept { return std::suspend_always{}; }
+  auto initial_suspend() noexcept {
+    if constexpr (InitialSuspnd) {
+      return std::suspend_always{};
+    } else {
+      return std::suspend_never{};
+    }
+  }
+
   auto final_suspend() noexcept { return std::suspend_always{}; }
 
   void return_void() {}
@@ -51,8 +59,9 @@ template <typename T, typename G> struct promise_type_base {
   static auto get_return_object_on_allocation_failure() { return G{nullptr}; }
 };
 
-template <typename T> struct message_EXPORT generator {
-  using promise_type = promise_type_base<T, generator>;
+template <typename T, bool InitialSuspnd = true>
+struct message_EXPORT generator {
+  using promise_type = promise_type_base<T, generator, InitialSuspnd>;
   using promise_type_handle = std::coroutine_handle<promise_type>;
 
   using iterator = detail::iterator<promise_type>;
@@ -84,7 +93,7 @@ private:
   promise_type_handle m_corohdl;
 };
 
-using IntGenerator = generator<int>;
+using IntGenerator = generator<int, true>;
 
 IntGenerator coro_counter(int start, int end);
 void use_counter_value(int i);

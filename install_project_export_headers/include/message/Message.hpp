@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 
+#include <coroutine>
 #include <messageExport.h>
 
 class message_EXPORT Message {

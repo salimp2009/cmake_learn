@@ -1,5 +1,6 @@
 #pragma once
 #include "messageExport.h"
+#include <coroutine>
 
 namespace sp {
 

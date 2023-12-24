@@ -6,12 +6,18 @@
 #include <coroutine>
 #include <cstddef>
 #include <optional>
+#include <string>
 #include <utility>
-#include <vector>
+
 namespace sp {
 
-[[maybe_unused]] constinit static const std::byte ESC{'H'};
-[[maybe_unused]] constinit static const std::byte SOF{0x10};
+[[maybe_unused]] static const std::byte ESC{'H'};
+[[maybe_unused]] static const std::byte SOF{0x10};
+
+inline std::byte operator""_B(char c) { return static_cast<std::byte>(c); }
+inline std::byte operator""_B(unsigned long long c) {
+  return static_cast<std::byte>(c);
+}
 
 template <typename T> struct awaitable_promise_type_base {
   std::optional<T> m_recentSignal;
@@ -31,7 +37,6 @@ template <typename T> struct awaitable_promise_type_base {
         - the value false resumes the current coroutine.
     */
     void await_suspend(std::coroutine_handle<>) {}
-
     T await_resume() {
       assert(m_recentsignal.has_value());
       auto tmp = *m_recentsignal;
@@ -100,5 +105,7 @@ void handle_frame(std::string_view sv);
 
 message_EXPORT FSM parser();
 // this needs to in cpp file
+
+message_EXPORT void simulate_stream();
 
 } // namespace sp
