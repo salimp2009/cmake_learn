@@ -3,6 +3,9 @@
 #include "corobasics.hpp"
 
 #include <fmt/core.h>
+#include <optional>
+#include <type_traits>
+#include <vector>
 
 namespace sp {
 

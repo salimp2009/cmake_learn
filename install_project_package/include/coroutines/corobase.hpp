@@ -37,7 +37,7 @@ struct promise_type_base {
 
   // invoked by co_yield or co_return
   auto yield_value(T value) {
-    mvalue = std::move(value);
+    mvalue = value;
     return std::suspend_always{};
   }
 
@@ -79,6 +79,12 @@ struct message_EXPORT generator {
     if (m_corohdl) {
       m_corohdl.destroy();
     }
+  }
+
+  T operator()() {
+    T tmp{};
+    std::swap(tmp, m_corohdl.promise().mvalue);
+    return tmp;
   }
 
 private:

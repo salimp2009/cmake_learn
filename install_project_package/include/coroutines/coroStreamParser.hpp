@@ -97,6 +97,8 @@ private:
 
 using FSM = async_generator<std::string, std::byte>;
 
+using FSM_v2 = generator<std::string, false>;
+
 message_EXPORT generator<std::byte> sender(std::vector<std::byte> fakeBytes);
 
 message_EXPORT void process_stream(generator<std::byte> &stream, FSM &parse);
