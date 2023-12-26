@@ -1,12 +1,16 @@
 #pragma once
+#include "corobase.hpp"
 #include "messageExport.h"
+
 #include <coroutine>
 #include <cstddef>
 #include <optional>
 #include <utility>
+
 namespace sp {
 
 class DataStreamReader {
+public:
   DataStreamReader() = default;
 
   // Deleting move assigment deletes copy & move operations
@@ -16,6 +20,7 @@ class DataStreamReader {
 
   struct Awaiter {
     Awaiter &operator=(Awaiter &&) noexcept = delete;
+
     Awaiter(DataStreamReader &event) noexcept : mevent{event} {
       mevent.mawaiter = this;
     }
@@ -30,6 +35,11 @@ class DataStreamReader {
     std::byte await_resume() noexcept {
       assert(mevent.mdata.has_value());
       return *std::exchange(mevent.mdata, std::nullopt);
+      // return mevent.mdata
+      //     .and_then([this](std::byte val) -> std::optional<std::byte> {
+      //       return *std::exchange(mevent.mdata, std::nullopt);
+      //     })
+      //     .value_or(std::byte{});
     }
 
     void resume() { m_corohndl.resume(); }
@@ -54,5 +64,10 @@ private:
   Awaiter *mawaiter;
   std::optional<std::byte> mdata{};
 };
+
+using FSM_v2 = generator<std::string, false>;
+
+message_EXPORT void stream_simulator2();
+message_EXPORT FSM_v2 parser_v2(DataStreamReader &stream);
 
 } // namespace sp

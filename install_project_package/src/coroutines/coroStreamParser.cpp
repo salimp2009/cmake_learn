@@ -43,7 +43,7 @@ generator<std::byte> sender(std::vector<std::byte> fakeBytes) {
   }
 }
 
-void handle_frame(std::string stream_result) {
+void handle_frame(std::string_view stream_result) {
   fmt::println("result from stream: {}", stream_result);
 }
 

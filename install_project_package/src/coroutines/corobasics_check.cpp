@@ -1,3 +1,4 @@
+#include "coroDataStreamReader.hpp"
 #include "coroStreamParser.hpp"
 #include "corobase.hpp"
 #include "corobasics.hpp"
@@ -21,6 +22,12 @@ void coroutines_stream() noexcept {
   std::puts("-------------> coroutines_stream test1 -------------<");
   simulate_stream();
   std::puts("-------------> coroutines_stream test1 passed -------------<");
+}
+
+void coroutines_stream_v2() noexcept {
+  std::puts("-------------> coroutines_stream_v2 test1 -------------<");
+  stream_simulator2();
+  std::puts("-------------> coroutines_stream_v2 test1 passed -------------<");
 }
 
 } // namespace sp

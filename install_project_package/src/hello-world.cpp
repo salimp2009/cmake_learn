@@ -46,5 +46,6 @@ int main() {
   sp::concept_subsumption_rules();
   sp::coroutines_basics1();
   sp::coroutines_stream();
+  sp::coroutines_stream_v2();
   return EXIT_SUCCESS;
 }
