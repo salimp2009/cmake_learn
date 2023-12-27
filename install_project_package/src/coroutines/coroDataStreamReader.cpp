@@ -36,9 +36,9 @@ FSM_v2 parser_v2(DataStreamReader &stream) {
 }
 
 void stream_simulator2() {
-  const std::vector<std::byte> fakeBytes1{0x70_B, ESC,   SOF,   ESC,   'H'_B,
-                                          'e'_B,  'l'_B, 'l'_B, 'o'_B, ESC,
-                                          SOF,    0x7_B, ESC,   SOF};
+  std::vector<std::byte> fakeBytes1{0x70_B, ESC,   SOF,   ESC,   'H'_B,
+                                    'e'_B,  'l'_B, 'l'_B, 'o'_B, ESC,
+                                    SOF,    0x7_B, ESC,   SOF};
 
   auto stream1 = sender(std::move(fakeBytes1));
 
@@ -51,8 +51,8 @@ void stream_simulator2() {
       handle_frame(res);
     }
   }
-  const std::vector<std::byte> fakeBytes2{'W'_B, 'o'_B, 'r'_B, 'l'_B,
-                                          'd'_B, ESC,   SOF,   0x99_B};
+  std::vector<std::byte> fakeBytes2{'W'_B, 'o'_B, 'r'_B, 'l'_B,
+                                    'd'_B, ESC,   SOF,   0x99_B};
 
   auto stream2 = sender(std::move(fakeBytes2));
   for (const auto &b : stream2) {

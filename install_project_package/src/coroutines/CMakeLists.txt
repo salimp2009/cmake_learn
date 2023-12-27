@@ -6,7 +6,8 @@ target_sources(
   PRIVATE ${CMAKE_CURRENT_LIST_DIR}/corobasics_check.cpp
           ${CMAKE_CURRENT_LIST_DIR}/corobase.cpp
           ${CMAKE_CURRENT_LIST_DIR}/coroStreamParser.cpp
-          ${CMAKE_CURRENT_LIST_DIR}/coroDataStreamReader.cpp)
+          ${CMAKE_CURRENT_LIST_DIR}/coroDataStreamReader.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/coropromise_custom_alloctr.cpp)
 
 target_link_libraries(corobase_shared PRIVATE commonPCH #[[ fmt::fmt ]])
 
@@ -53,7 +54,8 @@ target_sources(
   PRIVATE ${CMAKE_CURRENT_LIST_DIR}/corobasics_check.cpp
           ${CMAKE_CURRENT_LIST_DIR}/corobase.cpp
           ${CMAKE_CURRENT_LIST_DIR}/coroStreamParser.cpp
-          ${CMAKE_CURRENT_LIST_DIR}/coroDataStreamReader.cpp)
+          ${CMAKE_CURRENT_LIST_DIR}/coroDataStreamReader.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/coropromise_custom_alloctr.cpp)
 
 # target_precompile_headers(corobase  REUSE_FROM corobase_shared)
 
