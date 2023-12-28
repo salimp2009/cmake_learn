@@ -2,6 +2,7 @@
 #include "coroStreamParser.hpp"
 #include "corobase.hpp"
 #include "corobasics.hpp"
+#include "coropromise_custom_alloctr.hpp"
 
 #include <fmt/core.h>
 #include <optional>
@@ -27,6 +28,17 @@ void coroutines_stream() noexcept {
 void coroutines_stream_v2() noexcept {
   std::puts("-------------> coroutines_stream_v2 test1 -------------<");
   stream_simulator2();
+#if DEBUG
+  fmt::println("Debug Build is On");
+#else
+  fmt::println("Release Build is On");
+#endif // DEBUG
+  std::puts("-------------> coroutines_stream_v2 test1 passed -------------<");
+}
+
+void coroutines_stream_allocator() noexcept {
+  std::puts("-------------> coroutines_stream_v2 test1 -------------<");
+  stream_simulator_arena_alloc();
   std::puts("-------------> coroutines_stream_v2 test1 passed -------------<");
 }
 

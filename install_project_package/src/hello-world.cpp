@@ -47,5 +47,6 @@ int main() {
   sp::coroutines_basics1();
   sp::coroutines_stream();
   sp::coroutines_stream_v2();
+  sp::coroutines_stream_allocator();
   return EXIT_SUCCESS;
 }
