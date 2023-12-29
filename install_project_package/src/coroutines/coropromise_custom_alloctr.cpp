@@ -5,7 +5,6 @@
 namespace sp {
 
 void *arena::allocate(std::size_t size) noexcept {
-
   auto objectsize = size;
   size += sizeof(arena *);
 

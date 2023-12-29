@@ -2,6 +2,7 @@
 // #include <conceptbasics.hpp>
 #include "conceptbasics_check.hpp"
 #include "corobasics.hpp"
+#include "rangebasics.hpp"
 
 #include <cstdlib>
 #include <fmt/core.h>
@@ -47,6 +48,6 @@ int main() {
   sp::coroutines_basics1();
   sp::coroutines_stream();
   sp::coroutines_stream_v2();
-  sp::coroutines_stream_allocator();
+  sp::range_basics1();
   return EXIT_SUCCESS;
 }

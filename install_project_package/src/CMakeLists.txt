@@ -20,11 +20,13 @@ target_include_directories(
 add_subdirectory(message)
 add_subdirectory(concepts)
 add_subdirectory(coroutines)
+add_subdirectory(ranges)
 
 add_executable(hello_world_wDSO2 hello-world.cpp)
 target_link_libraries(
-  hello_world_wDSO2 PUBLIC message::message_shared message::concepts_shared
-                           message::corobase_shared fmt::fmt)
+  hello_world_wDSO2
+  PUBLIC message::message_shared message::concepts_shared
+         message::corobase_shared message::rangebase_shared fmt::fmt)
 
 file(RELATIVE_PATH _rel ${CMAKE_INSTALL_PREFIX}/${INSTALL_BINDIR}
      ${CMAKE_INSTALL_PREFIX})
@@ -49,7 +51,7 @@ set_target_properties(
 add_executable(hello_world_wAR2 hello-world.cpp)
 target_link_libraries(
   hello_world_wAR2 PUBLIC message::message_static message::concepts
-                          message::corobase fmt::fmt)
+                          message::corobase message::rangebase fmt::fmt)
 
 install(
   DIRECTORY ${PROJECT_SOURCE_DIR}/include/
@@ -67,6 +69,8 @@ install(
           concepts_shared
           corobase
           corobase_shared
+          rangebase
+          rangebase_shared
           commonPCH
   EXPORT messageTargets
   ARCHIVE DESTINATION ${INSTALL_LIBDIR}/${PROJECT_NAME} COMPONENT lib
