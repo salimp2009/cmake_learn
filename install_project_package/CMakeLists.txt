@@ -27,7 +27,7 @@ include(cmake/set_build_install_dir.cmake)
 set_build_install_dirs()
 
 include(cmake/CPM.cmake)
-cpmaddpackage(NAME Catch2 GITHUB_REPOSITORY catchorg/Catch2 VERSION 3.4.0)
+cpmaddpackage(NAME Catch2 GITHUB_REPOSITORY catchorg/Catch2 VERSION 3.5.0)
 cpmaddpackage(
   NAME
   fmt

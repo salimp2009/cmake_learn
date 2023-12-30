@@ -49,5 +49,6 @@ int main() {
   sp::coroutines_stream();
   sp::coroutines_stream_v2();
   sp::range_basics1();
+  sp::range_sort_projection();
   return EXIT_SUCCESS;
 }

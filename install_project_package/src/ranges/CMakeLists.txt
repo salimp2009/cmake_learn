@@ -1,8 +1,9 @@
 add_library(rangebase_shared SHARED "")
 add_library(message::rangebase_shared ALIAS rangebase_shared)
 
-target_sources(rangebase_shared
-               PRIVATE ${CMAKE_CURRENT_LIST_DIR}/rangebasics_check.cpp)
+target_sources(
+  rangebase_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/rangebasics_check.cpp
+                           ${CMAKE_CURRENT_LIST_DIR}/rangebase.cpp)
 
 target_link_libraries(rangebase_shared PRIVATE commonPCH #[[ fmt::fmt ]])
 
@@ -44,8 +45,8 @@ set_target_properties(
 add_library(rangebase STATIC "")
 add_library(message::rangebase ALIAS rangebase)
 
-target_sources(rangebase
-               PRIVATE ${CMAKE_CURRENT_LIST_DIR}/rangebasics_check.cpp)
+target_sources(rangebase PRIVATE ${CMAKE_CURRENT_LIST_DIR}/rangebasics_check.cpp
+                                 ${CMAKE_CURRENT_LIST_DIR}/rangebase.cpp)
 
 # target_precompile_headers(corobase  REUSE_FROM corobase_shared)
 
