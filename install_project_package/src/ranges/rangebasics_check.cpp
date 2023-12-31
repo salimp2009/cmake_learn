@@ -40,4 +40,10 @@ void range_sort_projection() noexcept {
   sort_by_isbn();
 }
 
+void range_add_currency() noexcept {
+  std::puts("-------------> range_add_currency test1 -------------<");
+  add_currency();
+  std::puts("-------------> range_add_currency test1 passed -------------<");
+}
+
 } // namespace sp

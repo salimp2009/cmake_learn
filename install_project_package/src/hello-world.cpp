@@ -50,5 +50,6 @@ int main() {
   sp::coroutines_stream_v2();
   sp::range_basics1();
   sp::range_sort_projection();
+  sp::range_add_currency();
   return EXIT_SUCCESS;
 }

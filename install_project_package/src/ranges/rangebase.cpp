@@ -2,7 +2,7 @@
 #include "fmt/ranges.h"
 #include <algorithm>
 #include <fmt/core.h>
-#include <format>
+#include <ranges>
 #include <vector>
 namespace sp {
 void sort_by_title() {
@@ -20,6 +20,20 @@ void sort_by_isbn() {
 
   std::ranges::sort(books, std::ranges::greater{}, &Book::isbn);
   fmt::println("sorted by isbn: {}", books);
+}
+
+void add_currency() {
+  const std::vector prices{3.95, 6.0, 95.4, 10.95, 12.90, 5.50};
+
+  // const char* for suffix works but std::string_view suffix dont work
+  auto add_suffix = [](const std::string &suffix) {
+    return [suffix](auto &&val) { return std::to_string(val) + suffix; };
+  };
+
+  auto subView = prices |
+                 std::views::filter([](auto &&val) { return val < 10.; }) |
+                 std::views::transform(add_suffix("$"));
+  fmt::println("prices with currencies: {}", subView);
 }
 
 } // namespace sp

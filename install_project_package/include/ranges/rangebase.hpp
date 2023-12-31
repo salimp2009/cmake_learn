@@ -4,6 +4,7 @@
 #include <fmt/core.h>
 #include <fmt/format.h>
 #include <format>
+#include <string>
 
 namespace sp {
 struct Book {
@@ -13,6 +14,7 @@ struct Book {
 
 message_EXPORT void sort_by_title();
 message_EXPORT void sort_by_isbn();
+message_EXPORT void add_currency();
 } // namespace sp
 
 // std::formatter customization has to either in namespace st or global
