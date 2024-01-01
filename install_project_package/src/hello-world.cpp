@@ -3,8 +3,10 @@
 #include "conceptbasics_check.hpp"
 #include "corobasics.hpp"
 #include "rangebasics.hpp"
+#include "rangeiterator_concepts.hpp"
 
 #include <cstdlib>
+
 #include <fmt/core.h>
 
 int main() {
@@ -51,5 +53,6 @@ int main() {
   sp::range_basics1();
   sp::range_sort_projection();
   sp::range_add_currency();
+  sp::ranges_type_checks();
   return EXIT_SUCCESS;
 }

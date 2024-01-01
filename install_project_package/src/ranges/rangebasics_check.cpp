@@ -43,6 +43,7 @@ void range_sort_projection() noexcept {
 void range_add_currency() noexcept {
   std::puts("-------------> range_add_currency test1 -------------<");
   add_currency();
+  std::vector<int> myvec{1, 2, 3, 4};
   std::puts("-------------> range_add_currency test1 passed -------------<");
 }
 
