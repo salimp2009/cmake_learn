@@ -1,3 +1,6 @@
 #include "range_customtakeview.hpp"
 #include <vector>
-namespace sp {} // namespace sp
+namespace sp {
+
+void custom_take_check() {}
+} // namespace sp
