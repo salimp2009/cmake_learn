@@ -54,5 +54,6 @@ int main() {
   sp::range_sort_projection();
   sp::range_add_currency();
   sp::ranges_type_checks();
+  sp::range_customs_views1();
   return EXIT_SUCCESS;
 }

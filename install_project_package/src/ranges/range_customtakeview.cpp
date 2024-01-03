@@ -1,6 +1,15 @@
 #include "range_customtakeview.hpp"
+#include <fmt/core.h>
+#include <fmt/ranges.h>
 #include <vector>
 namespace sp {
 
-void custom_take_check() {}
+void custom_take_check() {
+  const std::vector<int> myvec{2, 3, 4, 5, 6, 7, 8, 9};
+  auto result = myvec |
+                std::views::filter([](auto &&val) { return val % 2 == 0; }) |
+                sp::views::custom_take(7) | std::views::take(3);
+
+  fmt::println("result from custom_take: {}", result);
+}
 } // namespace sp

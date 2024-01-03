@@ -1,7 +1,10 @@
+#include "range_customtakeview.hpp"
 #include "rangebase.hpp"
 #include "rangebasics.hpp"
+
 #include <fmt/core.h>
 #include <fmt/ranges.h>
+
 #include <numeric>
 #include <ranges>
 #include <vector>
@@ -45,6 +48,12 @@ void range_add_currency() noexcept {
   add_currency();
   std::vector<int> myvec{1, 2, 3, 4};
   std::puts("-------------> range_add_currency test1 passed -------------<");
+}
+
+void range_customs_views1() noexcept {
+  std::puts("-------------> range_customs_views1 test1 -------------<");
+  custom_take_check();
+  std::puts("-------------> range_customs_views1 test1 passed -------------<");
 }
 
 } // namespace sp

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "messageExport.h"
+#include <algorithm>
+#include <iterator>
 #include <ranges>
 
 namespace sp {
@@ -25,7 +27,11 @@ public:
   constexpr R base() && { return std::move(mbase); }
 
   constexpr auto begin() { return std::ranges::begin(mbase); }
-  constexpr auto end() { return std::ranges::next(std::begin(mbase), mcount); }
+  constexpr auto end() {
+    auto newend = std::min<std::ranges::range_difference_t<R>>(
+        std::ranges::distance(mbase), mcount);
+    return std::ranges::next(std::begin(mbase), newend);
+  }
 };
 
 // Deduction guide
@@ -33,13 +39,14 @@ template <std::ranges::range R>
 custom_take_view(R &&base, std::ranges::range_difference_t<R>)
     -> custom_take_view<std::ranges::views::all_t<R>>;
 
-namespace details {
+namespace message_NO_EXPORT details {
 template <typename T>
 concept iter_diff_type = requires { std::iter_difference_t<T>(); };
 
 template <iter_diff_type T> struct custom_take_range_adaptor_closure {
   T mcount;
-  constexpr custom_take_range_adaptor_closure(T count) : mcount{count} {}
+  constexpr explicit custom_take_range_adaptor_closure(T count)
+      : mcount{count} {}
 
   template <std::ranges::viewable_range R>
   constexpr auto operator()(R &&r) const {
@@ -63,7 +70,7 @@ template <std::ranges::viewable_range R, std::invocable<R> Adaptor>
 constexpr auto operator|(R &&r, const Adaptor &a) {
   return a(std::forward<R>(r));
 }
-} // namespace details
+} // namespace message_NO_EXPORT details
 namespace views {
 inline details::custom_take_range_adaptor custom_take;
 } // namespace views
