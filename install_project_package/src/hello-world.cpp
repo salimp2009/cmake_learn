@@ -2,6 +2,7 @@
 // #include <conceptbasics.hpp>
 #include "conceptbasics_check.hpp"
 #include "corobasics.hpp"
+#include "formatbasics.hpp"
 #include "rangebasics.hpp"
 #include "rangeiterator_concepts.hpp"
 
@@ -55,5 +56,6 @@ int main() {
   sp::range_add_currency();
   sp::ranges_type_checks();
   sp::range_customs_views1();
+  sp::format_basics1();
   return EXIT_SUCCESS;
 }

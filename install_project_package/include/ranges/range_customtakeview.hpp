@@ -2,6 +2,7 @@
 
 #include "messageExport.h"
 #include <algorithm>
+#include <cstddef>
 #include <iterator>
 #include <ranges>
 
@@ -12,7 +13,7 @@ class custom_take_view
     : public std::ranges::view_interface<custom_take_view<R>> {
 private:
   R mbase{};
-  std::ranges::range_difference_t<R> mcount{};
+  std::ptrdiff_t mcount{};
 
 public:
   custom_take_view()
