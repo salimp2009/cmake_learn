@@ -57,5 +57,7 @@ int main() {
   sp::ranges_type_checks();
   sp::range_customs_views1();
   sp::format_basics1();
+  sp::format_basics2();
+  sp::format_to_buffer();
   return EXIT_SUCCESS;
 }

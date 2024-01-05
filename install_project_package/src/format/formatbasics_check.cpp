@@ -1,16 +1,19 @@
 #include "formatbasics.hpp"
-#include <cstddef>
-#include <cstdio>
+
 #include <fmt/core.h>
 #include <fmt/format.h>
+
 #include <format>
-#include <locale>
 #include <string>
+
+#include <cstdio>
+#include <locale>
+
 namespace sp {
 
 void format_basics1() noexcept {
-  std::puts("-------------> format_basics1 test1 -------------<");
-  // this is need to make "xcvcxvc"s work
+  std::puts("-------------> format_basics1 test -------------<");
+  // this is needed to make "xcvcxvc"s work
   using namespace std::string_literals;
 
   auto result = std::format("{:>10} {:>8.2f} {:>6.2f} {:.2f}% {} \n",
@@ -23,7 +26,38 @@ void format_basics1() noexcept {
   // const auto locDE = std::locale("de_DE.UTF-8"s);
   const auto locUS = std::locale("en_US.UTF-8"s);
 
-  std::puts("-------------> format_basics1 test1 passed -------------<");
+  result = std::format("{:*<7}", 42);
+  fmt::println("{}", result);
+
+  result = std::format("{:*>7}", 42);
+  fmt::println("{}", result);
+
+  result = std::format("{:*^8}", 42);
+  fmt::println("{}", result);
+  fmt::println("typeid.name :{}", typeid(decltype(locUS)).name());
+  std::puts("-------------> format_basics1 test passed -------------<");
+}
+
+void format_basics2() noexcept {
+  std::puts("-------------> format_basics2 test -------------<");
+
+  auto res = std::format("{0} has value hex: {0:0X}, decimal: {0:+4d}, octal: "
+                         "{0:0o}, binary: {0:0b}",
+                         '?');
+  fmt::println("{}", res);
+
+  res = std::format("{0} has value hex: {0:#0x}, decimal: {0:+4d}, octal: "
+                    "{0:#0o}, binary: {0:#0b}",
+                    'y');
+  fmt::println("{}", res);
+
+  std::puts("-------------> format_basics2 test passed -------------<");
+}
+
+void format_to_buffer() noexcept {
+  std::puts("-------------> format_to_buffer test -------------<");
+
+  std::puts("-------------> format_to_buffer test passed -------------<");
 }
 
 } // namespace sp
