@@ -1,5 +1,6 @@
 #include "formatbasics.hpp"
 
+#include <cstddef>
 #include <fmt/core.h>
 #include <fmt/format.h>
 
@@ -47,16 +48,37 @@ void format_basics2() noexcept {
   fmt::println("{}", res);
 
   res = std::format("{0} has value hex: {0:#0x}, decimal: {0:+4d}, octal: "
-                    "{0:#0o}, binary: {0:#0b}",
-                    'y');
+                    "{0:#0o}, binary: {0:#0b}, character: {0:c}, string: "
+                    "{1:s}, string: {1:.3s}",
+                    'y', "hello");
   fmt::println("{}", res);
+  const std::wstring ws2 = std::format(L"{}", L"K\u00F6ln");
+
+  int number = 42;
+  fmt::println("adress of number: {:p}, nullptr: {}",
+               static_cast<void *>(&number), nullptr);
+#ifdef _MSC_VER
+  std::locale locG{"deu_deu.1252"};
+#else
+  std::locale locG{"en_US.UTF-8"};
+#endif
+  auto result_locale =
+      std::format(locG, "normal locale: {0}, us locale: {0:L}", 1000.7);
+  // this does not work on my computer
+  // if it is different locale than below one
+  fmt::println("{}", result_locale);
 
   std::puts("-------------> format_basics2 test passed -------------<");
 }
 
 void format_to_buffer() noexcept {
   std::puts("-------------> format_to_buffer test -------------<");
-
+  char buffer[64];
+  auto str = std::string{"hello str & format to"};
+  auto result = std::format_to_n(buffer, std::size(buffer) - 1,
+                                 "string {} has {} chars", str, std::size(str));
+  *(result.out) = '\0';
+  fmt::println("format_to_n: {}", buffer);
   std::puts("-------------> format_to_buffer test passed -------------<");
 }
 
