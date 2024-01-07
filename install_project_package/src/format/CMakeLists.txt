@@ -1,8 +1,9 @@
 add_library(formatbase_shared SHARED "")
 add_library(message::formatbase_shared ALIAS formatbase_shared)
 
-target_sources(formatbase_shared
-               PRIVATE ${CMAKE_CURRENT_LIST_DIR}/formatbasics_check.cpp)
+target_sources(
+  formatbase_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/formatbasics_check.cpp
+                            ${CMAKE_CURRENT_LIST_DIR}/stockindex.cpp)
 
 target_link_libraries(rangebase_shared PRIVATE commonPCH #[[ fmt::fmt ]])
 
@@ -44,8 +45,9 @@ set_target_properties(
 add_library(formatbase STATIC "")
 add_library(message::formatbase ALIAS formatbase)
 
-target_sources(formatbase
-               PRIVATE ${CMAKE_CURRENT_LIST_DIR}/formatbasics_check.cpp)
+target_sources(
+  formatbase PRIVATE ${CMAKE_CURRENT_LIST_DIR}/formatbasics_check.cpp
+                     ${CMAKE_CURRENT_LIST_DIR}/stockindex.cpp)
 
 # target_precompile_headers(corobase  REUSE_FROM corobase_shared)
 

@@ -59,5 +59,7 @@ int main() {
   sp::format_basics1();
   sp::format_basics2();
   sp::format_to_buffer();
+  sp::print_indices();
+
   return EXIT_SUCCESS;
 }

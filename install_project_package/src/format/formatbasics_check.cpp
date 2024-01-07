@@ -1,4 +1,5 @@
 #include "formatbasics.hpp"
+#include "stockindex.hpp"
 
 #include <cstddef>
 #include <fmt/core.h>
@@ -80,6 +81,21 @@ void format_to_buffer() noexcept {
   *(result.out) = '\0';
   fmt::println("format_to_n: {}", buffer);
   std::puts("-------------> format_to_buffer test passed -------------<");
+}
+
+void print_indices() noexcept {
+  std::puts("-------------> print_indices test -------------<");
+  auto indices_vec = getindices();
+
+  for (const auto &stock : indices_vec) {
+
+    fmt::println("stockes indices: name: {:10}, points: {:>8.2f}, points diff: "
+                 "{:>6.2f}, "
+                 "points diff percent : {:.2f}",
+                 stock.name(), stock.points(), stock.points_diff(),
+                 stock.points_percent());
+  }
+  std::puts("-------------> print_indices test passed -------------<");
 }
 
 } // namespace sp
