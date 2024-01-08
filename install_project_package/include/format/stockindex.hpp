@@ -1,9 +1,13 @@
 #pragma once
 #include "messageExport.h"
+
 #include <cmath>
+#include <format>
 #include <limits>
 #include <string>
+#include <strings.h>
 #include <vector>
+
 namespace sp {
 
 class message_EXPORT StockIndex {
@@ -34,3 +38,17 @@ public:
 message_EXPORT std::vector<StockIndex> getindices();
 
 } // namespace sp
+
+template <> struct std::formatter<sp::StockIndex> {
+  formatter() = default;
+
+  constexpr auto parse(std::format_parse_context &ctx) { return ctx.begin(); }
+
+  auto format(const sp::StockIndex &index, std::format_context &ctx) const {
+    return std::format_to(ctx.out(),
+                          "name: {:10}, points: {:>8.2f}, point diff: "
+                          "{:>6.2f}, points percent: {:.2f}%",
+                          index.name(), index.points(), index.points_diff(),
+                          index.points_percent());
+  }
+};

@@ -94,7 +94,11 @@ void print_indices() noexcept {
                  "points diff percent : {:.2f}",
                  stock.name(), stock.points(), stock.points_diff(),
                  stock.points_percent());
+
+    auto result = std::format("{}", stock);
+    fmt::println("using custom StockIndex formatter: {}", result);
   }
+
   std::puts("-------------> print_indices test passed -------------<");
 }
 
