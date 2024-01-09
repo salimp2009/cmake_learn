@@ -99,6 +99,16 @@ void print_indices() noexcept {
     fmt::println("using custom StockIndex formatter: {}", result);
   }
 
+  for (const auto &index : getindices()) {
+    auto result = std::format("{:s}", index);
+    fmt::println("short format: {}", result);
+  }
+
+  for (const auto &index : getindices()) {
+    auto result = std::format("{:p}", index);
+    fmt::println("format withplus: {}", result);
+  }
+
   std::puts("-------------> print_indices test passed -------------<");
 }
 

@@ -1,9 +1,9 @@
 #pragma once
 #include "messageExport.h"
 
-#include <cmath>
+// #include <cmath>
 #include <format>
-#include <limits>
+// #include <limits>
 #include <string>
 #include <strings.h>
 #include <vector>
@@ -39,15 +39,73 @@ message_EXPORT std::vector<StockIndex> getindices();
 
 } // namespace sp
 
-template <> struct std::formatter<sp::StockIndex> {
-  formatter() = default;
+// template <> struct std::formatter<sp::StockIndex> {
+//   formatter() = default;
 
-  constexpr auto parse(std::format_parse_context &ctx) { return ctx.begin(); }
+//   constexpr auto parse(std::format_parse_context &ctx) { return ctx.begin();
+//   }
+
+//   auto format(const sp::StockIndex &index, std::format_context &ctx) const {
+//     return std::format_to(ctx.out(),
+//                           "name: {:10}, points: {:>8.2f}, point diff: "
+//                           "{:>6.2f}, points percent: {:.2f}%",
+//                           index.name(), index.points(), index.points_diff(),
+//                           index.points_percent());
+//   }
+// };
+
+template <> struct std::formatter<sp::StockIndex> {
+  enum class IndexFormat { Normal, Short, WithPlus };
+
+  IndexFormat index_format{IndexFormat::Normal};
+
+  constexpr auto parse(std::format_parse_context &ctx) {
+    auto it = ctx.begin();
+    auto end = ctx.end();
+
+    if (it != end) {
+      using enum IndexFormat;
+      switch (*it) {
+      case 's': {
+        index_format = Short;
+        ++it;
+        break;
+      }
+      case 'p': {
+        index_format = WithPlus;
+        ++it;
+        break;
+      }
+      } // end of switch
+
+      if (*it != '}') {
+        throw std::format_error("invalid format");
+      }
+    } // endof if statement
+
+    return it;
+  }
 
   auto format(const sp::StockIndex &index, std::format_context &ctx) const {
-    return std::format_to(ctx.out(),
-                          "name: {:10}, points: {:>8.2f}, point diff: "
-                          "{:>6.2f}, points percent: {:.2f}%",
+    using enum IndexFormat;
+    switch (index_format) {
+    case Short: {
+      return std::format_to(ctx.out(), "name: {:10}, points:{:>8.2f}",
+                            index.name(), index.points());
+    }
+    case WithPlus: {
+      return std::format_to(ctx.out(), "{:10} {:>8.2f} {: >+7.2f} {:+.2f}%",
+                            index.name(), index.points(), index.points_diff(),
+                            index.points_percent());
+    }
+    case Normal: {
+      return std::format_to(ctx.out(), "{:10}, {:>8.2f}, {:>7.2f}, {:.2f}%",
+                            index.name(), index.points(), index.points_diff(),
+                            index.points_percent());
+    }
+    }
+
+    return std::format_to(ctx.out(), "{:10}, {:>8.2f}, {:>7.2f}, {:.2f}%",
                           index.name(), index.points(), index.points_diff(),
                           index.points_percent());
   }
