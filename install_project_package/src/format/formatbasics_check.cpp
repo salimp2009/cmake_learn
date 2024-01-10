@@ -98,6 +98,7 @@ void print_indices() noexcept {
     auto result = std::format("{}", stock);
     fmt::println("using custom StockIndex formatter: {}", result);
   }
+  std::locale locG{"en_US.UTF-8"};
 
   for (const auto &index : getindices()) {
     auto result = std::format("{:s}", index);

@@ -58,55 +58,89 @@ template <> struct std::formatter<sp::StockIndex> {
   enum class IndexFormat { Normal, Short, WithPlus };
 
   IndexFormat index_format{IndexFormat::Normal};
+  bool localized = false;
 
   constexpr auto parse(std::format_parse_context &ctx) {
     auto it = ctx.begin();
-    auto end = ctx.end();
 
-    if (it != end) {
-      using enum IndexFormat;
-      switch (*it) {
-      case 's': {
-        index_format = Short;
+    // #B Helper to search for a character
+    auto isChar = [&](char c) {
+      if ((it != ctx.end()) && (*it == c)) {
         ++it;
-        break;
+        return true;
       }
-      case 'p': {
-        index_format = WithPlus;
-        ++it;
-        break;
-      }
-      } // end of switch
 
-      if (*it != '}') {
-        throw std::format_error("invalid format");
-      }
-    } // endof if statement
+      return false;
+    };
+
+    // #C Localized formatting
+    if (isChar('L')) {
+      localized = true;
+    }
+
+    if (isChar('s')) {
+      index_format = IndexFormat::Short;
+    } else if (isChar('p')) {
+      index_format = IndexFormat::WithPlus;
+    }
+
+    if (it != ctx.end() && *it != '}') {
+      throw format_error("invalid format");
+    }
 
     return it;
   }
 
   auto format(const sp::StockIndex &index, std::format_context &ctx) const {
     using enum IndexFormat;
-    switch (index_format) {
-    case Short: {
-      return std::format_to(ctx.out(), "name: {:10}, points:{:>8.2f}",
-                            index.name(), index.points());
-    }
-    case WithPlus: {
-      return std::format_to(ctx.out(), "{:10} {:>8.2f} {: >+7.2f} {:+.2f}%",
-                            index.name(), index.points(), index.points_diff(),
-                            index.points_percent());
-    }
-    case Normal: {
-      return std::format_to(ctx.out(), "{:10}, {:>8.2f}, {:>7.2f}, {:.2f}%",
-                            index.name(), index.points(), index.points_diff(),
-                            index.points_percent());
-    }
-    }
+    using namespace std::string_literals;
 
-    return std::format_to(ctx.out(), "{:10}, {:>8.2f}, {:>7.2f}, {:.2f}%",
-                          index.name(), index.points(), index.points_diff(),
-                          index.points_percent());
+    // #D Add localized
+    const auto locFloat{localized ? "L"s : ""s};
+    const auto plus{(IndexFormat::WithPlus == index_format) ? "+"s : ""s};
+
+    if (IndexFormat::Short == index_format) {
+      const auto fmt = std::format("{{:10}} {{:>8.2{}f}}"sv, locFloat);
+
+      return std::vformat_to(
+          ctx.out(), fmt, std::make_format_args(index.name(), index.points()));
+
+    } else {
+      const auto fmt{std::format("{{:10}} {{:>8.2{0}f}}  {{:>{1}7.2{0}f}}  "
+                                 "{{:{1}.2{0}f}}%"sv,
+                                 locFloat, plus)};
+
+      return std::vformat_to(ctx.out(), fmt,
+                             std::make_format_args(index.name(), index.points(),
+                                                   index.points_diff(),
+                                                   index.points_percent()));
+    }
   }
 };
+
+// auto format(const sp::StockIndex &index, std::format_context &ctx) const {
+//   using enum IndexFormat;
+
+//   switch (index_format) {
+//   case Short: {
+//     return std::format_to(ctx.out(), "name: {:10}, points:{:>8.2f}",
+//                           index.name(), index.points());
+//   }
+//   case WithPlus: {
+//     return std::format_to(ctx.out(), "{:10} {:>8.2f} {: >+7.2f} {:+.2f}%",
+//                           index.name(), index.points(), index.points_diff(),
+//                           index.points_percent());
+//   }
+//   case Normal: {
+//     return std::format_to(ctx.out(), "{:10}, {:>8.2f}, {:>7.2f}, {:.2f}%",
+//                           index.name(), index.points(), index.points_diff(),
+//                           index.points_percent());
+//   }
+//   }
+
+//   return std::format_to(ctx.out(), "{:10}, {:>8.2f}, {:>7.2f}, {:.2f}%",
+//                         index.name(), index.points(), index.points_diff(),
+//                         index.points_percent());
+// }
+// }
+// ;
