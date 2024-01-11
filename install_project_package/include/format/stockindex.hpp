@@ -106,7 +106,7 @@ template <> struct std::formatter<sp::StockIndex> {
           ctx.out(), fmt, std::make_format_args(index.name(), index.points()));
 
     } else {
-      const auto fmt{std::format("{{:10}} {{:>8.2{0}f}}  {{:>{1}7.2{0}f}}  "
+      const auto fmt{std::format("{{:10}} {{:>8.2{0}f}}  {{:>{1}7.2{0}f}} "
                                  "{{:{1}.2{0}f}}%"sv,
                                  locFloat, plus)};
 
@@ -118,29 +118,28 @@ template <> struct std::formatter<sp::StockIndex> {
   }
 };
 
-// auto format(const sp::StockIndex &index, std::format_context &ctx) const {
-//   using enum IndexFormat;
+//   auto format(const sp::StockIndex &index, std::format_context &ctx) const {
+//     using enum IndexFormat;
 
-//   switch (index_format) {
-//   case Short: {
-//     return std::format_to(ctx.out(), "name: {:10}, points:{:>8.2f}",
-//                           index.name(), index.points());
-//   }
-//   case WithPlus: {
-//     return std::format_to(ctx.out(), "{:10} {:>8.2f} {: >+7.2f} {:+.2f}%",
-//                           index.name(), index.points(), index.points_diff(),
-//                           index.points_percent());
-//   }
-//   case Normal: {
+//     switch (index_format) {
+//     case Short: {
+//       return std::format_to(ctx.out(), "name: {:10}, points:{:>8.2f}",
+//                             index.name(), index.points());
+//     }
+//     case WithPlus: {
+//       return std::format_to(ctx.out(), "{:10} {:>8.2f} {: >+7.2f} {:+.2f}%",
+//                             index.name(), index.points(),
+//                             index.points_diff(), index.points_percent());
+//     }
+//     case Normal: {
+//       return std::format_to(ctx.out(), "{:10}, {:>8.2f}, {:>7.2f}, {:.2f}%",
+//                             index.name(), index.points(),
+//                             index.points_diff(), index.points_percent());
+//     }
+//     }
+
 //     return std::format_to(ctx.out(), "{:10}, {:>8.2f}, {:>7.2f}, {:.2f}%",
 //                           index.name(), index.points(), index.points_diff(),
 //                           index.points_percent());
 //   }
-//   }
-
-//   return std::format_to(ctx.out(), "{:10}, {:>8.2f}, {:>7.2f}, {:.2f}%",
-//                         index.name(), index.points(), index.points_diff(),
-//                         index.points_percent());
-// }
-// }
-// ;
+// };

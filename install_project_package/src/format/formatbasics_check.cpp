@@ -1,6 +1,6 @@
 #include "formatbasics.hpp"
+#include "formatcolor.hpp"
 #include "stockindex.hpp"
-
 #include <cstddef>
 #include <fmt/core.h>
 #include <fmt/format.h>
@@ -98,17 +98,31 @@ void print_indices() noexcept {
     auto result = std::format("{}", stock);
     fmt::println("using custom StockIndex formatter: {}", result);
   }
-  std::locale locG{"en_US.UTF-8"};
+  std::locale locUS{"en_US.UTF-8"};
+  std::locale::global(locUS);
 
   for (const auto &index : getindices()) {
-    auto result = std::format("{:s}", index);
+    auto result = std::format(locUS, "{:Ls}", index);
     fmt::println("short format: {}", result);
   }
 
   for (const auto &index : getindices()) {
-    auto result = std::format("{:p}", index);
+    auto result = std::format("{:Lp}", index);
     fmt::println("format withplus: {}", result);
   }
+
+  auto result = std::format("{:>5.2Lf}", 100.7);
+  fmt::println("locUS on regular types: {}", result);
+
+  Color cool_colors{.r = 10, .g = 25, .b = 55};
+  auto colorformat = std::format("{}", cool_colors);
+  fmt::println("Color cool_colors: {}", colorformat);
+
+  auto colorformat_hex = std::format("{0:h} {0:H}", cool_colors);
+  fmt::println("Color cool_colors: {}", colorformat_hex);
+
+  auto colorformat_hex2 = std::format("{0:h} {0:H}", Color{100, 200, 255});
+  fmt::println("Color cool_colors: {}", colorformat_hex2);
 
   std::puts("-------------> print_indices test passed -------------<");
 }
