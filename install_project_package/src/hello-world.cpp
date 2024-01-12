@@ -60,6 +60,7 @@ int main() {
   sp::format_basics2();
   sp::format_to_buffer();
   sp::print_indices();
-
+  sp::color_test_hex();
+  sp::custom_buffer();
   return EXIT_SUCCESS;
 }

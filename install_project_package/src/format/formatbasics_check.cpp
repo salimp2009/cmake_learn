@@ -1,15 +1,18 @@
 #include "formatbasics.hpp"
 #include "formatcolor.hpp"
 #include "stockindex.hpp"
-#include <cstddef>
+
 #include <fmt/core.h>
 #include <fmt/format.h>
-
-#include <format>
-#include <string>
+#include <fmt/ranges.h>
 
 #include <cstdio>
+#include <format>
+#include <iterator>
 #include <locale>
+#include <string>
+#include <vector>
+// #include <cstddef>
 
 namespace sp {
 
@@ -114,6 +117,12 @@ void print_indices() noexcept {
   auto result = std::format("{:>5.2Lf}", 100.7);
   fmt::println("locUS on regular types: {}", result);
 
+  std::puts("-------------> print_indices test passed -------------<");
+}
+
+void color_test_hex() noexcept {
+  std::puts("-------------> color_test_hex test -------------<");
+
   Color cool_colors{.r = 10, .g = 25, .b = 55};
   auto colorformat = std::format("{}", cool_colors);
   fmt::println("Color cool_colors: {}", colorformat);
@@ -124,7 +133,32 @@ void print_indices() noexcept {
   auto colorformat_hex2 = std::format("{0:h} {0:H}", Color{100, 200, 255});
   fmt::println("Color cool_colors: {}", colorformat_hex2);
 
-  std::puts("-------------> print_indices test passed -------------<");
+  std::puts("-------------> color_test_hex test passed -------------<");
+}
+
+void custom_buffer() noexcept {
+  std::puts("-------------> custom_buffer test -------------<");
+  std::vector<char> buffer;
+  constexpr const char *fmt = "{}, {}";
+  std::format_to(std::back_inserter(buffer), fmt, "Hello", "Buffer");
+  fmt::println("{}", buffer);
+
+  // lookahead string size
+  constexpr const char *fmt2{"{}, {}"};
+  const auto size = std::formatted_size(fmt2, "Hello", "Buffer");
+  std::vector<char> buffer2(size);
+  std::format_to(buffer2.begin(), fmt2, "Hello", "Buffer");
+  fmt::println("lookahead the formatted size: size: {},{} ", size, buffer2);
+
+  // example for format_to_n
+  std::array<char, 12> buffer3{};
+
+  auto result = std::format_to_n(buffer3.data(), buffer3.size(), "{}, {}",
+                                 "Hello", "World");
+  *(result.out) = '\0';
+
+  fmt::println("{}", buffer3);
+  std::puts("-------------> custom_buffer test passed -------------<");
 }
 
 } // namespace sp
