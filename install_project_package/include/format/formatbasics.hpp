@@ -10,5 +10,6 @@ message_EXPORT void format_to_buffer() noexcept;
 message_EXPORT void print_indices() noexcept;
 message_EXPORT void color_test_hex() noexcept;
 message_EXPORT void custom_buffer() noexcept;
+message_EXPORT void logger_format() noexcept;
 
 } // namespace sp

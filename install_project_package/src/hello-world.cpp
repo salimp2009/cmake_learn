@@ -62,5 +62,6 @@ int main() {
   sp::print_indices();
   sp::color_test_hex();
   sp::custom_buffer();
+  sp::logger_format();
   return EXIT_SUCCESS;
 }

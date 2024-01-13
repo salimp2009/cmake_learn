@@ -1,5 +1,6 @@
 #include "formatbasics.hpp"
 #include "formatcolor.hpp"
+#include "formatlog.hpp"
 #include "stockindex.hpp"
 
 #include <fmt/core.h>
@@ -11,6 +12,7 @@
 #include <iterator>
 #include <locale>
 #include <string>
+#include <utility>
 #include <vector>
 // #include <cstddef>
 
@@ -151,14 +153,24 @@ void custom_buffer() noexcept {
   fmt::println("lookahead the formatted size: size: {},{} ", size, buffer2);
 
   // example for format_to_n
-  std::array<char, 12> buffer3{};
+  std::array<char, 13> buffer3{};
 
   auto result = std::format_to_n(buffer3.data(), buffer3.size(), "{}, {}",
                                  "Hello", "World");
   *(result.out) = '\0';
 
   fmt::println("{}", buffer3);
+
   std::puts("-------------> custom_buffer test passed -------------<");
 }
 
+void logger_format() noexcept {
+  std::puts("-------------> logger_format test -------------<");
+  using enum LogLevel;
+  // using namespace std::string_view_literals;
+  fmt::println("{}", std::to_underlying(LogLevel::Info));
+  // constexpr const char *fmt = "arg1: {}, arg2:{}";
+  // logger(Info, fmt, "testing logger", "testing logger2");
+  std::puts("-------------> logger_format test passed -------------<");
+}
 } // namespace sp
