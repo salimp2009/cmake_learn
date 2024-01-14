@@ -167,10 +167,10 @@ void custom_buffer() noexcept {
 void logger_format() noexcept {
   std::puts("-------------> logger_format test -------------<");
   using enum LogLevel;
-  // using namespace std::string_view_literals;
+  using namespace std::string_view_literals;
   fmt::println("{}", std::to_underlying(LogLevel::Info));
-  // constexpr const char *fmt = "arg1: {}, arg2:{}";
-  // logger(Info, fmt, "testing logger", "testing logger2");
+  logger(Info, "arg1: {}, arg2:{}", "testing logger", "testing logger2");
+  log(LogLevel::Info, "arg1: {}, arg2:{}", "testing logger", "testing logger2");
   std::puts("-------------> logger_format test passed -------------<");
 }
 } // namespace sp
