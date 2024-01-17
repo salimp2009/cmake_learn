@@ -78,7 +78,7 @@ struct message_EXPORT Logger {
     using namespace std::string_view_literals;
     std::clog
         << std::format(
-               "LOG LEVEL:{}, called from [function: {}, line: {}] [in file: {}]\n "sv,
+               "[LOG LEVEL:{}], called from [function: {}, line: {}] [in file: {}]\n "sv,
                levloc.mlevel, levloc.mloc.function_name(), levloc.mloc.line(),
                levloc.mloc.file_name())
         << std::vformat(fmt, std::make_format_args(args...)) << '\n';

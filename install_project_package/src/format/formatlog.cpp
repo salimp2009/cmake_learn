@@ -7,7 +7,8 @@ void vlogger(LogLevel level, std::string_view fmt, std::format_args &&args) {
   using namespace std::string_view_literals;
   const auto tm =
       std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
-  std::clog << std::format("[level: {}]-[time: {:%F %T}] "sv, level, tm)
+  std::clog << std::format("[level: {}]-[time: {:%F %T }] "sv, level,
+                           std::chrono::floor<std::chrono::milliseconds>(tm))
             << std::vformat(fmt, args);
 };
 
