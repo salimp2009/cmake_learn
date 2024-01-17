@@ -1,15 +1,14 @@
 #include "formatlog.hpp"
-#include <ctime>
-#include <source_location>
-// #include <iostream>
+#include <chrono>
 
 namespace sp {
 
 void vlogger(LogLevel level, std::string_view fmt, std::format_args &&args) {
   using namespace std::string_view_literals;
-
-  std::clog << std::format("LOG LEVEL: {} "sv, level) << std::vformat(fmt, args)
-            << '\n';
+  const auto tm =
+      std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
+  std::clog << std::format("[level: {}]-[time: {:%F %T}] "sv, level, tm)
+            << std::vformat(fmt, args);
 };
 
 // void logger(LogLevel level, std::string_view fmt, const auto &...args) {

@@ -169,7 +169,7 @@ void logger_format() noexcept {
   using enum LogLevel;
   using namespace std::string_view_literals;
   fmt::println("{}", std::to_underlying(LogLevel::Info));
-  logger(Info, "arg1: {}, arg2:{}", "testing logger", "testing logger2");
+  logger(Info, "arg1: ", "testing logger", "arg2: ", "testing logger2");
   log(LogLevel::Info, "arg1: {}, arg2:{}", "testing logger", "testing logger2");
   std::puts("-------------> logger_format test passed -------------<");
 }

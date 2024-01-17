@@ -30,47 +30,60 @@ template <> struct std::formatter<sp::LogLevel> : std::formatter<const char *> {
 namespace sp {
 
 template <std::size_t Args> constexpr auto make_braces() {
-  constexpr std::array<char, 4> brace{"{} "};
+  constexpr std::array<char, 4u> brace{"{} "};
   // size braces without '\0'
-  constexpr auto brace_size = brace.size() - 1;
+  constexpr auto brace_size = brace.size() - 1u;
   // 2 chars for newline & '\0'
   constexpr auto offset = 2u;
 
   std::array<char, Args * brace_size + offset> braces{};
-  constexpr auto bracesLength = brace_size - offset;
+  constexpr auto bracesLength = (braces.size() - offset);
 
-  auto indx = 0;
+  auto indx = 0u;
   std::for_each_n(braces.begin(), bracesLength, [&](auto &elem) {
     elem = brace[indx % brace_size];
     ++indx;
   });
-  braces[bracesLength] = '\0';
+  braces[bracesLength] = '\n';
   return braces;
 }
 
 void vlogger(LogLevel level, std::string_view fmt, std::format_args &&args);
 
 template <typename... Args>
-constexpr void logger(LogLevel level, std::string_view fmt, Args &&...args) {
+constexpr void logger(LogLevel level, Args &&...args) {
   using namespace std::string_view_literals;
 
-  vlogger(level, fmt, std::make_format_args(args...));
-  // std::clog << std::format("LOG LEVEL:{}, "sv, level)
-  //           << std::vformat(fmt, std::make_format_args(args...)) << '\n';
+  constexpr auto braces = make_braces<sizeof...(Args)>();
+
+  vlogger(level, std::string_view{braces.data()},
+          std::make_format_args(std::forward<Args>(args)...));
 }
+
+struct FormatWithLocation {
+  LogLevel mlevel{};
+  std::source_location mloc{};
+
+  constexpr FormatWithLocation(
+      LogLevel lvl,
+      const std::source_location &l = std::source_location::current())
+      : mlevel{lvl}, mloc{l} {}
+};
 
 struct message_EXPORT Logger {
 
   template <typename... Args>
-  constexpr void operator()(LogLevel level, std::string_view fmt,
+  constexpr void operator()(FormatWithLocation levloc, std::string_view fmt,
                             Args &&...args) const {
     using namespace std::string_view_literals;
-    std::clog << std::format("LOG LEVEL:{},  "sv, level)
-              << std::vformat(fmt, std::make_format_args(args...)) << '\n';
+    std::clog
+        << std::format(
+               "LOG LEVEL:{}, called from [function: {}, line: {}] [in file: {}]\n "sv,
+               levloc.mlevel, levloc.mloc.function_name(), levloc.mloc.line(),
+               levloc.mloc.file_name())
+        << std::vformat(fmt, std::make_format_args(args...)) << '\n';
   }
 };
-
-// template <typename... Args> Logger(Args &&...) -> Logger<Args...>;
 
 message_EXPORT inline constexpr Logger log{};
 } // namespace sp
