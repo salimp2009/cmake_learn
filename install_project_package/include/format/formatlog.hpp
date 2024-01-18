@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <format>
 #include <iostream>
 #include <messageExport.h>
@@ -76,11 +77,16 @@ struct message_EXPORT Logger {
   constexpr void operator()(FormatWithLocation levloc, std::string_view fmt,
                             Args &&...args) const {
     using namespace std::string_view_literals;
+    const auto tm =
+        std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
+
     std::clog
         << std::format(
-               "[LOG LEVEL:{}], called from [function: {}, line: {}] [in file: {}]\n "sv,
+               "[LOG LEVEL:{}], called from [function: {}, line: {}]\n[file:] [{}]\n"sv,
                levloc.mlevel, levloc.mloc.function_name(), levloc.mloc.line(),
                levloc.mloc.file_name())
+        << std::format("[time: {:%F %T }] -> ",
+                       std::chrono::floor<std::chrono::milliseconds>(tm))
         << std::vformat(fmt, std::make_format_args(args...)) << '\n';
   }
 };
