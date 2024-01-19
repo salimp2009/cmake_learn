@@ -1,5 +1,5 @@
 #include "compbasics.hpp"
-
+#include "compstring.hpp"
 #include <cstdio>
 
 namespace sp {

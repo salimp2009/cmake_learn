@@ -1,8 +1,9 @@
 add_library(compbase_shared SHARED "")
 add_library(message::compbase_shared ALIAS compbase_shared)
 
-target_sources(compbase_shared
-               PRIVATE ${CMAKE_CURRENT_LIST_DIR}/compbasics_check.cpp)
+target_sources(
+  compbase_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/compbasics_check.cpp
+                          ${CMAKE_CURRENT_LIST_DIR}/compstring.cpp)
 
 target_link_libraries(compbase_shared PRIVATE commonPCH #[[ fmt::fmt ]])
 
@@ -44,7 +45,8 @@ set_target_properties(
 add_library(compbase STATIC "")
 add_library(message::compbase ALIAS compbase)
 
-target_sources(compbase PRIVATE ${CMAKE_CURRENT_LIST_DIR}/compbasics_check.cpp)
+target_sources(compbase PRIVATE ${CMAKE_CURRENT_LIST_DIR}/compbasics_check.cpp
+                                ${CMAKE_CURRENT_LIST_DIR}/compstring.cpp)
 
 # target_precompile_headers(corobase  REUSE_FROM corobase_shared)
 
