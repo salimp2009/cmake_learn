@@ -23,6 +23,7 @@ add_subdirectory(coroutines)
 add_subdirectory(ranges)
 add_subdirectory(format)
 add_subdirectory(comparison)
+add_subdirectory(lambdas)
 
 add_executable(hello_world_wDSO2 hello-world.cpp)
 target_link_libraries(
@@ -33,6 +34,7 @@ target_link_libraries(
          message::rangebase_shared
          message::formatbase_shared
          message::compbase_shared
+         message::lambdabase_shared
          fmt::fmt)
 
 file(RELATIVE_PATH _rel ${CMAKE_INSTALL_PREFIX}/${INSTALL_BINDIR}
@@ -64,6 +66,7 @@ target_link_libraries(
          message::rangebase
          message::formatbase
          message::compbase
+         message::lambdabase
          fmt::fmt)
 
 install(
@@ -88,6 +91,8 @@ install(
           formatbase_shared
           compbase
           compbase_shared
+          lambdabase
+          lambdabase_shared
           commonPCH
   EXPORT messageTargets
   ARCHIVE DESTINATION ${INSTALL_LIBDIR}/${PROJECT_NAME} COMPONENT lib

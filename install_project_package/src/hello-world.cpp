@@ -4,6 +4,7 @@
 #include "conceptbasics_check.hpp"
 #include "corobasics.hpp"
 #include "formatbasics.hpp"
+#include "lambdabasics.hpp"
 #include "rangebasics.hpp"
 #include "rangeiterator_concepts.hpp"
 
@@ -65,5 +66,6 @@ int main() {
   sp::custom_buffer();
   sp::logger_format();
   sp::comp_basics1();
+  sp::lambda_basics1();
   return EXIT_SUCCESS;
 }
