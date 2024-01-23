@@ -2,8 +2,10 @@ add_library(lambdabase_shared SHARED "")
 add_library(message::lambdabase_shared ALIAS lambdabase_shared)
 
 target_sources(
-  lambdabase_shared PRIVATE ${CMAKE_CURRENT_LIST_DIR}/lambdabasics_check.cpp
-                            ${CMAKE_CURRENT_LIST_DIR}/lambdacaptures.cpp)
+  lambdabase_shared
+  PRIVATE ${CMAKE_CURRENT_LIST_DIR}/lambdabasics_check.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/lambdacaptures.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/lambdasort.cpp)
 
 target_link_libraries(lambdabase_shared PRIVATE commonPCH #[[ fmt::fmt ]])
 
@@ -46,8 +48,10 @@ add_library(lambdabase STATIC "")
 add_library(message::lambdabase ALIAS lambdabase)
 
 target_sources(
-  lambdabase PRIVATE ${CMAKE_CURRENT_LIST_DIR}/lambdabasics_check.cpp
-                     ${CMAKE_CURRENT_LIST_DIR}/lambdacaptures.cpp)
+  lambdabase
+  PRIVATE ${CMAKE_CURRENT_LIST_DIR}/lambdabasics_check.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/lambdacaptures.cpp
+          ${CMAKE_CURRENT_LIST_DIR}/lambdasort.cpp)
 
 # target_precompile_headers(corobase  REUSE_FROM corobase_shared)
 

@@ -5,6 +5,7 @@
 #include "corobasics.hpp"
 #include "formatbasics.hpp"
 #include "lambdabasics.hpp"
+#include "lambdasort.hpp"
 #include "rangebasics.hpp"
 #include "rangeiterator_concepts.hpp"
 
@@ -67,5 +68,6 @@ int main() {
   sp::logger_format();
   sp::comp_basics1();
   sp::lambda_basics1();
+  sp::lambda_maps_sorted();
   return EXIT_SUCCESS;
 }
