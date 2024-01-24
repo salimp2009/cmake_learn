@@ -1,7 +1,6 @@
 #include "lambdabasics.hpp"
 #include "lambdacaptures.hpp"
 #include "lambdasort.hpp"
-
 #include <fmt/color.h>
 #include <fmt/core.h>
 #include <fmt/ranges.h>
