@@ -1,7 +1,11 @@
 #pragma once
 
 #include "messageExport.h"
+#include <fmt/core.h>
+#include <format>
 #include <map>
+#include <utility>
+
 namespace sp {
 struct message_EXPORT Book {
   std::string title;
@@ -32,4 +36,19 @@ using MapBookSortedbyIsbn2 = std::map<Key, Value, cmp>;
 
 message_EXPORT void map_books_sort_price();
 
+template <typename First, typename... Args>
+void print(First &&first, Args &&...args) {
+  fmt::print("[{}]: ", first);
+  (fmt::print("{} ", args), ...);
+  std::puts("");
+}
+
+template <typename... Origins>
+message_EXPORT inline constexpr auto getNamedLogger(Origins &&...origins) {
+  return
+      [... origins = std::forward<Origins>(origins)]<typename... Args>(
+          Args &&...args) { print(origins..., std::forward<Args>(args)...); };
+}
+
+// message_EXPORT inline auto getNamedLogger(const std::string origin);
 } // namespace sp

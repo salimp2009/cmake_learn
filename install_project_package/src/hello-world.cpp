@@ -69,5 +69,6 @@ int main() {
   sp::comp_basics1();
   sp::lambda_basics1();
   sp::lambda_maps_sorted();
+  sp::lambda_variadic_args();
   return EXIT_SUCCESS;
 }

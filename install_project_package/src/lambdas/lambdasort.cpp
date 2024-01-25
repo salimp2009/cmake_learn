@@ -1,5 +1,4 @@
 #include "lambdasort.hpp"
-#include "fmt/ranges.h"
 #include <fmt/color.h>
 #include <fmt/core.h>
 
