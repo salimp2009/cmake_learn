@@ -1,9 +1,11 @@
 #pragma once
 
 #include "messageExport.h"
+#include <concepts>
 #include <fmt/core.h>
 #include <format>
 #include <map>
+#include <type_traits>
 #include <utility>
 
 namespace sp {
@@ -43,11 +45,23 @@ void print(First &&first, Args &&...args) {
   std::puts("");
 }
 
-template <typename... Origins>
+template <typename T>
+concept not_as_pointer = not std::is_pointer_v<T>;
+
+template <typename T>
+concept not_floating_point = not std::floating_point<T>;
+
+template <not_as_pointer... Origins>
 message_EXPORT inline constexpr auto getNamedLogger(Origins &&...origins) {
   return
-      [... origins = std::forward<Origins>(origins)]<typename... Args>(
-          Args &&...args) { print(origins..., std::forward<Args>(args)...); };
+      [... origins = std::forward<Origins>(origins)]<not_floating_point... Args>
+      // requires(not(std::is_floating_point_v<Args> || ...))
+      // requires(not std::disjunction_v<std::is_floating_point<Args>...>)
+      (Args &&...args)
+  // requires(not(std::is_pointer_v<Origins> || ...))
+  // requires(not std::disjunction_v<std::is_pointer<Origins>...>)
+
+  { print(origins..., std::forward<Args>(args)...); };
 }
 
 // message_EXPORT inline auto getNamedLogger(const std::string origin);
