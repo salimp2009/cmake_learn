@@ -1,5 +1,6 @@
 #include <Message.hpp>
 // #include <conceptbasics.hpp>
+#include "aggregbasics.hpp"
 #include "compbasics.hpp"
 #include "conceptbasics_check.hpp"
 #include "corobasics.hpp"
@@ -70,5 +71,6 @@ int main() {
   sp::lambda_basics1();
   sp::lambda_maps_sorted();
   sp::lambda_variadic_args();
+  sp::aggregate_basics1();
   return EXIT_SUCCESS;
 }
