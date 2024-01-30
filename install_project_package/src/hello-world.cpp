@@ -7,6 +7,7 @@
 #include "formatbasics.hpp"
 #include "lambdabasics.hpp"
 #include "lambdasort.hpp"
+#include "nttpbasics.hpp"
 #include "rangebasics.hpp"
 #include "rangeiterator_concepts.hpp"
 
@@ -72,5 +73,6 @@ int main() {
   sp::lambda_maps_sorted();
   sp::lambda_variadic_args();
   sp::aggregate_basics1();
+  sp::nttp_basics1();
   return EXIT_SUCCESS;
 }
