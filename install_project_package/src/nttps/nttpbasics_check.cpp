@@ -22,4 +22,16 @@ void nttp_basics1() noexcept {
   fxcont.print();
   std::puts("-------------> nttp_basics1 test passed -------------<");
 }
+
+void safe_printf() noexcept {
+  std::puts("-------------> safe_printf test -------------<");
+  // incomplete; need to verify
+  print(format_string<"%s, %s\n">{}, "Hellooo safe printf",
+        "testing safe printf");
+
+  print("%s, %s\n"_fs, "user defined", "literal works");
+
+  std::puts("-------------> safe_printf test passed -------------<");
+}
+
 } // namespace sp

@@ -74,5 +74,6 @@ int main() {
   sp::lambda_variadic_args();
   sp::aggregate_basics1();
   sp::nttp_basics1();
+  sp::safe_printf();
   return EXIT_SUCCESS;
 }
