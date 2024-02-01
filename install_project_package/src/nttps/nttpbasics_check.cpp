@@ -30,6 +30,8 @@ void safe_printf() noexcept {
         "testing safe printf");
 
   print("%s, %s\n"_fs, "user defined", "literal works");
+  constexpr auto match_result = match<void *>('p');
+  static_assert(match_result == true);
 
   std::puts("-------------> safe_printf test passed -------------<");
 }

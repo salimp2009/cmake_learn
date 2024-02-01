@@ -2,11 +2,13 @@
 
 #include "messageExport.h"
 #include <algorithm>
+#include <array>
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include <fmt/core.h>
 #include <fmt/ranges.h>
+#include <type_traits>
 
 namespace sp {
 
@@ -32,6 +34,30 @@ template <fixed_string str> struct message_EXPORT format_string {
 
 template <fixed_string str> constexpr auto operator""_fs() {
   return format_string<str>{};
+}
+
+template <typename T, typename U>
+constexpr bool plain_same_v =
+    std::is_same_v<std::remove_cvref_t<T>, std::remove_cvref_t<U>>;
+
+template <typename T> constexpr static bool match(const char c) {
+  switch (c) {
+  case 'd':
+    return plain_same_v<int, T>;
+  case 'c':
+    return plain_same_v<char, T>;
+  case 'f':
+    return plain_same_v<double, T>;
+  case 's':
+    return (plain_same_v<char, std::remove_all_extents_t<T>> and
+            std::is_array_v<T>) or
+           (plain_same_v<char *, std::remove_all_extents_t<T>> and
+            std::is_pointer_v<T>);
+  case 'p':
+    return plain_same_v<void *, std::remove_all_extents_t<T>> &&
+           std::is_pointer_v<T>;
+  }
+  return false;
 }
 
 void print(auto fmt, const auto &...args) {
