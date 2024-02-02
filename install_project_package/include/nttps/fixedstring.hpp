@@ -8,6 +8,7 @@
 #include <cstring>
 #include <fmt/core.h>
 #include <fmt/ranges.h>
+#include <span>
 #include <type_traits>
 
 namespace sp {
@@ -53,11 +54,36 @@ template <typename T> constexpr static bool match(const char c) {
             std::is_array_v<T>) or
            (plain_same_v<char *, std::remove_all_extents_t<T>> and
             std::is_pointer_v<T>);
+  case '#':
+    [[fallthrough]];
+  case 'a':
+  case 'X':
+  case 'x':
+    return (plain_same_v<double, T> || plain_same_v<int, T>)&&(
+        not(plain_same_v<char, std::remove_all_extents_t<T>> and
+            std::is_array_v<T>) ||
+        not(plain_same_v<char *, std::remove_all_extents_t<T>> &&
+            std::is_pointer_v<T>));
   case 'p':
     return plain_same_v<void *, std::remove_all_extents_t<T>> &&
            std::is_pointer_v<T>;
   }
   return false;
+}
+
+// helper to search the specifier with the given index
+template <int I, typename CharT>
+constexpr auto get(const std::span<const char> &str) {
+  auto start = std::begin(str);
+  auto end = std::end(str);
+
+  for (int i = 0; i <= I; i++) {
+    start = std::ranges::find(start, end, '%');
+    ++start;
+  }
+
+  // returns the format specifier at the given index
+  return *start;
 }
 
 void print(auto fmt, const auto &...args) {

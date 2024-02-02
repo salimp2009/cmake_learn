@@ -29,11 +29,29 @@ void safe_printf() noexcept {
   print(format_string<"%s, %s\n">{}, "Hellooo safe printf",
         "testing safe printf");
 
-  print("%s, %s\n"_fs, "user defined", "literal works");
+  print("%s, %s, %a\n"_fs, "user defined", "literal works", 56.7);
   constexpr auto match_result = match<void *>('p');
   static_assert(match_result == true);
 
-  std::puts("-------------> safe_printf test passed -------------<");
+  constexpr auto match_result2 = match<char>('#');
+  static_assert(match_result2 == false);
+
+  constexpr auto match_result3 = match<double>('#');
+  static_assert(match_result3 == true);
+
+  constexpr auto match_result4 = match<double>('a');
+  static_assert(match_result4 == true);
+
+  constexpr auto match_result5 = match<double>('X');
+  static_assert(match_result5 == true);
+
+  constexpr auto match_result6 = match<double>('x');
+  static_assert(match_result6 == true);
+
+  constexpr auto match_result7 = match<char>('x');
+  static_assert(match_result7 == false, "expected:false");
+
+  std::puts("-------------> safe_printf test  passed -------------<");
 }
 
 } // namespace sp
