@@ -3,6 +3,7 @@
 #include "messageExport.h"
 #include <algorithm>
 #include <array>
+#include <concepts>
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
@@ -10,6 +11,7 @@
 #include <fmt/ranges.h>
 #include <span>
 #include <type_traits>
+#include <utility>
 
 namespace sp {
 
@@ -48,22 +50,44 @@ template <typename T> constexpr static bool match(const char c) {
   case 'c':
     return plain_same_v<char, T>;
   case 'f':
-    return plain_same_v<double, T>;
+    return plain_same_v<double, T> || std::is_floating_point_v<T>;
   case 's':
     return (plain_same_v<char, std::remove_all_extents_t<T>> and
             std::is_array_v<T>) or
            (plain_same_v<char *, std::remove_all_extents_t<T>> and
             std::is_pointer_v<T>);
   case '#':
-    [[fallthrough]];
-  case 'a':
+    // static_assert(not plain_same_v<double, T>, "expected int");
+    // [[fallthrough]];
   case 'X':
   case 'x':
-    return (plain_same_v<double, T> || plain_same_v<int, T>)&&(
-        not(plain_same_v<char, std::remove_all_extents_t<T>> and
-            std::is_array_v<T>) ||
-        not(plain_same_v<char *, std::remove_all_extents_t<T>> &&
-            std::is_pointer_v<T>));
+    return (
+        plain_same_v<unsigned short, T> || plain_same_v<std::size_t, T> ||
+        plain_same_v<unsigned long long, T> || plain_same_v<unsigned int, T> ||
+        plain_same_v<
+            int,
+            T>)&&(not plain_same_v<double,
+                                   T>)&&(not(plain_same_v<char,
+                                                          std::
+                                                              remove_all_extents_t<
+                                                                  T>> and
+                                             std::is_array_v<T> &&
+                                             not std::floating_point<T>) ||
+                                         not(plain_same_v<
+                                                 char *,
+                                                 std::remove_all_extents_t<
+                                                     T>> &&
+                                             std::is_pointer_v<T>));
+  case 'a':
+    return (not plain_same_v<int, T>)&&(
+        std::is_floating_point_v<T> || plain_same_v<long double, T> ||
+        plain_same_v<
+            double,
+            T>)&&(not(plain_same_v<char, std::remove_all_extents_t<T>> and
+                      std::is_array_v<T>) ||
+                  not(plain_same_v<char *, std::remove_all_extents_t<T>> &&
+                      std::is_pointer_v<T>));
+
   case 'p':
     return plain_same_v<void *, std::remove_all_extents_t<T>> &&
            std::is_pointer_v<T>;
@@ -73,9 +97,9 @@ template <typename T> constexpr static bool match(const char c) {
 
 // helper to search the specifier with the given index
 template <int I, typename CharT>
-constexpr auto get(const std::span<const char> &str) {
+constexpr auto get(const std::span<const CharT> &str) {
   auto start = std::begin(str);
-  auto end = std::end(str);
+  const auto end = std::end(str);
 
   for (int i = 0; i <= I; i++) {
     start = std::ranges::find(start, end, '%');
@@ -86,8 +110,18 @@ constexpr auto get(const std::span<const char> &str) {
   return *start;
 }
 
-void print(auto fmt, const auto &...args) {
+template <typename CharT, typename... Ts>
+constexpr bool is_matching(std::span<const CharT> str) {
+  return [&]<std::size_t... I>(std::index_sequence<I...>) {
+    return ((match<Ts>(get<I>(str))) && ...);
+  }(std::make_index_sequence<sizeof...(Ts)>{});
+}
+
+template <typename... Args> void print(auto fmt, const Args &...args) {
   static_assert(fmt.num_args == sizeof...(args));
+  static_assert(is_matching<std::decay_t<decltype(fmt.fmt.data[0])>, Args...>(
+      fmt.fmt.data));
+
   std::printf(fmt, args...);
 }
 

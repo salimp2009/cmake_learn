@@ -29,24 +29,24 @@ void safe_printf() noexcept {
   print(format_string<"%s, %s\n">{}, "Hellooo safe printf",
         "testing safe printf");
 
-  print("%s, %s, %a\n"_fs, "user defined", "literal works", 56.7);
+  print("%s, %s %#a\n"_fs, "user defined", "literal works", 56);
   constexpr auto match_result = match<void *>('p');
   static_assert(match_result == true);
 
   constexpr auto match_result2 = match<char>('#');
   static_assert(match_result2 == false);
 
-  constexpr auto match_result3 = match<double>('#');
+  constexpr auto match_result3 = match<int>('#');
   static_assert(match_result3 == true);
 
   constexpr auto match_result4 = match<double>('a');
   static_assert(match_result4 == true);
 
   constexpr auto match_result5 = match<double>('X');
-  static_assert(match_result5 == true);
+  static_assert(match_result5 == false);
 
   constexpr auto match_result6 = match<double>('x');
-  static_assert(match_result6 == true);
+  static_assert(match_result6 == false);
 
   constexpr auto match_result7 = match<char>('x');
   static_assert(match_result7 == false, "expected:false");
