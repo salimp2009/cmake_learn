@@ -26,10 +26,10 @@ void nttp_basics1() noexcept {
 void safe_printf() noexcept {
   std::puts("-------------> safe_printf test -------------<");
   // incomplete; need to verify
-  print(format_string<"%s, %s\n">{}, "Hellooo safe printf",
-        "testing safe printf");
+  print(format_string<"%s, %s, %a\n">{}, "Hellooo safe printf",
+        "testing safe printf", 56.7);
 
-  print("%s, %s %#a\n"_fs, "user defined", "literal works", 56);
+  print("%s, %s %#x\n"_fs, "user defined", "literal works", 56);
   constexpr auto match_result = match<void *>('p');
   static_assert(match_result == true);
 

@@ -3,7 +3,7 @@
 #include "messageExport.h"
 #include <algorithm>
 #include <array>
-#include <concepts>
+// #include <concepts>
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
@@ -44,6 +44,8 @@ constexpr bool plain_same_v =
     std::is_same_v<std::remove_cvref_t<T>, std::remove_cvref_t<U>>;
 
 template <typename T> constexpr static bool match(const char c) {
+  char temp_prefix = ' ';
+
   switch (c) {
   case 'd':
     return plain_same_v<int, T>;
@@ -57,8 +59,9 @@ template <typename T> constexpr static bool match(const char c) {
            (plain_same_v<char *, std::remove_all_extents_t<T>> and
             std::is_pointer_v<T>);
   case '#':
-    // static_assert(not plain_same_v<double, T>, "expected int");
-    // [[fallthrough]];
+    temp_prefix = '#';
+    [[fallthrough]];
+  // static_assert(not plain_same_v<double, T>, "expected int");
   case 'X':
   case 'x':
     return (
@@ -79,14 +82,14 @@ template <typename T> constexpr static bool match(const char c) {
                                                      T>> &&
                                              std::is_pointer_v<T>));
   case 'a':
-    return (not plain_same_v<int, T>)&&(
-        std::is_floating_point_v<T> || plain_same_v<long double, T> ||
-        plain_same_v<
-            double,
-            T>)&&(not(plain_same_v<char, std::remove_all_extents_t<T>> and
-                      std::is_array_v<T>) ||
-                  not(plain_same_v<char *, std::remove_all_extents_t<T>> &&
-                      std::is_pointer_v<T>));
+    return (not plain_same_v<int, T>)&&((temp_prefix != '#')) &&
+           (std::is_floating_point_v<T> || plain_same_v<long double, T> ||
+            plain_same_v<
+                double,
+                T>)&&(not(plain_same_v<char, std::remove_all_extents_t<T>> and
+                          std::is_array_v<T>) ||
+                      not(plain_same_v<char *, std::remove_all_extents_t<T>> &&
+                          std::is_pointer_v<T>));
 
   case 'p':
     return plain_same_v<void *, std::remove_all_extents_t<T>> &&
@@ -104,6 +107,8 @@ constexpr auto get(const std::span<const CharT> &str) {
   for (int i = 0; i <= I; i++) {
     start = std::ranges::find(start, end, '%');
     ++start;
+    if (*start == '#')
+      ++start;
   }
 
   // returns the format specifier at the given index
@@ -118,9 +123,11 @@ constexpr bool is_matching(std::span<const CharT> str) {
 }
 
 template <typename... Args> void print(auto fmt, const Args &...args) {
-  static_assert(fmt.num_args == sizeof...(args));
+  static_assert(fmt.num_args == sizeof...(args),
+                "number of values dont match specifiers!");
   static_assert(is_matching<std::decay_t<decltype(fmt.fmt.data[0])>, Args...>(
-      fmt.fmt.data));
+                    fmt.fmt.data),
+                "type of values dont match the specifiers");
 
   std::printf(fmt, args...);
 }
