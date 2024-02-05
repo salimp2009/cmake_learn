@@ -51,6 +51,17 @@ void safe_printf() noexcept {
   constexpr auto match_result7 = match<char>('x');
   static_assert(match_result7 == false, "expected:false");
 
+  print(format_string<"%s, %s\n">{}, "Hello", "C++20");
+
+  // this uses safe print version
+  print("%s, %s\n"_fs, "Hello", "C++20 uses safe print");
+
+  // example that uses char*; not so safe
+  char fmt[]{"Hello, %s\n"};
+  print(fmt, "C++20");
+
+  // this tries to use const char*; does not work & unsafe
+  // print("%s\n", "const char* does not work");
   std::puts("-------------> safe_printf test  passed -------------<");
 }
 

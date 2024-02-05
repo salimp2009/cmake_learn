@@ -9,6 +9,7 @@
 #include <cstring>
 #include <fmt/core.h>
 #include <fmt/ranges.h>
+#include <iterator>
 #include <span>
 #include <type_traits>
 #include <utility>
@@ -43,8 +44,7 @@ template <typename T, typename U>
 constexpr bool plain_same_v =
     std::is_same_v<std::remove_cvref_t<T>, std::remove_cvref_t<U>>;
 
-template <typename T> constexpr static bool match(const char c) {
-  char temp_prefix = ' ';
+template <typename T> constexpr bool match(const char c) {
 
   switch (c) {
   case 'd':
@@ -59,9 +59,7 @@ template <typename T> constexpr static bool match(const char c) {
            (plain_same_v<char *, std::remove_all_extents_t<T>> and
             std::is_pointer_v<T>);
   case '#':
-    temp_prefix = '#';
     [[fallthrough]];
-  // static_assert(not plain_same_v<double, T>, "expected int");
   case 'X':
   case 'x':
     return (
@@ -82,14 +80,14 @@ template <typename T> constexpr static bool match(const char c) {
                                                      T>> &&
                                              std::is_pointer_v<T>));
   case 'a':
-    return (not plain_same_v<int, T>)&&((temp_prefix != '#')) &&
-           (std::is_floating_point_v<T> || plain_same_v<long double, T> ||
-            plain_same_v<
-                double,
-                T>)&&(not(plain_same_v<char, std::remove_all_extents_t<T>> and
-                          std::is_array_v<T>) ||
-                      not(plain_same_v<char *, std::remove_all_extents_t<T>> &&
-                          std::is_pointer_v<T>));
+    return (not plain_same_v<int, T>)&&(
+        std::is_floating_point_v<T> || plain_same_v<long double, T> ||
+        plain_same_v<
+            double,
+            T>)&&(not(plain_same_v<char, std::remove_all_extents_t<T>> and
+                      std::is_array_v<T>) ||
+                  not(plain_same_v<char *, std::remove_all_extents_t<T>> &&
+                      std::is_pointer_v<T>));
 
   case 'p':
     return plain_same_v<void *, std::remove_all_extents_t<T>> &&
@@ -130,6 +128,14 @@ template <typename... Args> void print(auto fmt, const Args &...args) {
                 "type of values dont match the specifiers");
 
   std::printf(fmt, args...);
+}
+
+void print(char *s, const auto &...ts) { printf(s, ts...); }
+
+template <typename...> constexpr bool always_false_v = false;
+
+template <typename... Ts> void print(const char *s, const Ts...) {
+  static_assert(always_false_v<Ts...>, "Please us _fs string literal");
 }
 
 } // namespace sp
