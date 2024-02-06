@@ -10,6 +10,7 @@
 #include "nttpbasics.hpp"
 #include "rangebasics.hpp"
 #include "rangeiterator_concepts.hpp"
+#include "stlbasics.hpp"
 
 #include <cstdlib>
 
@@ -75,5 +76,6 @@ int main() {
   sp::aggregate_basics1();
   sp::nttp_basics1();
   sp::safe_printf();
+  sp::stlchanges_basics1();
   return EXIT_SUCCESS;
 }
