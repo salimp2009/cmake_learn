@@ -87,15 +87,13 @@ if(${ENABLE_WARNINGS})
                       AS_ERRORS ${ENABLE_WARNINGS_AS_ERRORS})
 endif()
 
-if(${ENABLE_LTO})
-  target_enable_lto(TARGET formatbase_shared ENABLE ${ENABLE_LTO})
-endif()
+# if(${ENABLE_LTO}) target_enable_lto(TARGET formatbase_shared ENABLE
+# ${ENABLE_LTO}) endif()
 
 if(${ENABLE_WARNINGS})
   target_set_warnings(TARGET formatbase ENABLE ${ENABLE_WARNINGS} AS_ERRORS
                       ${ENABLE_WARNINGS_AS_ERRORS})
 endif()
 
-if(${ENABLE_LTO})
-  target_enable_lto(TARGET formatbase ENABLE ${ENABLE_LTO})
-endif()
+# if(${ENABLE_LTO}) target_enable_lto(TARGET formatbase ENABLE ${ENABLE_LTO})
+# endif()

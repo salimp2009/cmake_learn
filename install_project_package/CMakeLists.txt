@@ -63,7 +63,7 @@ if(PROJECT_IS_TOP_LEVEL)
   option(ENABLE_TESTING "Enable a Unit Testing build." ON)
   option(ENABLE_COVERAGE "Enable a Code Coverage build." OFF)
 
-  option(ENABLE_CLANG_TIDY "Enable to add clang tidy." OFF)
+  option(ENABLE_CLANG_TIDY "Enable to add clang tidy." ON)
 
   option(ENABLE_SANITIZE_ADDR "Enable address sanitize." ON)
   option(ENABLE_SANITIZE_UNDEF "Enable undefined sanitize." ON)
@@ -73,7 +73,7 @@ if(PROJECT_IS_TOP_LEVEL)
   option(ENABLE_CLANG_FORMAT "Enable to add clang-format." ON)
   option(ENABLE_CMAKE_FORMAT "Enable to add cmake-format." ON)
 
-  option(ENABLE_LTO "Enable to add Link Time Optimization." OFF)
+  option(ENABLE_LTO "Enable to add Link Time Optimization." ON)
 endif()
 
 if(ENABLE_HARDENING OR ENABLE_GLOBAL_HARDENING)
