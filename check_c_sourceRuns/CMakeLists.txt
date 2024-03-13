@@ -77,8 +77,9 @@ endif()
 add_executable(use_uuid_asm use-uuid.cpp)
 # -save-temps=obj create assembly file, object file and ii file -asm=intel
 # generates the assembly with intel instructions otherwise it is ATT
-target_compile_options(use_uuid_asm PRIVATE -save-temps=obj -masm=intel)
+target_compile_options(use_uuid_asm PRIVATE -save-temps=obj -masm=intel
+                                            -fsanitize=address,undefined)
 
 target_link_libraries(use_uuid_asm
                       PUBLIC $<$<BOOL:${UUID_FOUND}>:PkgConfig::UUID>)
-# target_link_options(use_uuid_asm PUBLIC -S)
+target_link_options(use_uuid_asm PUBLIC -fsanitize=address,undefined)

@@ -73,7 +73,7 @@ if(PROJECT_IS_TOP_LEVEL)
   option(ENABLE_CLANG_FORMAT "Enable to add clang-format." ON)
   option(ENABLE_CMAKE_FORMAT "Enable to add cmake-format." ON)
 
-  option(ENABLE_LTO "Enable to add Link Time Optimization." ON)
+  option(ENABLE_LTO "Enable to add Link Time Optimization." OFF)
 endif()
 
 if(ENABLE_HARDENING OR ENABLE_GLOBAL_HARDENING)

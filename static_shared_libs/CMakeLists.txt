@@ -154,6 +154,7 @@ else()
     my_message
     PRIVATE "-fPIC" ${CXX_FLAGS} "$<$<CONFIG:Debug>:${CXX_FLAGS_DEBUG}>"
             "$<$<CONFIG:Release>:${CXX_FLAGS_RELEASE}>")
+
 endif()
 
 # Shared objects are not linked; loaded dynamically during runtime; DSO there is

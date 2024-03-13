@@ -155,11 +155,11 @@ void custom_buffer() noexcept {
   // example for format_to_n
   std::array<char, 13> buffer3{};
 
-  auto result = std::format_to_n(buffer3.data(), buffer3.size(), "{}, {}",
+  auto result = std::format_to_n(buffer3.data(), buffer3.size() - 1, "{}, {}",
                                  "Hello", "World");
   *(result.out) = '\0';
 
-  fmt::println("{}", buffer3);
+  fmt::print("{}\n", buffer3);
 
   std::puts("-------------> custom_buffer test passed -------------<");
 }
