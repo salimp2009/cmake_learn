@@ -3,28 +3,30 @@
 #include <algorithm>
 #include <array>
 #include <chrono>
+#include <cstddef>
 #include <format>
 #include <iostream>
 #include <messageExport.h>
 #include <source_location>
 #include <string_view>
-#include <strings.h>
+// #include <strings.h>
 #include <utility>
 
 namespace sp {
 
-enum class message_EXPORT LogLevel { Info, Warning, Error };
+enum class message_EXPORT LogLevel : std::size_t { Info, Warning, Error };
 
 } // namespace sp
 
-template <> struct std::formatter<sp::LogLevel> : std::formatter<const char *> {
+template <>
+struct std::formatter<sp::LogLevel> : std::formatter<std::string_view> {
 
-  constexpr static const char *LEVEL_NAMES[] = {"Info", "Warning", "Error"};
+  constexpr static std::array LEVEL_NAMES = {"Info"sv, "Warning"sv, "Error"sv};
 
   auto format(sp::LogLevel c, format_context &ctx) const {
     using enum sp::LogLevel;
-    return std::formatter<const char *>::format(
-        LEVEL_NAMES[std::to_underlying(c)], ctx);
+    return std::formatter<std::string_view>::format(
+        LEVEL_NAMES.at(std::to_underlying(c)), ctx);
   }
 };
 
