@@ -21,12 +21,12 @@ enum class message_EXPORT LogLevel : std::size_t { Info, Warning, Error };
 template <>
 struct std::formatter<sp::LogLevel> : std::formatter<std::string_view> {
 
-  constexpr static std::array LEVEL_NAMES = {"Info"sv, "Warning"sv, "Error"sv};
+  constexpr static std::array level_names = {"Info"sv, "Warning"sv, "Error"sv};
 
   auto format(sp::LogLevel c, format_context &ctx) const {
     using enum sp::LogLevel;
     return std::formatter<std::string_view>::format(
-        LEVEL_NAMES.at(std::to_underlying(c)), ctx);
+        level_names.at(std::to_underlying(c)), ctx);
   }
 };
 
