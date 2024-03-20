@@ -44,7 +44,7 @@ function(target_set_warnings)
       -Wformat=2 # warn on security issues around functions that format output
       -Wcast-align # warn for potential performance problem casts
       -Wconversion # warn on type conversions that may lose data
-      -Wsign-conversion # warn on sign conversions
+      -Wsign-conversion # warn on sign conversions; already included above
       -Wnull-dereference # warn if a null dereference is detected
       -Wdouble-promotion # warn if float is implicit promoted to double
       # C++ Warnings
