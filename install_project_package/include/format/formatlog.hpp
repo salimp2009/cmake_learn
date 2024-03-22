@@ -23,7 +23,7 @@ struct std::formatter<sp::LogLevel> : std::formatter<std::string_view> {
 
   constexpr static std::array level_names = {"Info"sv, "Warning"sv, "Error"sv};
 
-  auto format(sp::LogLevel c, format_context &ctx) const {
+  auto format(sp::LogLevel c, std::format_context &ctx) const {
     using enum sp::LogLevel;
     return std::formatter<std::string_view>::format(
         level_names.at(std::to_underlying(c)), ctx);

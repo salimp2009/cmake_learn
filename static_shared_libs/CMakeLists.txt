@@ -34,7 +34,7 @@ cpmaddpackage(
   NAME
   Boost
   URL
-  "https://github.com/boostorg/boost/releases/download/boost-1.83.0/boost-1.83.0.tar.xz"
+  "https://github.com/boostorg/boost/releases/download/boost-1.84.0/boost-1.84.0.tar.xz"
 )
 
 # set(CMAKE_GENERATOR "Ninja Multi-Config") Compilers in system
