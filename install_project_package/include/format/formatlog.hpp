@@ -10,8 +10,8 @@
 #include <source_location>
 #include <string_view>
 // #include <strings.h>
+#include <fmt/format.h>
 #include <utility>
-
 namespace sp {
 
 enum class message_EXPORT LogLevel : std::size_t { Info, Warning, Error };
@@ -20,7 +20,6 @@ enum class message_EXPORT LogLevel : std::size_t { Info, Warning, Error };
 
 template <>
 struct std::formatter<sp::LogLevel> : std::formatter<std::string_view> {
-
   constexpr static std::array level_names = {"Info"sv, "Warning"sv, "Error"sv};
 
   auto format(sp::LogLevel c, std::format_context &ctx) const {
