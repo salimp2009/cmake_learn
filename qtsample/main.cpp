@@ -11,5 +11,4 @@ auto main(int argc, char *argv[]) -> int {
   QCommandLineParser parser;
   // using namespace std::string_view_literals;
   QDate date{2024, 3, 20};
-  std::printf("Hello Qt day: %d month: %d", date.day(), date.month());
 }

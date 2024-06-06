@@ -2,7 +2,6 @@
 
 #include <bit>
 #include <cstdint>
-
 #include <fmt/core.h>
 #include <type_traits>
 

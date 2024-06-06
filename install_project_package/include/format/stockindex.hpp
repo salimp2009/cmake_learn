@@ -24,9 +24,9 @@ public:
     m_points = points;
   }
 
-  constexpr double points() const & { return m_points; }
-  constexpr double points_diff() const & { return m_points - m_lastpoints; }
-  constexpr double points_percent() const & {
+  double points() const { return m_points; }
+  double points_diff() const { return m_points - m_lastpoints; }
+  double points_percent() const {
     // auto machine_epsilon = std::numeric_limits<double>::epsilon();
     if (m_lastpoints == 0.0 /* + machine_epsilon */) {
       return 0.0;
@@ -102,8 +102,8 @@ template <> struct std::formatter<sp::StockIndex> {
     if (IndexFormat::Short == index_format) {
       const auto fmt = std::format("{{:10}} {{:>8.2{}f}}"sv, locFloat);
 
-      return std::vformat_to(
-          ctx.out(), fmt, std::make_format_args(index.name(), index.points()));
+      return std::vformat_to(ctx.out(), fmt,
+                             std::make_format_args(index.name()));
 
     } else {
       const auto fmt{std::format("{{:10}} {{:>8.2{0}f}}  {{:>{1}7.2{0}f}} "
@@ -111,9 +111,7 @@ template <> struct std::formatter<sp::StockIndex> {
                                  locFloat, plus)};
 
       return std::vformat_to(ctx.out(), fmt,
-                             std::make_format_args(index.name(), index.points(),
-                                                   index.points_diff(),
-                                                   index.points_percent()));
+                             std::make_format_args(index.name()));
     }
   }
 };
