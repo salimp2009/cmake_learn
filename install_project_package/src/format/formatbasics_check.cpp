@@ -15,7 +15,7 @@
 #include <utility>
 #include <vector>
 // #include <cstddef>
-
+#include <print>
 namespace sp {
 
 void format_basics1() noexcept {
@@ -96,28 +96,30 @@ void print_indices() noexcept {
 
     fmt::println("stockes indices: name: {:10}, points: {:>8.2f}, points diff: "
                  "{:>6.2f}, "
-                 "points diff percent : {:.2f}",
+                 "points diff percent : {:4.2f}",
                  stock.name(), stock.points(), stock.points_diff(),
                  stock.points_percent());
-
-    auto result = std::format("{}", stock);
-    fmt::println("using custom StockIndex formatter: {}", result);
+    std::print("stockes indices: name: {:10}, points: {:>8.2f}, points diff: "
+               "{:>6.2f}, "
+               "points diff percent : {:4.2f}",
+               stock.name(), stock.points(), stock.points_diff(),
+               stock.points_percent());
   }
   std::locale locUS{"en_US.UTF-8"};
   std::locale::global(locUS);
 
-  for (const auto &index : getindices()) {
-    auto result = std::format(locUS, "{:Ls}", index);
-    fmt::println("short format: {}", result);
-  }
+  // for (const auto &index : getindices()) {
+  //   auto result = std::format(locUS, "{:Ls}", index);
+  //   fmt::println("short format: {}", result);
+  // }
 
-  for (const auto &index : getindices()) {
-    auto result = std::format("{:Lp}", index);
-    fmt::println("format withplus: {}", result);
-  }
+  // for (const auto &index : getindices()) {
+  //   auto result = std::format("{:Lp}", index);
+  //   fmt::println("format withplus: {}", result);
+  // }
 
-  auto result = std::format("{:>5.2Lf}", 100.7);
-  fmt::println("locUS on regular types: {}", result);
+  // auto result = std::format("{:>5.2Lf}", 100.7);
+  // fmt::println("locUS on regular types: {}", result);
 
   std::puts("-------------> print_indices test passed -------------<");
 }

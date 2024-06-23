@@ -25,7 +25,7 @@ public:
    */
   explicit Message(const char *m) : message_(m) {}
 
-  const std::string &print() const & { return this->message_; }
+  const std::string &print() const { return this->message_; }
 
 private:
   /*! The message to be forwarded to screen */
@@ -43,5 +43,5 @@ constexpr inline bool message_NO_EXPORT are_same2 =
 
 struct Test2 {
   int value2{};
-  int get_value2() const;
+  [[nodiscard]] int get_value2() const;
 };

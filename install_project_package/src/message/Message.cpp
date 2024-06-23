@@ -8,7 +8,7 @@
 #include <uuid/uuid.h>
 #endif
 
-std::ostream &operator<<(std::ostream &os, const Message &obj) {
+auto operator<<(std::ostream &os, const Message &obj) -> std::ostream & {
   os << "This is my very nice message: " << '\n'
      << obj.print() << '\n'
      << "git_hash: " << git_sha << " git_status: " << git_status << '\n'

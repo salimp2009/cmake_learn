@@ -1,14 +1,14 @@
 #include "aggregbasics.hpp"
 #include <fmt/core.h>
 #include <memory>
-#include <ranges>
+// #include <print>
 
 namespace sp {
 
 void aggregate_basics1() noexcept {
   std::puts("-----> aggregate_basics1 test ------<");
   const auto point3d = Point3D{.x = 1, .y = 4, .z = 5};
-  // fmt::print("3d point: {}, {}, {}\n", point3d.x, point3d.y, point3d.z);
+  // std::print("3d point: {}, {}, {}\n", point3d.x, point3d.y, point3d.z);
 
   const auto point3d_ptr = std::make_unique<Point3D>(4, 5, 10);
   fmt::print("Point3D pointer: x={}\n", point3d_ptr->x);
