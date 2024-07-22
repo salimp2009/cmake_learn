@@ -78,6 +78,24 @@ target_link_libraries(
          message::stlbase
          fmt::fmt)
 
+if(${ENABLE_WARNINGS})
+  target_set_warnings(TARGET hello_world_wDSO2 ENABLE ${ENABLE_WARNINGS}
+                      AS_ERRORS ${ENABLE_WARNINGS_AS_ERRORS})
+endif()
+
+if(${ENABLE_LTO})
+  target_enable_lto(TARGET hello_world_wDSO2 ENABLE ${ENABLE_LTO})
+endif()
+
+if(${ENABLE_WARNINGS})
+  target_set_warnings(TARGET hello_world_wAR2 ENABLE ${ENABLE_WARNINGS} AS_ERRORS
+                      ${ENABLE_WARNINGS_AS_ERRORS})
+endif()
+
+if(${ENABLE_LTO})
+  target_enable_lto(TARGET hello_world_wAR2 ENABLE ${ENABLE_LTO})
+endif()
+
 install(
   DIRECTORY ${PROJECT_SOURCE_DIR}/include/
             ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/

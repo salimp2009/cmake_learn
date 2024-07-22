@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <bits/chrono.h>
 #include <chrono>
 #include <cstddef>
 #include <format>
@@ -80,7 +81,6 @@ struct message_EXPORT Logger {
     using namespace std::string_view_literals;
     const auto tm =
         std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
-
     std::clog
         << std::format(
                "[LOG LEVEL:{}], called from [function: {}, line: {}]\n[file:] [{}]\n"sv,

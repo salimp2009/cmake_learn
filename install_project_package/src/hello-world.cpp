@@ -28,7 +28,7 @@ int main() {
   // static_assert(not sp::are_same_v<decltype(1), decltype(2.4)>);
   // static_assert(not are_same2<decltype(1), decltype(2.4)>);
 
-  Test2 tst2{};
+  [[maybe_unused]] Test2 tst2{};
   tst2.value2 = 7;
   // this will not compile since it is invisible in. Message.cpp
   // auto result2 = tst2.get_value2();

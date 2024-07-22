@@ -1,8 +1,8 @@
 #include "aggregbasics.hpp"
+#include <cstdio>
 #include <fmt/core.h>
 #include <memory>
 // #include <print>
-
 namespace sp {
 
 void aggregate_basics1() noexcept {
@@ -15,7 +15,6 @@ void aggregate_basics1() noexcept {
   Point3D point3d_2(2, 3, 4);
   fmt::print("point3d_2 => {}, {}, {}\n", point3d_2.x, point3d_2.y,
              point3d_2.z);
-
   // LifetimeExtension lifetime_ext1{3};
 
   // Dangling refrence ?

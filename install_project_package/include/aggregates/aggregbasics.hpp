@@ -1,7 +1,7 @@
 #pragma once
 
 #include "messageExport.h"
-
+#include <cstdio>
 namespace sp {
 
 message_EXPORT void aggregate_basics1() noexcept;
@@ -27,6 +27,5 @@ struct message_EXPORT NotDefaultConstructible {
 private:
   NotDefaultConstructible() = delete;
 };
-enum class parse_error { invalid_input, overflow };
 
 } // namespace sp
