@@ -23,7 +23,9 @@ template <> struct std::formatter<sp::Book> {
   constexpr auto parse(std::format_parse_context &ctx) { return ctx.begin(); }
 
   auto format(const sp::Book &obj, std::format_context &ctx) const {
-    return std::format_to(ctx.out(), "{}, {}", obj.title, obj.isbn);
+    auto title = obj.title;
+    auto isbn = obj.isbn;
+    return std::format_to(ctx.out(), "{}, {}", title, isbn);
   }
 };
 
@@ -33,6 +35,8 @@ template <> struct fmt::formatter<sp::Book> {
   constexpr auto parse(fmt::format_parse_context &ctx) { return ctx.begin(); }
 
   auto format(const sp::Book &obj, fmt::format_context &ctx) const {
-    return std::format_to(ctx.out(), "{}, {}", obj.title, obj.isbn);
+    auto title = obj.title;
+    auto isbn = obj.isbn;
+    return fmt::format_to(ctx.out(), "{}, {}", title, isbn);
   }
 };

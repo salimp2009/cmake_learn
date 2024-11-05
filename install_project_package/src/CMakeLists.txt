@@ -41,7 +41,8 @@ target_link_libraries(
          message::aggregbase_shared
          message::nttpsbase_shared
          message::stlbase_shared
-         fmt::fmt)
+         fmt::fmt
+         )
 
 file(RELATIVE_PATH _rel ${CMAKE_INSTALL_PREFIX}/${INSTALL_BINDIR}
      ${CMAKE_INSTALL_PREFIX})
@@ -76,7 +77,8 @@ target_link_libraries(
          message::aggregbase
          message::nttpsbase
          message::stlbase
-         fmt::fmt)
+         fmt::fmt 
+         )
 
 if(${ENABLE_WARNINGS})
   target_set_warnings(TARGET hello_world_wDSO2 ENABLE ${ENABLE_WARNINGS}

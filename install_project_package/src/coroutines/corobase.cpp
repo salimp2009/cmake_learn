@@ -1,5 +1,5 @@
 #include "corobase.hpp"
-#include <fmt/core.h>
+#include <print>
 
 namespace sp {
 IntGenerator coro_counter(int start, int end) {
@@ -9,7 +9,7 @@ IntGenerator coro_counter(int start, int end) {
   }
 }
 
-void use_counter_value(int i) { fmt::print("value: {}\n", i); }
+void use_counter_value(int i) { std::print("value: {}\n", i); }
 
 void use_coro_counter() {
   auto value = coro_counter(1, 5);

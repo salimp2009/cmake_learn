@@ -59,9 +59,9 @@ if(${ENABLE_WARNINGS})
                       ${ENABLE_WARNINGS_AS_ERRORS})
 endif()
 
-if(${ENABLE_LTO})
-  target_enable_lto(TARGET message_shared ENABLE ${ENABLE_LTO})
-endif()
+# if(${ENABLE_LTO})
+#   target_enable_lto(TARGET message_shared ENABLE ${ENABLE_LTO})
+# endif()
 
 add_library(message_static STATIC "")
 add_library(message::message_static ALIAS message_static)

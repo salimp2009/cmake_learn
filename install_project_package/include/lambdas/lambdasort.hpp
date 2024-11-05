@@ -2,9 +2,10 @@
 
 #include "messageExport.h"
 #include <concepts>
-#include <fmt/core.h>
+// #include <fmt/core.h>
 #include <format>
 #include <map>
+#include <print>
 #include <type_traits>
 #include <utility>
 
@@ -40,8 +41,8 @@ message_EXPORT void map_books_sort_price();
 
 template <typename First, typename... Args>
 void print(First &&first, Args &&...args) {
-  fmt::print("[{}]: ", first);
-  (fmt::print("{} ", args), ...);
+  std::print("[{}]: ", first);
+  (std::print("{} ", args), ...);
   std::puts("");
 }
 

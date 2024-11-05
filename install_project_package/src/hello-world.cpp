@@ -14,14 +14,14 @@
 
 #include <cstdlib>
 
-#include <fmt/core.h>
+#include <print>
 
 int main() {
   Message say_hello("Hello, CMake World!");
 
   std::cout << say_hello << '\n';
   auto myval = 5;
-  fmt::print("say hello {}", myval);
+  std::print("say hello {}", myval);
 
   Message say_goodbye("Goodbye, CMake World");
   std::cout << say_goodbye << '\n';

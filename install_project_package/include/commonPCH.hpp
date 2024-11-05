@@ -17,4 +17,6 @@
 #include <type_traits>
 #include <utility>
 
+#include <fmt/color.h>
 #include <fmt/core.h>
+#include <fmt/ranges.h>

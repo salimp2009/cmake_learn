@@ -1,7 +1,7 @@
 #include "coroStreamParser.hpp"
 #include <algorithm>
 #include <cstddef>
-#include <fmt/core.h>
+#include <print>
 #include <vector>
 
 namespace sp {
@@ -44,7 +44,7 @@ generator<std::byte> sender(std::vector<std::byte> fakeBytes) {
 }
 
 void handle_frame(std::string_view stream_result) {
-  fmt::println("result from stream: {}", stream_result);
+  std::println("result from stream: {}", stream_result);
 }
 
 void process_stream(generator<std::byte> &stream, FSM &parse) {

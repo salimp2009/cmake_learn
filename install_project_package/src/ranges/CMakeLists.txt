@@ -8,7 +8,7 @@ target_sources(
           ${CMAKE_CURRENT_LIST_DIR}/rangeiterator_concepts.cpp
           ${CMAKE_CURRENT_LIST_DIR}/range_customtakeview.cpp)
 
-target_link_libraries(rangebase_shared PRIVATE commonPCH #[[ fmt::fmt ]])
+target_link_libraries(rangebase_shared PRIVATE commonPCH fmt::fmt)
 
 # this is needed when REUSE_FROM used PCH
 
@@ -57,7 +57,7 @@ target_sources(
 
 # target_precompile_headers(corobase  REUSE_FROM corobase_shared)
 
-target_link_libraries(rangebase PRIVATE commonPCH #[[ fmt::fmt ]])
+target_link_libraries(rangebase PUBLIC commonPCH fmt::fmt)
 
 target_compile_definitions(
   rangebase
@@ -89,9 +89,9 @@ if(${ENABLE_WARNINGS})
                       AS_ERRORS ${ENABLE_WARNINGS_AS_ERRORS})
 endif()
 
-if(${ENABLE_LTO})
-  target_enable_lto(TARGET rangebase_shared ENABLE ${ENABLE_LTO})
-endif()
+# if(${ENABLE_LTO})
+#   target_enable_lto(TARGET rangebase_shared ENABLE ${ENABLE_LTO})
+# endif()
 
 if(${ENABLE_WARNINGS})
   target_set_warnings(TARGET rangebase ENABLE ${ENABLE_WARNINGS} AS_ERRORS

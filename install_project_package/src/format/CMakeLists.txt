@@ -22,6 +22,7 @@ target_compile_definitions(
 target_include_directories(
   formatbase_shared
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/format>
+         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
          $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
          $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
 
@@ -66,6 +67,7 @@ target_compile_definitions(
 target_include_directories(
   formatbase
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/format>
+         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/fmt>
          $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
          $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
 
@@ -88,8 +90,10 @@ if(${ENABLE_WARNINGS})
 endif()
 
 # enabling Lto causes ASAN to give error after gcc update to 13.2.1-5 it was
-# working before if(${ENABLE_LTO}) target_enable_lto(TARGET formatbase_shared
-# ENABLE ${ENABLE_LTO}) endif()
+# working before
+# if(${ENABLE_LTO})
+#   target_enable_lto(TARGET formatbase_shared ENABLE ${ENABLE_LTO})
+# endif()
 
 if(${ENABLE_WARNINGS})
   target_set_warnings(TARGET formatbase ENABLE ${ENABLE_WARNINGS} AS_ERRORS

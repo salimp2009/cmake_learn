@@ -11,7 +11,7 @@
 #include <source_location>
 #include <string_view>
 // #include <strings.h>
-#include <fmt/format.h>
+// #include <fmt/format.h>
 #include <utility>
 namespace sp {
 
@@ -73,24 +73,24 @@ struct FormatWithLocation {
       : mlevel{lvl}, mloc{l} {}
 };
 
-struct message_EXPORT Logger {
+struct message_EXPORT Logger{
 
-  template <typename... Args>
-  constexpr void operator()(FormatWithLocation levloc, std::string_view fmt,
-                            Args &&...args) const {
-    using namespace std::string_view_literals;
-    const auto tm =
-        std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
-    std::clog
-        << std::format(
-               "[LOG LEVEL:{}], called from [function: {}, line: {}]\n[file:] [{}]\n"sv,
-               levloc.mlevel, levloc.mloc.function_name(), levloc.mloc.line(),
-               levloc.mloc.file_name())
-        << std::format("[time: {:%F %T }] -> ",
-                       std::chrono::floor<std::chrono::milliseconds>(tm))
-        << std::vformat(fmt, std::make_format_args(args...)) << '\n';
-  }
-};
+    template <typename... Args> constexpr void operator()(
+        FormatWithLocation levloc, std::string_view fmt, Args &&...args)
+        const {using namespace std::string_view_literals;
+const auto tm =
+    std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
+std::clog
+    << std::format(
+           "[LOG LEVEL:{}], called from [function: {}, line: {}]\n[file:] [{}]\n"sv,
+           levloc.mlevel, levloc.mloc.function_name(), levloc.mloc.line(),
+           levloc.mloc.file_name())
+    << std::format("[time: {:%F %T }] -> ",
+                   std::chrono::floor<std::chrono::milliseconds>(tm))
+    << std::vformat(fmt, std::make_format_args(args...)) << '\n';
+} // namespace sp
+}
+;
 
 message_EXPORT inline constexpr Logger log{};
 } // namespace sp

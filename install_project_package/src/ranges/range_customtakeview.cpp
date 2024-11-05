@@ -1,6 +1,5 @@
 #include "range_customtakeview.hpp"
-#include <fmt/core.h>
-#include <fmt/ranges.h>
+#include <print>
 #include <vector>
 namespace sp {
 
@@ -10,6 +9,7 @@ void custom_take_check() {
                 std::views::filter([](auto &&val) { return val % 2 == 0; }) |
                 sp::views::custom_take(7) | std::views::take(3);
 
-  fmt::println("result from custom_take: {}", result);
+  for (const auto &filterdresult : result)
+    std::println("result from custom_take: {}", filterdresult);
 }
 } // namespace sp

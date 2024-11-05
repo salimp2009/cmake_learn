@@ -7,13 +7,13 @@
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
-#include <fmt/core.h>
-#include <fmt/ranges.h>
+// #include <fmt/core.h>
+// #include <fmt/ranges.h>
 #include <iterator>
+#include <print>
 #include <span>
 #include <type_traits>
 #include <utility>
-
 namespace sp {
 
 template <typename CharT, std::size_t N> struct message_EXPORT fixed_string {
@@ -22,10 +22,13 @@ template <typename CharT, std::size_t N> struct message_EXPORT fixed_string {
   constexpr fixed_string(const CharT (&str)[N]) { std::copy_n(str, N, data); }
 };
 
-template <fixed_string Str> struct message_EXPORT fixed_string_container {
+template <fixed_string Str>
+struct message_EXPORT fixed_string_container{
 
-  constexpr void print() { fmt::println("{}", Str.data); }
-};
+    constexpr void print(){std::println("{}", Str.data);
+} // namespace sp
+}
+;
 
 template <fixed_string str> struct message_EXPORT format_string {
   static constexpr auto fmt = str;
@@ -62,32 +65,22 @@ template <typename T> constexpr bool match(const char c) {
     [[fallthrough]];
   case 'X':
   case 'x':
-    return (
-        plain_same_v<unsigned short, T> || plain_same_v<std::size_t, T> ||
-        plain_same_v<unsigned long long, T> || plain_same_v<unsigned int, T> ||
-        plain_same_v<
-            int,
-            T>)&&(not plain_same_v<double,
-                                   T>)&&(not(plain_same_v<char,
-                                                          std::
-                                                              remove_all_extents_t<
-                                                                  T>> and
-                                             std::is_array_v<T> &&
-                                             not std::floating_point<T>) ||
-                                         not(plain_same_v<
-                                                 char *,
-                                                 std::remove_all_extents_t<
-                                                     T>> &&
-                                             std::is_pointer_v<T>));
+    return (plain_same_v<unsigned short, T> || plain_same_v<std::size_t, T> ||
+            plain_same_v<unsigned long long, T> ||
+            plain_same_v<unsigned int, T> || plain_same_v<int, T>) &&
+           (not plain_same_v<double, T>) &&
+           (not(plain_same_v<char, std::remove_all_extents_t<T>> and
+                std::is_array_v<T> && not std::floating_point<T>) ||
+            not(plain_same_v<char *, std::remove_all_extents_t<T>> &&
+                std::is_pointer_v<T>));
   case 'a':
-    return (not plain_same_v<int, T>)&&(
-        std::is_floating_point_v<T> || plain_same_v<long double, T> ||
-        plain_same_v<
-            double,
-            T>)&&(not(plain_same_v<char, std::remove_all_extents_t<T>> and
-                      std::is_array_v<T>) ||
-                  not(plain_same_v<char *, std::remove_all_extents_t<T>> &&
-                      std::is_pointer_v<T>));
+    return (not plain_same_v<int, T>) &&
+           (std::is_floating_point_v<T> || plain_same_v<long double, T> ||
+            plain_same_v<double, T>) &&
+           (not(plain_same_v<char, std::remove_all_extents_t<T>> and
+                std::is_array_v<T>) ||
+            not(plain_same_v<char *, std::remove_all_extents_t<T>> &&
+                std::is_pointer_v<T>));
 
   case 'p':
     return plain_same_v<void *, std::remove_all_extents_t<T>> &&

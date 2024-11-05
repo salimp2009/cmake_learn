@@ -4,8 +4,9 @@
 #include "corobasics.hpp"
 #include "coropromise_custom_alloctr.hpp"
 
-#include <fmt/core.h>
+#include <cstddef>
 #include <optional>
+#include <print>
 #include <type_traits>
 #include <vector>
 
@@ -14,8 +15,8 @@ namespace sp {
 void coroutines_basics1() noexcept {
   std::puts("-------------> coroutines_basics1 test1 -------------<");
   use_coro_counter();
-  fmt::print("Hello fmt\n");
-  fmt::println("ESC from stream:{}", ESC);
+  std::print("Hello std::print\n");
+  std::println("ESC from stream:{}", static_cast<char>(ESC));
   std::puts("-------------> coroutines_basics1 test1 passed -------------<");
 }
 
@@ -29,9 +30,9 @@ void coroutines_stream_v2() noexcept {
   std::puts("-------------> coroutines_stream_v2 test1 -------------<");
   stream_simulator2();
 #if DEBUG
-  fmt::println("Debug Build is On");
+  std::println("Debug Build is On");
 #else
-  fmt::println("Release Build is On");
+  std::println("Release Build is On");
 #endif // DEBUG
   std::puts("-------------> coroutines_stream_v2 test1 passed -------------<");
 }

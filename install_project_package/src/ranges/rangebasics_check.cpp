@@ -2,10 +2,11 @@
 #include "rangebase.hpp"
 #include "rangebasics.hpp"
 
+#include "fmt/ranges.h"
 #include <fmt/core.h>
-#include <fmt/ranges.h>
-
+#include <format>
 #include <numeric>
+#include <print>
 #include <ranges>
 #include <vector>
 
@@ -13,27 +14,35 @@ namespace sp {
 
 void range_basics1() noexcept {
   std::puts("-------------> coroutines_basics1 test1 -------------<");
-  fmt::println("Hello range basic");
+  std::println("Hello range basic");
 
   const std::vector<int> numbers{2, 3, 4, 5, 6};
+
+  fmt::println("fmt : {}", numbers);
 
   auto result = numbers |
                 std::views::filter([](auto &&num) { return num % 2 == 0; }) |
                 std::views::transform([](auto &&n) { return n * 2; });
 
-  fmt::println("range result: {}", result);
-  fmt::println("original numbers: {}", numbers);
+  fmt::println("fmt result: {}", result);
+  for (const auto &filteredresult : result)
+    std::println("range result: {}", filteredresult);
+
+  for (const auto &number : numbers)
+
+    std::println("original numbers: {}", number);
 
   const std::vector<int> nums{5, 7, 4, 10};
   auto greater_than_five =
       nums | std::views::take_while([](auto &&x) { return x > 4; }) |
       std::views::common;
 
-  fmt::println("greater_than_five: {}", greater_than_five);
+  for (const auto &greaterfives : greater_than_five)
+    std::println("greater_than_five: {}", greaterfives);
 
   auto sum = std::accumulate(std::begin(greater_than_five),
                              std::end(greater_than_five), 0);
-  fmt::println("sum (with common):{} ", sum);
+  std::println("sum (with common):{} ", sum);
 
   std::puts("-------------> coroutines_basics1 test1 passed -------------<");
 }

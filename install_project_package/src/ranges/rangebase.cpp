@@ -1,7 +1,6 @@
 #include "rangebase.hpp"
 #include <algorithm>
-#include <fmt/ranges.h>
-// #include <fmt/core.h>
+#include <print>
 #include <ranges>
 #include <vector>
 namespace sp {
@@ -11,7 +10,7 @@ void sort_by_title() {
       {"Effective C++", "978-3-16-148410-0"}};
 
   std::ranges::sort(books, {}, &Book::title);
-  fmt::println("sorted by title: {}", books);
+  // std::println("sorted by title: {}", books);
 }
 void sort_by_isbn() {
   std::vector<Book> books{
@@ -19,7 +18,8 @@ void sort_by_isbn() {
       {"Effective C++", "978-3-16-148410-0"}};
 
   std::ranges::sort(books, std::ranges::greater{}, &Book::isbn);
-  fmt::println("sorted by isbn: {}", books);
+  for (const auto &isbnsorted : books)
+    std::println("sorted by isbn: {}", isbnsorted);
 }
 
 void add_currency() {
@@ -33,7 +33,9 @@ void add_currency() {
   auto subView = prices |
                  std::views::filter([](auto &&val) { return val < 10.; }) |
                  std::views::transform(add_suffix("$"));
-  fmt::println("prices with currencies: {}", subView);
+  for (const auto &price : subView) {
+    std::println("prices with currencies: {}", price);
+  }
 }
 
 } // namespace sp

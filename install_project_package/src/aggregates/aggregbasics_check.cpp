@@ -1,8 +1,8 @@
 #include "aggregbasics.hpp"
 #include <cstdio>
-#include <fmt/core.h>
+// #include <fmt/core.h>
 #include <memory>
-// #include <print>
+#include <print>
 namespace sp {
 
 void aggregate_basics1() noexcept {
@@ -11,9 +11,9 @@ void aggregate_basics1() noexcept {
   // std::print("3d point: {}, {}, {}\n", point3d.x, point3d.y, point3d.z);
 
   const auto point3d_ptr = std::make_unique<Point3D>(4, 5, 10);
-  fmt::print("Point3D pointer: x={}\n", point3d_ptr->x);
+  std::print("Point3D pointer: x={}\n", point3d_ptr->x);
   Point3D point3d_2(2, 3, 4);
-  fmt::print("point3d_2 => {}, {}, {}\n", point3d_2.x, point3d_2.y,
+  std::print("point3d_2 => {}, {}, {}\n", point3d_2.x, point3d_2.y,
              point3d_2.z);
   // LifetimeExtension lifetime_ext1{3};
 

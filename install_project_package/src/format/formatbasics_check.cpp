@@ -3,14 +3,15 @@
 #include "formatlog.hpp"
 #include "stockindex.hpp"
 
-#include <fmt/core.h>
-#include <fmt/format.h>
-#include <fmt/ranges.h>
-
 #include <cstdio>
+// #include <fmt/color.h>
+// #include <fmt/core.h>
+#include <fmt/color.h>
+#include <fmt/core.h>
 #include <format>
 #include <iterator>
 #include <locale>
+#include <print>
 #include <string>
 #include <utility>
 #include <vector>
@@ -25,7 +26,7 @@ void format_basics1() noexcept {
 
   auto result = std::format("{:>10} {:>8.2f} {:>6.2f} {:.2f}% {} \n",
                             "first string", 5.456, 7.34345, 1.4345, 1.3435);
-  fmt::println("{}", result);
+  std::println("{}", result);
 
   [[maybe_unused]] const double pi = 3.14;
   [[maybe_unused]] const int i = 1'024;
@@ -34,14 +35,14 @@ void format_basics1() noexcept {
   const auto locUS = std::locale("en_US.UTF-8"s);
 
   result = std::format("{:*<7}", 42);
-  fmt::println("{}", result);
+  std::println("{}", result);
 
   result = std::format("{:*>7}", 42);
-  fmt::println("{}", result);
+  std::println("{}", result);
 
   result = std::format("{:*^8}", 42);
-  fmt::println("{}", result);
-  fmt::println("typeid.name :{}", typeid(decltype(locUS)).name());
+  std::println("{}", result);
+  std::println("typeid.name :{}", typeid(decltype(locUS)).name());
   std::puts("-------------> format_basics1 test passed -------------<");
 }
 
@@ -51,17 +52,17 @@ void format_basics2() noexcept {
   auto res = std::format("{0} has value hex: {0:0X}, decimal: {0:+4d}, octal: "
                          "{0:0o}, binary: {0:0b}",
                          '?');
-  fmt::println("{}", res);
+  std::println("{}", res);
 
   res = std::format("{0} has value hex: {0:#0x}, decimal: {0:+4d}, octal: "
                     "{0:#0o}, binary: {0:#0b}, character: {0:c}, string: "
                     "{1:s}, string: {1:.3s}",
                     'y', "hello");
-  fmt::println("{}", res);
+  std::println("{}", res);
   const std::wstring ws2 = std::format(L"{}", L"K\u00F6ln");
 
   int number = 42;
-  fmt::println("adress of number: {:p}, nullptr: {}",
+  std::println("adress of number: {:p}, nullptr: {}",
                static_cast<void *>(&number), nullptr);
 #ifdef _MSC_VER
   std::locale locG{"deu_deu.1252"};
@@ -72,7 +73,7 @@ void format_basics2() noexcept {
       std::format(locG, "normal locale: {0}, us locale: {0:L}", 1000.7);
   // this does not work on my computer
   // if it is different locale than below one
-  fmt::println("{}", result_locale);
+  std::println("{}", result_locale);
 
   std::puts("-------------> format_basics2 test passed -------------<");
 }
@@ -84,7 +85,7 @@ void format_to_buffer() noexcept {
   auto result = std::format_to_n(buffer, std::size(buffer) - 1,
                                  "string {} has {} chars", str, std::size(str));
   *(result.out) = '\0';
-  fmt::println("format_to_n: {}", buffer);
+  std::println("format_to_n: {}", buffer);
   std::puts("-------------> format_to_buffer test passed -------------<");
 }
 
@@ -94,7 +95,7 @@ void print_indices() noexcept {
 
   for (const auto &stock : indices_vec) {
 
-    fmt::println("stockes indices: name: {:10}, points: {:>8.2f}, points diff: "
+    std::println("stockes indices: name: {:10}, points: {:>8.2f}, points diff: "
                  "{:>6.2f}, "
                  "points diff percent : {:4.2f}",
                  stock.name(), stock.points(), stock.points_diff(),
@@ -110,16 +111,16 @@ void print_indices() noexcept {
 
   // for (const auto &index : getindices()) {
   //   auto result = std::format(locUS, "{:Ls}", index);
-  //   fmt::println("short format: {}", result);
+  //   std::println("short format: {}", result);
   // }
 
   // for (const auto &index : getindices()) {
   //   auto result = std::format("{:Lp}", index);
-  //   fmt::println("format withplus: {}", result);
+  //   std::println("format withplus: {}", result);
   // }
 
   // auto result = std::format("{:>5.2Lf}", 100.7);
-  // fmt::println("locUS on regular types: {}", result);
+  // std::println("locUS on regular types: {}", result);
 
   std::puts("-------------> print_indices test passed -------------<");
 }
@@ -129,7 +130,10 @@ void color_test_hex() noexcept {
 
   Color cool_colors{.r = 10, .g = 25, .b = 55};
   auto colorformat = std::format("{}", cool_colors);
-  fmt::println("Color cool_colors: {}", colorformat);
+  fmt::println("fmt Color cool_colors: {}", 5);
+
+  fmt::print(fmt::emphasis::bold | fg(fmt::color::red),
+             "Elapsed time: {0:.2f} seconds\n", 1.23);
 
   auto colorformat_hex = std::format("{0:h} {0:H}", cool_colors);
   fmt::println("Color cool_colors: {}", colorformat_hex);
@@ -145,14 +149,14 @@ void custom_buffer() noexcept {
   std::vector<char> buffer;
   constexpr const char *fmt = "{}, {}";
   std::format_to(std::back_inserter(buffer), fmt, "Hello", "Buffer");
-  fmt::println("{}", buffer);
+  // std::println("{}", buffer);
 
   // lookahead string size
   constexpr const char *fmt2{"{}, {}"};
   const auto size = std::formatted_size(fmt2, "Hello", "Buffer");
   std::vector<char> buffer2(size);
   std::format_to(buffer2.begin(), fmt2, "Hello", "Buffer");
-  fmt::println("lookahead the formatted size: size: {},{} ", size, buffer2);
+  std::println("lookahead the formatted size: size: {}", size);
 
   // example for format_to_n
   std::array<char, 13> buffer3{};
@@ -161,7 +165,7 @@ void custom_buffer() noexcept {
                                  "Hello", "World");
   *(result.out) = '\0';
 
-  fmt::print("{}\n", buffer3);
+  // std::print("{}\n", buffer3);
 
   std::puts("-------------> custom_buffer test passed -------------<");
 }
@@ -170,7 +174,7 @@ void logger_format() noexcept {
   std::puts("-------------> logger_format test -------------<");
   using enum LogLevel;
   using namespace std::string_view_literals;
-  fmt::println("{}", std::to_underlying(LogLevel::Info));
+  std::println("{}", std::to_underlying(LogLevel::Info));
   logger(Info, "arg1: ", "testing logger", "arg2: ", "testing logger2");
   log(LogLevel::Info, "arg1: {}, arg2:{}", "testing logger", "testing logger2");
   std::puts("-------------> logger_format test passed -------------<");
