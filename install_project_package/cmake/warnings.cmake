@@ -52,6 +52,7 @@ function(target_set_warnings)
       -Wold-style-cast # warn for c-style casts
       -Woverloaded-virtual # if you overload (not override) a virtual function
       # -Weffc++ # violations from Scott Meyers’ Effective C++
+      -Wnrvo
   )
 
   set(GCC_WARNINGS

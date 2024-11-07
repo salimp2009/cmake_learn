@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <print>
 #include <type_traits>
-
+#include <variant>
 namespace sp {
 
 void stlchanges_basics1() noexcept {
@@ -31,6 +31,10 @@ void stlchanges_basics1() noexcept {
 
   const uint32_t aa = std::bit_cast<uint32_t>(pi);
   std::println("{}", aa);
+
+  std::variant<std::string, int, char> var{"salitos"};
+  std::get_if<std::string>(&var);
+
   // FloatOrInt uu{aa};
   std::puts("-------------> stlchanges_basics1 test1 passed -------------<");
 }
