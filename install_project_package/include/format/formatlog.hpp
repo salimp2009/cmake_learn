@@ -74,7 +74,6 @@ struct FormatWithLocation {
 };
 
 struct message_EXPORT Logger{
-
     template <typename... Args> constexpr void operator()(
         FormatWithLocation levloc, std::string_view fmt, Args &&...args)
         const {using namespace std::string_view_literals;
