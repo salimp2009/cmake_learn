@@ -42,6 +42,8 @@ void stlchanges_basics1() noexcept {
 }
 
 void time_zone_basics1() noexcept {
+  std::puts("-------------> time_zone_basics1 test1 -------------<");
+
   const auto now = std::chrono::floor<std::chrono::minutes>(
       std::chrono::system_clock::now());
   auto zonetime_loc = std::chrono::zoned_time{"Europe/Istanbul", now};
@@ -51,5 +53,12 @@ void time_zone_basics1() noexcept {
   const auto now_local = std::chrono::floor<std::chrono::minutes>(time);
 
   std::println("now is {} UTC and Current Location is {}", now, now_local);
+  std::puts("-------------> time_zone_basics1 test1 passed -------------<");
 }
+void local_time_basics() noexcept {
+  std::puts("-------------> local_time_basics test1 -------------<");
+  print_zone_time(std::chrono::year{2024} / 13 / 14, "Europe/Warsaw");
+  std::puts("-------------> local_time_basics test1 passed -------------<");
+}
+
 } // namespace sp

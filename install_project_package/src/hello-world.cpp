@@ -78,5 +78,6 @@ int main() {
   sp::safe_printf();
   sp::stlchanges_basics1();
   sp::time_zone_basics1();
+  sp::local_time_basics();
   return EXIT_SUCCESS;
 }

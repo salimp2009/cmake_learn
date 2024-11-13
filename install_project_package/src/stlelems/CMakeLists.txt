@@ -2,7 +2,8 @@ add_library(stlbase_shared SHARED "")
 add_library(message::stlbase_shared ALIAS stlbase_shared)
 
 target_sources(stlbase_shared
-               PRIVATE ${CMAKE_CURRENT_LIST_DIR}/stlbasics_check.cpp)
+               PRIVATE  ${CMAKE_CURRENT_LIST_DIR}/stlbasics_check.cpp
+                        ${CMAKE_CURRENT_LIST_DIR}/stlbasics.cpp)
 
 target_link_libraries(stlbase_shared PRIVATE commonPCH #[[ fmt::fmt ]])
 
@@ -44,7 +45,8 @@ set_target_properties(
 add_library(stlbase STATIC "")
 add_library(message::stlbase ALIAS stlbase)
 
-target_sources(stlbase PRIVATE ${CMAKE_CURRENT_LIST_DIR}/stlbasics_check.cpp)
+target_sources(stlbase PRIVATE  ${CMAKE_CURRENT_LIST_DIR}/stlbasics_check.cpp
+                                ${CMAKE_CURRENT_LIST_DIR}/stlbasics.cpp)
 
 # target_precompile_headers(corobase  REUSE_FROM corobase_shared)
 
