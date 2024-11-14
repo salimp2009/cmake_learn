@@ -57,7 +57,7 @@ void time_zone_basics1() noexcept {
 }
 void local_time_basics() noexcept {
   std::puts("-------------> local_time_basics test1 -------------<");
-  print_zone_time(std::chrono::year{2024} / 13 / 14, "Europe/Warsaw");
+  print_zone_time(std::chrono::year{2024} / 13 / 14, "Europe/Istanbul");
   std::puts("-------------> local_time_basics test1 passed -------------<");
 }
 

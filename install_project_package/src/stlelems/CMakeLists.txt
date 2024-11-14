@@ -82,9 +82,9 @@ if(${ENABLE_WARNINGS})
                       ${ENABLE_WARNINGS_AS_ERRORS})
 endif()
 
-# if(${ENABLE_LTO})
-#   target_enable_lto(TARGET stlbase_shared ENABLE ${ENABLE_LTO})
-# endif()
+if(${ENABLE_LTO})
+  target_enable_lto(TARGET stlbase_shared ENABLE ${ENABLE_LTO})
+endif()
 
 if(${ENABLE_WARNINGS})
   target_set_warnings(TARGET stlbase ENABLE ${ENABLE_WARNINGS} AS_ERRORS
