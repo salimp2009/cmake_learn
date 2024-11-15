@@ -103,9 +103,9 @@ if(${ENABLE_WARNINGS})
                       ${ENABLE_WARNINGS_AS_ERRORS})
 endif()
 
-if(${ENABLE_LTO})
-  target_enable_lto(TARGET message_shared ENABLE ${ENABLE_LTO})
-endif()
+# if(${ENABLE_LTO})
+#   target_enable_lto(TARGET message_shared ENABLE ${ENABLE_LTO})
+# endif()
 
 
 if(${ENABLE_WARNINGS})

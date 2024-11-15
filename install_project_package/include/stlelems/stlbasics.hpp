@@ -17,4 +17,5 @@ union FloatOrInt {
 message_EXPORT void print_zone_time(std::chrono::sys_days sysdays,
                                     std::string_view zone);
 
+message_EXPORT constexpr inline void test(int n) { n += 1; }
 } // namespace sp

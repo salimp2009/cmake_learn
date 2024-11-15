@@ -2,11 +2,15 @@
 
 // #include <bit>
 #include <chrono>
+// #include <complex>
 #include <cstdint>
 #include <ctime>
+// #include <experimental/memory>
+// #include <memory>
 #include <print>
 #include <type_traits>
 #include <variant>
+
 namespace sp {
 
 void stlchanges_basics1() noexcept {
@@ -59,6 +63,11 @@ void local_time_basics() noexcept {
   std::puts("-------------> local_time_basics test1 -------------<");
   print_zone_time(std::chrono::year{2024} / 13 / 14, "Europe/Istanbul");
   std::puts("-------------> local_time_basics test1 passed -------------<");
+  const int myvar = 56;
+  test(myvar);
+  // alignas(std::complex<float>) unsigned char network_data[sizeof(
+  //     std::complex<float>)]{0xcd, 0xcc, 0xcc, 0x3d, 0xcd, 0xcc, 0x4c, 0x3e};
+  // auto d = *std::start_lifetime_as<std::complex<float>>(network_data);
 }
 
 } // namespace sp
