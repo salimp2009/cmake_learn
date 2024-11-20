@@ -7,6 +7,7 @@
 #include <ctime>
 // #include <experimental/memory>
 // #include <memory>
+#include <ostream>
 #include <print>
 #include <type_traits>
 #include <variant>
@@ -41,6 +42,9 @@ void stlchanges_basics1() noexcept {
   std::variant<std::string, int, char> var{"salitos"};
   std::get_if<std::string>(&var);
 
+  Vector vc{2, -1};
+  std::println("x: {}, y:{}", vc.X, vc.Y);
+  vc.Print();
   // FloatOrInt uu{aa};
   std::puts("-------------> stlchanges_basics1 test1 passed -------------<");
 }
