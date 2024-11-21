@@ -2,6 +2,7 @@
 #include "messageExport.h"
 #include <compare>
 #include <cstddef>
+#include <string_view>
 namespace sp {
 
 class message_EXPORT String {
@@ -23,6 +24,9 @@ public:
     }
     return compare(*this, other) == 0;
   }
+
+  explicit operator const char *() const { return mdata; }
+  explicit operator std::string_view() const { return {mdata, mlen}; }
 
 private:
   static std::weak_ordering compare(const String &lhs, const String &rhs);

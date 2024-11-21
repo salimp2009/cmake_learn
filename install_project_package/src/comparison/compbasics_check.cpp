@@ -21,6 +21,10 @@ void comp_basics1() noexcept {
   std::println("stra > strc [expected: false]: {}", stra > strc);
   std::println("stra < strc [expected: false]: {}", stra < strc);
 
+  const String strng{"Hello"};
+  std::println("strng == Hello [expected: true]:{}", strng == "Hello");
+  std::println("Hello == strng [expected: true]:{}", "Hello" == strng);
+
   std::puts("-------------> comp_basics1 test passed -------------<");
 }
 } // namespace sp
