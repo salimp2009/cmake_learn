@@ -1,0 +1,14 @@
+#pragma once
+#include <cstdint>
+#include <string_view>
+
+inline constexpr std::string_view PROJECT_NAME = "@PROGRAM_NAME@";
+inline constexpr std::string_view PROJECT_VERSION = "@PROGRAM_VERSION@";
+inline constexpr std::string_view GIT_HASH = "@GIT_HASH@";
+inline constexpr std::string_view GIT_STATUS = "@GIT_STATUS@";
+// clang-format off
+inline constexpr int PROJECT_VERSION_MAJOR { @PROGRAM_VERSION_MAJOR@ };
+inline constexpr int PROJECT_VERSION_MINOR { @PROGRAM_VERSION_MINOR@ };
+inline constexpr int PROJECT_VERSION_PATCH { @PROGRAM_VERSION_PATCH@ };
+inline constexpr int PROJECT_VERSION_TWEAK { @PROGRAM_VERSION_TWEAK@ };
+// clang-format on
