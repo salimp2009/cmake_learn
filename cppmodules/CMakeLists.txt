@@ -1,3 +1,9 @@
+set(CMAKE_CXX_COMPILER clang++)
+set(CMAKE_C_COMPILER clang)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++")
+
 cmake_minimum_required(VERSION 3.31 FATAL_ERROR)
 project(
   moduleexample
@@ -12,7 +18,32 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_INSTALL_PREFIX "/home/salim/repos/cpp_sandbox/cmake_learn/temp/")
 message("CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
 
+# set(CMAKE_CXX_COMPILER clang++ CACHE STRING "" FORCE)
+# set(CMAKE_C_COMPILER clang CACHE CACHE STRING "" FORCE)
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -fexperimental-modules-reduced-bmi" CACHE STRING "" FORCE)
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -fexperimental-modules-reduced-bmi" CACHE STRING "" FORCE)
+# set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++ -fexperimental-modules-reduced-bmi" CACHE STRING "" FORCE)
+
+
+# get_filename_component(__llvm_dir "${CMAKE_CXX_COMPILER}" DIRECTORY)
+
+# set(CMAKE_AR "${__llvm_dir}/llvm-ar" CACHE FILEPATH "Archiver" FORCE)
+# set(CMAKE_LINKER "${__llvm_dir}/llvm-ld" CACHE FILEPATH "Linker" FORCE)
+# set(CMAKE_NM "${__llvm_dir}/llvm-nm" CACHE FILEPATH "nm" FORCE)
+# set(CMAKE_OBJDUMP "${__llvm_dir}/llvm-objdump" CACHE FILEPATH "objdump" FORCE)
+# set(CMAKE_RANLIB "${__llvm_dir}/llvm-ranlib" CACHE FILEPATH "ranlib" FORCE)
+
+# "${__llvm_dir}/llvm-as" is not working
+# set(CMAKE_ASM_COMPILER "${CMAKE_C_COMPILER}" CACHE FILEPATH "Assembler")
+
+# unset(__llvm_dir)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
+  add_compile_options( -stdlib=libc++)
+endif()
+
 if(NOT CMAKE_BUILD_TYPE)
+
   set(CMAKE_BUILD_TYPE
       RelWithDeb
       CACHE STRING "Build type" FORCE)
@@ -26,7 +57,7 @@ include(cmake/set_build_install_dir.cmake)
 set_build_install_dirs()
 
 include(cmake/CPM.cmake)
-cpmaddpackage(NAME Catch2 GITHUB_REPOSITORY catchorg/Catch2 VERSION 3.5.0)
+# cpmaddpackage(NAME Catch2 GITHUB_REPOSITORY catchorg/Catch2 VERSION 3.5.0)
 cpmaddpackage(
   NAME
   fmt
@@ -34,6 +65,7 @@ cpmaddpackage(
   11.0.2
   GITHUB_REPOSITORY
   fmtlib/fmt
+  CPM_USE_LOCAL_PACKAGES ON
   # OPTIONS
   # "CMAKE_POSITION_INDEPENDENT_CODE ON"
   )

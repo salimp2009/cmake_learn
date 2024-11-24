@@ -102,6 +102,7 @@ if(ENABLE_SANITIZE_ADDR OR ENABLE_SANITIZE_UNDEF)
   add_sanitizer_flags()
 endif()
 
+
 # project version generated in config.hpp
 add_subdirectory(configured)
 
