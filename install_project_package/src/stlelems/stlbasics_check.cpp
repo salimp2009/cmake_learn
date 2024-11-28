@@ -46,6 +46,11 @@ void stlchanges_basics1() noexcept {
   std::println("x: {}, y:{}", vc.X, vc.Y);
   vc.Print();
   // FloatOrInt uu{aa};
+
+  testextern<int>();
+  testextern<float>();
+  testextern<int>();
+
   std::puts("-------------> stlchanges_basics1 test1 passed -------------<");
 }
 

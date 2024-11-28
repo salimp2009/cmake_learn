@@ -1,5 +1,6 @@
 #pragma once
 
+#include "fmt/core.h"
 #include "messageExport.h"
 #include <chrono>
 #include <cstdint>
@@ -27,4 +28,10 @@ struct Vector {
     std::println("(x:{}, y:{})", self.X, self.Y);
   }
 };
+
+template <typename T> inline constexpr message_EXPORT void testextern() {
+  fmt::println("testextern templ {}", "maintemplate");
+}
+extern template message_EXPORT void testextern<float>();
+
 } // namespace sp

@@ -20,9 +20,9 @@ message("CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
 
 # set(CMAKE_CXX_COMPILER clang++ CACHE STRING "" FORCE)
 # set(CMAKE_C_COMPILER clang CACHE CACHE STRING "" FORCE)
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -fexperimental-modules-reduced-bmi" CACHE STRING "" FORCE)
-# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -fexperimental-modules-reduced-bmi" CACHE STRING "" FORCE)
-# set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++ -fexperimental-modules-reduced-bmi" CACHE STRING "" FORCE)
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++" CACHE STRING "" FORCE)
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++" CACHE STRING "" FORCE)
+# set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++" CACHE STRING "" FORCE)
 
 
 # get_filename_component(__llvm_dir "${CMAKE_CXX_COMPILER}" DIRECTORY)

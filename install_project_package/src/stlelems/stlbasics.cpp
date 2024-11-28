@@ -13,6 +13,6 @@ void print_zone_time(std::chrono::sys_days sysdays, std::string_view zone) {
              info.save);
 }
 
-// constexpr inline void test(int n) { n += 1; }
+template void testextern<float>();
 
 } // end of namespace sp
