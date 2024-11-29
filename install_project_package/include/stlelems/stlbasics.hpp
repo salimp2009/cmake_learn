@@ -16,16 +16,16 @@ union FloatOrInt {
   uint32_t i;
 };
 
-message_EXPORT void print_zone_time(std::chrono::sys_days sysdays,
-                                    std::string_view zone);
+/* message_EXPORT */ void print_zone_time(std::chrono::sys_days sysdays,
+                                          std::string_view zone);
 
 message_EXPORT constexpr inline void test(int n) { n += 1; }
 
-struct Vector {
+struct message_EXPORT Vector {
   int X;
   int Y;
   template <typename Self> void Print(this Self &&self) {
-    std::println("(x:{}, y:{})", self.X, self.Y);
+    std::println("Vector from stlbasics; (x:{}, y:{})", self.X, self.Y);
   }
 };
 

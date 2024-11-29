@@ -29,6 +29,8 @@ add_subdirectory(nttps)
 add_subdirectory(stlelems)
 
 add_executable(hello_world_wDSO2 hello-world.cpp)
+# this is to generate object & assembly files if needed
+# target_compile_options(hello_world_wDSO2 PRIVATE -save-temps=obj)
 target_link_libraries(
   hello_world_wDSO2
   PUBLIC message::message_shared
