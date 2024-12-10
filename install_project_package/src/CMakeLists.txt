@@ -43,7 +43,7 @@ target_link_libraries(
          message::aggregbase_shared
          message::nttpsbase_shared
          message::stlbase_shared
-         fmt::fmt
+         # fmt::fmt
          )
 
 file(RELATIVE_PATH _rel ${CMAKE_INSTALL_PREFIX}/${INSTALL_BINDIR}
@@ -79,7 +79,7 @@ target_link_libraries(
          message::aggregbase
          message::nttpsbase
          message::stlbase
-         fmt::fmt 
+         # fmt::fmt 
          )
 
 if(${ENABLE_WARNINGS})

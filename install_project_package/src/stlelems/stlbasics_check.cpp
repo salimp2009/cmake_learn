@@ -7,6 +7,7 @@
 #include <ctime>
 // #include <experimental/memory>
 // #include <memory>
+#include "fmt/core.h"
 #include <ostream>
 #include <print>
 #include <type_traits>
@@ -50,6 +51,8 @@ void stlchanges_basics1() noexcept {
   testextern<int>();
   testextern<float>();
   testextern<int>();
+
+  fmt::println("testing fmt in stlelems {}", "works");
 
   std::puts("-------------> stlchanges_basics1 test1 passed -------------<");
 }

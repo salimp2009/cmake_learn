@@ -20,6 +20,7 @@ target_compile_definitions(
 target_include_directories(
   stlbase_shared
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/stlelems>
+         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/fmt>
          $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
          $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
 
@@ -61,6 +62,7 @@ target_compile_definitions(
 target_include_directories(
   stlbase
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/stlelems>
+         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/fmt>
          $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}>
          $<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}/${PROJECT_NAME}>)
 
