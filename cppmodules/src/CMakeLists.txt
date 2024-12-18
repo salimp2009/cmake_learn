@@ -4,6 +4,8 @@ target_sources(Algo
     algo_impl.cpp
   PUBLIC
     FILE_SET CXX_MODULES
+    BASE_DIRS 
+      ${CMAKE_CURRENT_LIST_DIR}
     FILES
       algo_interface.cpp
 )
@@ -12,7 +14,7 @@ target_compile_features(Algo PUBLIC cxx_std_23)
 # target_sources(Algo
 #   PUBLIC
 #   FILE_SET HEADERS
-#   BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+#   BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}/${INSTALL_INCLUDEDIR}
 #   FILES
 #      ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/config.hpp)
 
