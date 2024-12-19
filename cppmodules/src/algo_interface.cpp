@@ -1,5 +1,6 @@
 module;
 // #include <fmt/core.h>
+#include <config.hpp>
 export module algo;
 // import std;
 // using fmt::print;
