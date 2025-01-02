@@ -61,6 +61,11 @@ void format_basics2() noexcept {
   std::println("{}", res);
   const std::wstring ws2 = std::format(L"{}", L"K\u00F6ln");
 
+  fmt::print(fg(fmt::color::steel_blue) | fmt::emphasis::italic,
+             "testing unicode: 你好{}！\n", "世界");
+
+  std::print("testing unicode with std: 你好{}！\n", "世界");
+
   int number = 42;
   std::println("adress of number: {:p}, nullptr: {}",
                static_cast<void *>(&number), nullptr);

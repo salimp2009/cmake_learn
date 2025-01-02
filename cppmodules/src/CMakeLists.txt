@@ -22,6 +22,7 @@ target_sources(Algo
   FILES
      ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/config.hpp
   )
+target_link_libraries(Algo PRIVATE fmt::fmt)
 
 # add_compile_options(-fmodules) 
 
