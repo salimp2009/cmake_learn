@@ -1,18 +1,19 @@
 #include "stlbasics.hpp"
 
 // #include <bit>
+#include <array>
 #include <chrono>
 // #include <complex>
 #include <cstdint>
 #include <ctime>
 // #include <experimental/memory>
-// #include <memory>
 #include "fmt/core.h"
+#include <memory>
 #include <ostream>
 #include <print>
 #include <type_traits>
 #include <variant>
-
+#include <cstdint>
 namespace sp {
 
 void stlchanges_basics1() noexcept {
@@ -53,6 +54,11 @@ void stlchanges_basics1() noexcept {
   testextern<int>();
 
   fmt::println("testing fmt in stlelems {}", "works");
+  __uint128_t my128int = 100000000000000000;
+  std::println("__uint128 supported: {}",my128int );
+
+  // this make an shared_ptr<[4][3][4]>
+  auto mysharedptr = std::make_shared<int[][3][4]>(4);
 
   std::puts("-------------> stlchanges_basics1 test1 passed -------------<");
 }
@@ -60,8 +66,8 @@ void stlchanges_basics1() noexcept {
 void time_zone_basics1() noexcept {
   std::puts("-------------> time_zone_basics1 test1 -------------<");
 
-  const auto now = std::chrono::floor<std::chrono::minutes>(
-      std::chrono::system_clock::now());
+  const auto now = std::chrono::floor<std::chrono::minutes>(std::chrono::system_clock::now());
+
   auto zonetime_loc = std::chrono::zoned_time{"Europe/Istanbul", now};
   std::println("now is {} UTC and Istanbul is {}", now, zonetime_loc);
   const auto time =
