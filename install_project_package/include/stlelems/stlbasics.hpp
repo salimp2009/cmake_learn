@@ -5,6 +5,7 @@
 #include <chrono>
 #include <cstdint>
 #include <print>
+#include <span>
 
 namespace sp {
 message_EXPORT void stlchanges_basics1() noexcept;
@@ -34,4 +35,11 @@ template <typename T> inline constexpr message_EXPORT void testextern() {
 }
 extern template message_EXPORT void testextern<float>();
 
+template <class T, std::size_t N>
+[[nodiscard]] constexpr auto slide(std::span<T, N> s, std::size_t offset,
+                                   std::size_t width) {
+  return s.subspan(offset, offset + width <= s.size() ? width : 0U);
+}
+
 } // namespace sp
+//
