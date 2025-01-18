@@ -1,5 +1,5 @@
-import algo;
 #include <fmt/core.h>
+import algo;
 int main() {
 
   Algo().helloWorld();
