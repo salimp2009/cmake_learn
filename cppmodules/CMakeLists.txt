@@ -39,7 +39,7 @@ message("CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
 # unset(__llvm_dir)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-stdlib=libc++)
+  add_compile_options(-stdlib=libc++ #[[ -fexperimental-modules-reduced-bmi ]])
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -62,6 +62,10 @@ cpmaddpackage(
   NAME fmt GIT_TAG 11.1.2 GITHUB_REPOSITORY fmtlib/fmt
   # CPM_USE_LOCAL_PACKAGES ON OPTIONS "CMAKE_POSITION_INDEPENDENT_CODE ON"
 )
+# include(FetchContent) FetchContent_Declare(std URL
+# "file://${LIBCXX_BUILD}/modules/c++/v1/" DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+# SYSTEM)
+
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include(StandartProjectSettings)
 standartprojectsettings()

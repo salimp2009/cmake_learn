@@ -13,7 +13,7 @@ target_sources(
          FILES ${CMAKE_BINARY_DIR}/${INSTALL_INCLUDEDIR}/config.hpp)
 target_link_libraries(Algo PRIVATE fmt::fmt)
 
-# add_compile_options(-fmodules)
+# add_compile_options(#[[ --experimental-modules-support ]] -fmodules-ts)
 
 add_executable(moduleApp main.cpp)
 target_compile_features(moduleApp PRIVATE cxx_std_23)
