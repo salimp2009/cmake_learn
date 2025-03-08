@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <print>
 #include <span>
+#include <type_traits>
 
 namespace sp {
 message_EXPORT void stlchanges_basics1() noexcept;

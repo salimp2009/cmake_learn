@@ -13,7 +13,6 @@
 #include <execution>
 #include <iterator>
 #include <memory>
-#include <ostream>
 #include <print>
 #include <span>
 #include <type_traits>
@@ -102,6 +101,14 @@ void local_time_basics() noexcept {
   std::rotate(std::execution::par, vv.begin(), std::ranges::next(vv.begin(), 5),
               vv.end());
   fmt::println("rotated vector: {}", vv);
+
+  fmt::print(fg(fmt::color::floral_white) | bg(fmt::color::slate_gray) |
+                 fmt::emphasis::underline,
+             "Olá, {}!\n", "Mundo");
+  fmt::print(fg(fmt::color::steel_blue) | fmt::emphasis::italic, "你好{}！\n",
+             "世界");
+  std::println("你好{}!", "世界🚀");
+
   std::puts("-------------> local_time_basics test1 passed -------------<");
 }
 

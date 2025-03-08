@@ -38,8 +38,10 @@ function(generate_doxygen input output)
   # set(DOXYGEN_PROJECT_LOGO "${PROJECT_SOURCE_DIR}/res/logo.png")
   # set(DOXYGEN_USE_MDFILE_AS_MAINPAGE "${PROJECT_SOURCE_DIR}/Readme.md")
 
-  # base for generating a documentation pdf file set(DOXYGEN_GENERATE_LATEX YES)
-  # set(DOXYGEN_USE_PDFLATEX YES) set(DOXYGEN_PDF_HYPERLINKS YES)
+  # base for generating a documentation pdf file
+  set(DOXYGEN_GENERATE_LATEX YES)
+  set(DOXYGEN_USE_PDFLATEX YES)
+  set(DOXYGEN_PDF_HYPERLINKS YES)
 
   doxygen_add_docs(
     doxygen "${input}"

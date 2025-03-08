@@ -44,7 +44,7 @@ target_link_libraries(
          message::nttpsbase_shared
          message::stlbase_shared
          # fmt::fmt
-         )
+)
 
 file(RELATIVE_PATH _rel ${CMAKE_INSTALL_PREFIX}/${INSTALL_BINDIR}
      ${CMAKE_INSTALL_PREFIX})
@@ -53,7 +53,8 @@ if(APPLE)
 else()
   set(_rpath "\$ORIGIN/${_rel}")
 endif()
-file(TO_NATIVE_PATH "${_rpath}/${INSTALL_LIBDIR}" message_RPATH)
+file(TO_NATIVE_PATH "${_rpath}/${INSTALL_LIBDIR}/${PROJECT_NAME}/"
+     message_RPATH)
 
 message("INSTALL_INCLUDEDIR=${INSTALL_INCLUDEDIR}")
 message("message_RPATH=${message_RPATH}")
@@ -79,8 +80,8 @@ target_link_libraries(
          message::aggregbase
          message::nttpsbase
          message::stlbase
-         # fmt::fmt 
-         )
+         # fmt::fmt
+)
 
 if(${ENABLE_WARNINGS})
   target_set_warnings(TARGET hello_world_wDSO2 ENABLE ${ENABLE_WARNINGS}
@@ -92,8 +93,8 @@ if(${ENABLE_LTO})
 endif()
 
 if(${ENABLE_WARNINGS})
-  target_set_warnings(TARGET hello_world_wAR2 ENABLE ${ENABLE_WARNINGS} AS_ERRORS
-                      ${ENABLE_WARNINGS_AS_ERRORS})
+  target_set_warnings(TARGET hello_world_wAR2 ENABLE ${ENABLE_WARNINGS}
+                      AS_ERRORS ${ENABLE_WARNINGS_AS_ERRORS})
 endif()
 
 if(${ENABLE_LTO})

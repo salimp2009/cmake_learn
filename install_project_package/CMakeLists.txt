@@ -61,7 +61,7 @@ cmake_dependent_option(
   OFF)
 
 if(PROJECT_IS_TOP_LEVEL)
-  option(ENABLE_DOXYGEN "Generate Doxygen Docs for project" OFF)
+  option(ENABLE_DOXYGEN "Generate Doxygen Docs for project" ON)
 
   option(ENABLE_WARNINGS "Enable to add warnings to a target." ON)
   option(ENABLE_WARNINGS_AS_ERRORS "Enable to treat warnings as errors." OFF)
