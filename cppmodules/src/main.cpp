@@ -5,4 +5,5 @@ int main() {
 
   Algo().helloWorld();
   fmt::print("testing : {}\n", "fmt");
+  fmt::print("inline string path: {}\n", util::path);
 }

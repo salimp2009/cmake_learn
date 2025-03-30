@@ -3,7 +3,7 @@
 // #include <bit>
 #include <array>
 #include <chrono>
-// #include <complex>
+#include <complex>
 #include <cstdint>
 #include <ctime>
 // #include <experimental/memory>
@@ -97,6 +97,7 @@ void local_time_basics() noexcept {
   // alignas(std::complex<float>) unsigned char network_data[sizeof(
   //     std::complex<float>)]{0xcd, 0xcc, 0xcc, 0x3d, 0xcd, 0xcc, 0x4c, 0x3e};
   // auto d = *std::start_lifetime_as<std::complex<float>>(network_data);
+
   std::vector vv = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   std::rotate(std::execution::par, vv.begin(), std::ranges::next(vv.begin(), 5),
               vv.end());

@@ -10,7 +10,7 @@ project(
   VERSION 1.0.0
   LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -40,6 +40,7 @@ message("CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-stdlib=libc++ #[[ -fexperimental-modules-reduced-bmi ]])
+  # add_compile_options(-save-temps=obj)
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)
