@@ -11,10 +11,13 @@
 #include <algorithm>
 #include <cstdint>
 #include <execution>
+#include <format>
 #include <iterator>
+#include <locale>
 #include <memory>
 #include <print>
 #include <span>
+#include <stdfloat>
 #include <type_traits>
 #include <variant>
 
@@ -109,7 +112,26 @@ void local_time_basics() noexcept {
   fmt::print(fg(fmt::color::steel_blue) | fmt::emphasis::italic, "你好{}！\n",
              "世界");
   std::println("你好{}!", "世界🚀");
+  testextern<float>();
+  using namespace std::literals;
+  constexpr auto wchar = L"wchar_t ∀"sv;
+  std::wcout << wchar << '\n';
+  std::wstring wbuffer;
+  std::format_to(std::back_inserter(wbuffer), // < OutputIt
+                 L"Hello, {}, wchar {}",      // < fmt
+                 L"wchar_t ∀", wchar          // < unused
+  );
+  std::wcout << wbuffer << '\n';
+  auto my_wstring = std::format(L"Hello, {}, wchar {}", L"wchar_t ∀", wchar);
+  // wstring does not work with std::print or fmt::print.
+  // Only works std::wcout
+  std::printf("%ls\n", my_wstring.data());
+  std::println("banana const char[5] = {}", "🍌");
 
+  using fp16_t = _Float16;
+
+  fp16_t my_flt = 16.0f16;
+  std::print("float16_t {:f}\n", static_cast<float>(my_flt));
   std::puts("-------------> local_time_basics test1 passed -------------<");
 }
 

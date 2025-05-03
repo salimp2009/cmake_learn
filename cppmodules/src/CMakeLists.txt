@@ -7,7 +7,6 @@ target_sources(
          algo_interface.cpp)
 target_compile_features(Algo PUBLIC cxx_std_23)
 # target_compile_options(Algo PRIVATE -save-temps=obj)
-# set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "a9e1cf81-9932-4810-974b-6eccaf14e457")
 
 target_sources(
   Algo
