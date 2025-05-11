@@ -132,6 +132,10 @@ void local_time_basics() noexcept {
 
   fp16_t my_flt = 16.0f16;
   std::print("float16_t {:f}\n", static_cast<float>(my_flt));
+  // pack indexing C++26; gcc 15
+  int px = [](auto &&...x) -> int { return x...[2]; }(0, 1, 2);
+  std::println("pack index [2]: {}", px);
+
   std::puts("-------------> local_time_basics test1 passed -------------<");
 }
 

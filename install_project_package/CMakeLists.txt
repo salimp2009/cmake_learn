@@ -4,10 +4,12 @@ project(
   VERSION 1.2.1
   LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+add_compile_options(-std=c++26)
 
 # just set it to test purposes. Do not set it  leave it to user default is /usr/
 set(CMAKE_INSTALL_PREFIX "/home/salim/repos/cpp_sandbox/cmake_learn/temp/")

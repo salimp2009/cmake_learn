@@ -4,8 +4,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++")
 
+# https://github.com/Kitware/CMake/blob/17c484d94c5c5a653442785c39ec9a31e081103d/Help/dev/experimental.rst#c-import-std-support
+set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "a9e1cf81-9932-4810-974b-6eccaf14e457")
+
 cmake_minimum_required(VERSION 3.31 FATAL_ERROR)
-# set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "a9e1cf81-9932-4810-974b-6eccaf14e457")
 # set(CMAKE_CXX_MODULE_STD 1)
 
 project(
