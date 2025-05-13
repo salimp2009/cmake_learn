@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <execution>
+#include <fmt/std.h>
 #include <format>
 #include <iterator>
 #include <locale>
@@ -136,6 +137,9 @@ void local_time_basics() noexcept {
   int px = [](auto &&...x) -> int { return x...[2]; }(0, 1, 2);
   std::println("pack index [2]: {}", px);
 
+  // fmt provides stl types via fmt/std.h
+  std::optional<int> vop = 2;
+  fmt::println("{}", vop); // prints -> optional(2)
   std::puts("-------------> local_time_basics test1 passed -------------<");
 }
 
