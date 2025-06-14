@@ -1,9 +1,9 @@
 module;
 // #include <fmt/core.h>
 #include <config.hpp>
-#include <string>
+// #include <string>
+import std;
 export module algo;
-// import std;
 // using fmt::print;
 export struct Algo {
 public:

@@ -127,7 +127,7 @@ void print(char *s, const auto &...ts) { printf(s, ts...); }
 
 template <typename...> constexpr bool always_false_v = false;
 
-template <typename... Ts> void print(const char *s, const Ts...) {
+template <typename... Ts> void print(const char *, const Ts...) {
   static_assert(always_false_v<Ts...>, "Please us _fs string literal");
 }
 

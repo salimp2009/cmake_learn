@@ -13,12 +13,16 @@
 #include <execution>
 #include <fmt/std.h>
 #include <format>
+#include <functional>
 #include <iterator>
 #include <locale>
 #include <memory>
 #include <print>
 #include <span>
+#include <stacktrace>
 #include <stdfloat>
+#include <string>
+#include <string_view>
 #include <type_traits>
 #include <variant>
 
@@ -129,13 +133,14 @@ void local_time_basics() noexcept {
   std::printf("%ls\n", my_wstring.data());
   std::println("banana const char[5] = {}", "🍌");
 
+  // this compiles but clangd does not recognize
+  // std::float128_t fl128 = 12.6f128;
   using fp16_t = _Float16;
-
   fp16_t my_flt = 16.0f16;
   std::print("float16_t {:f}\n", static_cast<float>(my_flt));
   // pack indexing C++26; gcc 15
-  int px = [](auto &&...x) -> int { return x...[2]; }(0, 1, 2);
-  std::println("pack index [2]: {}", px);
+  auto px = [](auto &&...x) { return x...[1]; }(0, 1.0f, 2);
+  std::println("pack index [1]: {:.2}", px);
 
   // fmt provides stl types via fmt/std.h
   std::optional<int> vop = 2;
